@@ -16,10 +16,34 @@
 
   .stage {
     position: relative;
+    /* z-index: 0 creates a stacking context so negative-z-index bg elements paint
+       above .hero-selection's gradient but below the stage content. */
+    z-index: 0;
     flex: 1;
     display: flex;
     flex-direction: column;
     min-height: 0;
+  }
+
+  /* Full-screen background media layer. */
+  .stage-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Negative z-index keeps it below non-positioned content within .stage's stacking context. */
+    z-index: -2;
+    pointer-events: none;
+  }
+
+  /* Dark veil drawn between the bg media and the stage content for readability. */
+  .stage-bg-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, var(--claim-your-hero-overlay-opacity, 0.5));
+    z-index: -1;
+    pointer-events: none;
   }
 
   .stage-header {
@@ -239,6 +263,12 @@
 
 }
 
+
+/* When a background image/video is active, drop the default gradient and backdrop blur. */
+.claim-your-hero.hero-selection:has(.stage-bg) {
+  background: none;
+  backdrop-filter: none;
+}
 
 @keyframes claim-your-hero-slide-in {
   from {

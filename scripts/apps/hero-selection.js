@@ -107,11 +107,19 @@ export class HeroSelectionApp extends HandlebarsApplicationMixin(ApplicationV2) 
       }
     }
 
+    const visual = game.settings.get(MODULE_ID, SETTINGS.VISUAL);
+    let visualBg = null;
+    if (visual.type !== "none") {
+      const src = visual.type === "video" ? visual.videoSrc : visual.imageSrc;
+      if (src) visualBg = { src, isVideo: visual.type === "video", overlayOpacity: visual.overlayOpacity };
+    }
+
     return Object.assign(context, {
       heroes,
       selected,
       canClaim: !game.user.isGM && !game.user.character,
-      canViewSheet: !game.user.isGM && game.settings.get(MODULE_ID, SETTINGS.SHEET_ACCESS)
+      canViewSheet: !game.user.isGM && game.settings.get(MODULE_ID, SETTINGS.SHEET_ACCESS),
+      visualBg
     });
   }
 

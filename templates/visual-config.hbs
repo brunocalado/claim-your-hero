@@ -1,0 +1,29 @@
+{{!-- HandlebarsApplicationMixin requires each part to render exactly one root element. --}}
+<div class="visual-config-body">
+  {{formGroup fields.type value=visual.type name="type" localize=true}}
+
+  <div class="visual-src-field" data-for-type="image">
+    {{formGroup fields.imageSrc value=visual.imageSrc name="imageSrc" localize=true}}
+  </div>
+
+  <div class="visual-src-field" data-for-type="video">
+    {{formGroup fields.videoSrc value=visual.videoSrc name="videoSrc" localize=true}}
+  </div>
+
+  <div class="form-group">
+    <label>{{localize "CYH.Visual.FIELDS.overlayOpacity.label"}}</label>
+    <div class="form-fields">
+      <range-picker name="overlayOpacity" value="{{visual.overlayOpacity}}" min="0" max="1" step="0.05"></range-picker>
+    </div>
+    <p class="hint">{{localize "CYH.Visual.FIELDS.overlayOpacity.hint"}}</p>
+  </div>
+
+  <footer class="form-footer">
+    <button type="button" data-action="clearBackground">
+      <i class="fa-solid fa-trash"></i> {{localize "CYH.Visual.Clear"}}
+    </button>
+    <button type="submit">
+      <i class="fa-solid fa-floppy-disk"></i> {{localize "CYH.Visual.Save"}}
+    </button>
+  </footer>
+</div>

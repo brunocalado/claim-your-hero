@@ -1,0 +1,21 @@
+/* Styles for VisualConfigApp (selection screen background settings). */
+.claim-your-hero.visual-config {
+  background: var(--color-cool-5, rgb(11 10 19));
+
+  .visual-config-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem 0.75rem;
+  }
+
+  .form-footer {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+
+    button {
+      flex: 1;
+    }
+  }
+}

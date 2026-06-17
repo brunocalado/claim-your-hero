@@ -18,6 +18,11 @@
         "Name": "Selection Sounds",
         "Label": "Configure Sounds",
         "Hint": "Customize the sounds played on the hero selection screen and their volume."
+      },
+      "VisualMenu": {
+        "Name": "Selection Background",
+        "Label": "Configure Background",
+        "Hint": "Set an image or video background for the hero selection screen."
       }
     },
     "HeroEntry": {
@@ -91,6 +96,30 @@
         "volume": {
           "label": "Volume",
           "hint": "Single volume applied to all module sounds."
+        }
+      }
+    },
+    "Visual": {
+      "Title": "Claim Your Hero — Background",
+      "Save": "Save",
+      "Clear": "Clear Background",
+      "ClearDone": "Background cleared.",
+      "FIELDS": {
+        "type": {
+          "label": "Background Type",
+          "hint": "Choose the type of background displayed on the hero selection screen."
+        },
+        "imageSrc": {
+          "label": "Image File",
+          "hint": "Image displayed as the full-screen background."
+        },
+        "videoSrc": {
+          "label": "Video File",
+          "hint": "Video played as the full-screen background (always muted, loops continuously)."
+        },
+        "overlayOpacity": {
+          "label": "Content Overlay Opacity",
+          "hint": "Darkness of the veil drawn over the background to keep text and cards readable. 0 = fully transparent, 1 = fully opaque."
         }
       }
     },

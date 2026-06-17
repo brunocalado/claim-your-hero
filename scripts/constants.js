@@ -11,7 +11,8 @@ export const SETTINGS = {
   ROSTER: "roster",
   AUTO_OPEN: "autoOpen",
   SOUNDS: "sounds",
-  SHEET_ACCESS: "sheetAccess"
+  SHEET_ACCESS: "sheetAccess",
+  VISUAL: "visual"
 };
 
 
@@ -33,5 +34,6 @@ export const TEMPLATES = {
   ROSTER_CONFIG: `modules/${MODULE_ID}/templates/roster-config.hbs`,
   HERO_EDITOR: `modules/${MODULE_ID}/templates/hero-editor.hbs`,
   HERO_SELECTION: `modules/${MODULE_ID}/templates/hero-selection.hbs`,
-  SOUND_CONFIG: `modules/${MODULE_ID}/templates/sound-config.hbs`
+  SOUND_CONFIG: `modules/${MODULE_ID}/templates/sound-config.hbs`,
+  VISUAL_CONFIG: `modules/${MODULE_ID}/templates/visual-config.hbs`
 };

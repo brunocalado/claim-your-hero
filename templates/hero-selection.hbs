@@ -1,4 +1,14 @@
 <div class="stage">
+  {{#if visualBg}}
+  {{#if visualBg.isVideo}}
+  <video class="stage-bg" autoplay loop muted playsinline>
+    <source src="{{visualBg.src}}">
+  </video>
+  {{else}}
+  <img class="stage-bg" src="{{visualBg.src}}" alt="">
+  {{/if}}
+  <div class="stage-bg-overlay" style="--claim-your-hero-overlay-opacity: {{visualBg.overlayOpacity}}"></div>
+  {{/if}}
   <header class="stage-header">
     <h1>{{localize "CYH.Selection.Title"}}</h1>
     <p class="subtitle">{{localize "CYH.Selection.Subtitle"}}</p>

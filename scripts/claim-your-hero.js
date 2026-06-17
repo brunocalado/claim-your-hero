@@ -1,10 +1,11 @@
 import { MODULE_ID, SETTINGS } from "./constants.js";
-import { HeroEntryData, RosterData, SoundConfigData } from "./data-models.js";
+import { HeroEntryData, RosterData, SoundConfigData, VisualConfigData } from "./data-models.js";
 import { getRoster, setRoster, rerenderModuleApps, syncRosterObservers, revokeObservers } from "./helpers.js";
 import { initSocket, registerClaimQuery, broadcastJoin, clearUserInterest } from "./socket.js";
 import { RosterConfigApp } from "./apps/roster-config.js";
 import { HeroSelectionApp } from "./apps/hero-selection.js";
 import { SoundConfigApp } from "./apps/sound-config.js";
+import { VisualConfigApp } from "./apps/visual-config.js";
 
 Hooks.once("init", () => {
   game.settings.register(MODULE_ID, SETTINGS.ROSTER, {
@@ -36,6 +37,15 @@ Hooks.once("init", () => {
     config: false,
     type: SoundConfigData,
     default: {}
+  });
+
+  game.settings.register(MODULE_ID, SETTINGS.VISUAL, {
+    scope: "world",
+    config: false,
+    type: VisualConfigData,
+    default: {},
+    // World settings broadcast to every client, so the selection screen updates live.
+    onChange: () => rerenderModuleApps()
   });
 
   game.settings.register(MODULE_ID, SETTINGS.SHEET_ACCESS, {
@@ -73,6 +83,15 @@ Hooks.once("init", () => {
     restricted: true
   });
 
+  game.settings.registerMenu(MODULE_ID, "visualMenu", {
+    name: "CYH.Settings.VisualMenu.Name",
+    label: "CYH.Settings.VisualMenu.Label",
+    hint: "CYH.Settings.VisualMenu.Hint",
+    icon: "fa-solid fa-image",
+    type: VisualConfigApp,
+    restricted: true
+  });
+
   registerClaimQuery();
 });
 
@@ -80,6 +99,7 @@ Hooks.once("init", () => {
 Hooks.once("i18nInit", () => {
   foundry.helpers.Localization.localizeDataModel(HeroEntryData);
   foundry.helpers.Localization.localizeDataModel(SoundConfigData);
+  foundry.helpers.Localization.localizeDataModel(VisualConfigData);
 });
 
 Hooks.once("ready", () => {

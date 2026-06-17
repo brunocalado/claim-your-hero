@@ -49,6 +49,34 @@ export class SoundConfigData extends foundry.abstract.DataModel {
 }
 
 /**
+ * The world-setting payload for the selection screen's visual background: an image
+ * or muted looping video, plus a dark overlay to preserve content readability.
+ */
+export class VisualConfigData extends foundry.abstract.DataModel {
+  /** @override */
+  static LOCALIZATION_PREFIXES = ["CYH.Visual"];
+
+  /**
+   * @override
+   * @returns {Record<string, foundry.data.fields.DataField>} The visual config schema.
+   */
+  static defineSchema() {
+    return {
+      type: new fields.StringField({
+        required: true,
+        nullable: false,
+        blank: false,
+        initial: "none",
+        choices: { none: "None", image: "Image", video: "Video" }
+      }),
+      imageSrc: new fields.FilePathField({ categories: ["IMAGE"], required: false, blank: true }),
+      videoSrc: new fields.FilePathField({ categories: ["VIDEO"], required: false, blank: true }),
+      overlayOpacity: new fields.NumberField({ required: true, nullable: false, min: 0, max: 1, initial: 0.5 })
+    };
+  }
+}
+
+/**
  * The world-setting payload holding every configured hero entry.
  * Registered as the `type` of the roster setting so reads return validated data.
  */
