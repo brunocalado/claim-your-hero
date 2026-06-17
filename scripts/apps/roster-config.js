@@ -88,8 +88,17 @@ export class RosterConfigApp extends HandlebarsApplicationMixin(ApplicationV2) {
   _onRender(context, options) {
     super._onRender(context, options);
     const zone = this.element.querySelector("[data-drop-zone]");
-    zone?.addEventListener("dragover", event => event.preventDefault());
-    zone?.addEventListener("drop", event => this._onDrop(event));
+    zone?.addEventListener("dragover", event => {
+      event.preventDefault();
+      zone.classList.add("drag-over");
+    });
+    zone?.addEventListener("dragleave", event => {
+      if (!zone.contains(event.relatedTarget)) zone.classList.remove("drag-over");
+    });
+    zone?.addEventListener("drop", event => {
+      zone.classList.remove("drag-over");
+      this._onDrop(event);
+    });
 
     for (const row of this.element.querySelectorAll(".hero-row[draggable]")) {
       row.addEventListener("dragstart", event => this._onDragHero(event));

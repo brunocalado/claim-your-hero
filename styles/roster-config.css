@@ -49,7 +49,8 @@
     }
   }
 
-  .drop-zone:hover {
+  .drop-zone:hover,
+  .drop-zone.drag-over {
     border-color: var(--claim-your-hero-accent);
     color: var(--color-text-primary, #f0f0f0);
   }

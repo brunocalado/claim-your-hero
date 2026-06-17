@@ -1,3 +1,8 @@
+# 0.0.3
+
+### Fixed
+- **Drop zone visual feedback** — the "Drag actors here" zone now highlights (accent border and brighter text) while an actor is being dragged over it, consistent with the existing hover state and the per-player drag-over effect.
+
 # 0.0.2
 
 ### Added
