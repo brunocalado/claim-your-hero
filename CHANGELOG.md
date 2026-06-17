@@ -1,5 +1,8 @@
 # 0.0.3
 
+### Added
+- **Folder drag support** — dragging an Actor Folder onto the drop zone adds every Actor inside it (including subfolders) to the roster at once. A notification confirms how many heroes were added; actors already in the roster are skipped silently.
+
 ### Fixed
 - **Drop zone visual feedback** — the "Drag actors here" zone now highlights (accent border and brighter text) while an actor is being dragged over it, consistent with the existing hover state and the per-player drag-over effect.
 

@@ -198,17 +198,43 @@ export class RosterConfigApp extends HandlebarsApplicationMixin(ApplicationV2) {
   }
 
   /**
-   * Handle an Actor dropped onto the drop zone, importing it from a Compendium when needed.
+   * Handle an Actor or Actor Folder dropped onto the drop zone.
+   * Folders are expanded recursively; single Actors are imported from Compendiums when needed.
    * @param {DragEvent} event The drop event.
    * @returns {Promise<void>}
    */
   async _onDrop(event) {
     event.preventDefault();
     const data = foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
+    if (data?.type === "Folder") {
+      await this.#addFolderToRoster(data);
+      return;
+    }
     const actor = await this.#resolveDroppedActor(data);
     if (!actor) return;
     const added = await this.#addToRoster(actor);
     if (!added) ui.notifications.warn("CYH.RosterConfig.Duplicate", { localize: true });
+  }
+
+  /**
+   * Add every world Actor inside a dropped Folder (and its subfolders) to the roster.
+   * Shows a count notification on success, or a warning when nothing new was added.
+   * @param {object} data Drag data parsed by `getDragEventData`.
+   * @returns {Promise<void>}
+   */
+  async #addFolderToRoster(data) {
+    const folder = await foundry.utils.fromUuid(data.uuid);
+    if (!folder || folder.type !== "Actor") return;
+    const actors = [folder, ...folder.getSubfolders(true)].flatMap(f => f.contents);
+    let added = 0;
+    for (const actor of actors) {
+      if (await this.#addToRoster(actor)) added++;
+    }
+    if (added) {
+      ui.notifications.info(game.i18n.format("CYH.RosterConfig.FolderAdded", { count: added }));
+    } else {
+      ui.notifications.warn("CYH.RosterConfig.FolderNoneAdded", { localize: true });
+    }
   }
 
   /**

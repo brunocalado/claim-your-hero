@@ -43,7 +43,7 @@
     },
     "RosterConfig": {
       "Title": "Claim Your Hero — Roster",
-      "DropHint": "Drag Actors here (sidebar or Compendium) to add them to the roster",
+      "DropHint": "Drag Actors or an Actor Folder here (sidebar or Compendium) to add them to the roster",
       "Heroes": "Available Heroes",
       "NoHeroes": "No heroes yet. Drag an Actor above to begin.",
       "Players": "Players",
@@ -60,6 +60,8 @@
       "Preview": "Preview",
       "MissingActor": "(missing Actor)",
       "Duplicate": "This Actor is already in the roster.",
+      "FolderAdded": "{count} hero(es) added to the roster.",
+      "FolderNoneAdded": "No new Actors were found in this folder.",
       "RemoveConfirmTitle": "Remove Hero",
       "RemoveConfirm": "Remove {name} from the roster? The Actor itself is not deleted.",
       "ReleaseConfirmTitle": "Release Hero",
