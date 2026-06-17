@@ -1,0 +1,235 @@
+/* Styles for RosterConfigApp (GM roster panel). */
+.claim-your-hero.roster-config {
+  /* Replace the core glassmorphism with an opaque surface, per maintainer request. */
+  background: var(--color-cool-5, rgb(11 10 19));
+
+  .roster-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem 0.75rem;
+  }
+
+  /* Players on the left, available heroes on the right. A fixed height keeps both
+     panes equal so their lists can stretch all the way down to the footer. */
+  .columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    height: 33rem;
+  }
+
+  .players-pane,
+  .heroes-pane {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .drop-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    padding: 1.25rem;
+    border: 2px dashed var(--color-border, rgba(255, 255, 255, 0.25));
+    border-radius: 8px;
+    color: var(--color-text-secondary, #b0b0b0);
+    transition: border-color 0.2s ease, color 0.2s ease;
+
+    i {
+      font-size: 1.5rem;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+
+  .drop-zone:hover {
+    border-color: var(--claim-your-hero-accent);
+    color: var(--color-text-primary, #f0f0f0);
+  }
+
+  .hero-list,
+  .player-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    flex: 1 1 0;
+    min-height: 0;
+    overflow-y: auto;
+  }
+
+  .hero-row,
+  .player-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    background: var(--color-cool-5-50, rgba(0, 0, 0, 0.2));
+    /* Rows must overflow into the list's scrollbar, never compress. */
+    flex: 0 0 auto;
+  }
+
+  .hero-row {
+    .drag-handle {
+      flex: 0 0 auto;
+      color: var(--color-text-secondary, #707070);
+    }
+
+    .thumb {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      border-radius: 4px;
+      border: none;
+    }
+
+    .info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .name {
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .meta {
+      font-size: var(--font-size-12, 0.75rem);
+      color: var(--color-text-secondary, #b0b0b0);
+    }
+
+    .controls {
+      display: flex;
+      gap: 0.25rem;
+    }
+
+    button {
+      width: 2rem;
+      height: 2rem;
+      flex: 0 0 auto;
+      line-height: 1;
+    }
+  }
+
+  /* Hero excluded from the player selection screen. (Core's `.hidden` class
+     sets display:none, hence the distinct name.) */
+  .hero-row.is-hidden {
+    opacity: 0.5;
+  }
+
+  .hero-row.missing .name {
+    color: var(--color-level-error, #ce0707);
+    font-style: italic;
+  }
+
+  .player-row {
+    .status-dot {
+      width: 0.6rem;
+      height: 0.6rem;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: var(--color-text-secondary, #707070);
+    }
+
+    .status-dot.active {
+      background: var(--color-level-success, #26b231);
+      box-shadow: 0 0 6px var(--color-level-success, #26b231);
+    }
+
+    .name {
+      flex: 1;
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    button {
+      width: 2rem;
+      height: 2rem;
+      flex: 0 0 auto;
+      line-height: 1;
+    }
+  }
+
+  /* Dashed rectangle signalling that heroes can be dropped onto this player. */
+  .drop-slot {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    width: 10rem;
+    min-height: 2rem;
+    padding: 0.15rem 0.4rem;
+    border: 2px dashed var(--color-border, rgba(255, 255, 255, 0.3));
+    border-radius: 6px;
+    color: var(--color-text-secondary, #b0b0b0);
+    transition: border-color 0.2s ease, color 0.2s ease;
+
+    .thumb {
+      width: 24px;
+      height: 24px;
+      object-fit: cover;
+      border-radius: 4px;
+      border: none;
+    }
+
+    .char-name {
+      flex: 1;
+      font-size: var(--font-size-12, 0.75rem);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .unassign {
+      width: 1.5rem;
+      height: 1.5rem;
+      flex: 0 0 auto;
+      padding: 0;
+      line-height: 1;
+      background: transparent;
+      border: none;
+    }
+  }
+
+  .drop-slot.filled {
+    justify-content: flex-start;
+    border-style: solid;
+    border-color: var(--claim-your-hero-accent);
+    color: var(--color-text-primary, #f0f0f0);
+  }
+
+  .player-row.drag-over .drop-slot {
+    border-color: var(--claim-your-hero-accent);
+    color: var(--claim-your-hero-accent);
+  }
+
+  .hero-row[draggable] {
+    cursor: grab;
+  }
+
+  .panel-actions {
+    display: flex;
+    gap: 0.5rem;
+
+    button {
+      flex: 1;
+    }
+  }
+}

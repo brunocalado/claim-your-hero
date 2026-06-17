@@ -1,0 +1,118 @@
+{
+  "CYH": {
+    "Settings": {
+      "AutoOpen": {
+        "Name": "Open Selection Automatically",
+        "Hint": "Show the hero selection screen to players who connect without an assigned character."
+      },
+      "SheetAccess": {
+        "Name": "Allow Viewing Character Sheets",
+        "Hint": "When enabled, players can open a hero's character sheet from the selection screen. Observer access is automatically granted to all players on available roster actors and revoked when a hero is claimed."
+      },
+      "Menu": {
+        "Name": "Hero Roster",
+        "Label": "Configure Roster",
+        "Hint": "Drag and drop Actors to build the roster of heroes players can claim."
+      },
+      "SoundMenu": {
+        "Name": "Selection Sounds",
+        "Label": "Configure Sounds",
+        "Hint": "Customize the sounds played on the hero selection screen and their volume."
+      }
+    },
+    "HeroEntry": {
+      "FIELDS": {
+        "img": {
+          "label": "Card Image",
+          "hint": "Optional image shown on the hero grid card (always square). Falls back to the Actor portrait."
+        },
+        "detailImg": {
+          "label": "Detail Image",
+          "hint": "Optional image shown in the side panel when a player selects this hero. Falls back to the card image."
+        },
+        "description": {
+          "label": "Description",
+          "hint": "Rich-text presentation shown to players when they inspect this hero."
+        }
+      }
+    },
+    "RosterConfig": {
+      "Title": "Claim Your Hero — Roster",
+      "DropHint": "Drag Actors here (sidebar or Compendium) to add them to the roster",
+      "Heroes": "Available Heroes",
+      "NoHeroes": "No heroes yet. Drag an Actor above to begin.",
+      "Players": "Players",
+      "Edit": "Edit presentation",
+      "HideHero": "Hide from the selection screen",
+      "ShowHero": "Show on the selection screen",
+      "OpenSheet": "Open sheet",
+      "Remove": "Remove from roster",
+      "DragHint": "Drag onto a player to assign this hero",
+      "DropSlot": "Drag a hero here to assign it",
+      "Unassign": "Unassign this hero (returns it to the available list)",
+      "OpenFor": "Open selection screen for this player",
+      "OpenForAll": "Open for All Players",
+      "Preview": "Preview",
+      "MissingActor": "(missing Actor)",
+      "Duplicate": "This Actor is already in the roster.",
+      "RemoveConfirmTitle": "Remove Hero",
+      "RemoveConfirm": "Remove {name} from the roster? The Actor itself is not deleted.",
+      "ReleaseConfirmTitle": "Release Hero",
+      "ReleaseConfirm": "Release {name} from {user}? Ownership and character assignment will be removed.",
+      "AssignConfirmTitle": "Assign Hero",
+      "AssignConfirm": "Assign {name} to {user}?",
+      "AssignReplace": "Their current character ({current}) will be unlinked and its ownership revoked.",
+      "AssignTaken": "This hero is already claimed by another player. Unassign it first.",
+      "AssignFailed": "The assignment could not be completed. Check the console for details.",
+      "Assigned": "{name} assigned to {user}."
+    },
+    "HeroEditor": {
+      "Title": "Hero Presentation",
+      "Save": "Save"
+    },
+    "Sounds": {
+      "Title": "Claim Your Hero — Sounds",
+      "Save": "Save",
+      "Reset": "Restore Defaults",
+      "ResetDone": "Default sounds and volume restored.",
+      "FIELDS": {
+        "hover": {
+          "label": "Hover Sound",
+          "hint": "Played when the cursor moves over a hero card."
+        },
+        "select": {
+          "label": "Selection Sound",
+          "hint": "Played when a hero is selected."
+        },
+        "confirm": {
+          "label": "Confirmation Sound",
+          "hint": "Played when a player confirms their claim."
+        },
+        "volume": {
+          "label": "Volume",
+          "hint": "Single volume applied to all module sounds."
+        }
+      }
+    },
+    "Selection": {
+      "Title": "Claim Your Hero",
+      "Subtitle": "Choose the hero you wish to play. Others can contest your pick until you confirm.",
+      "Close": "Close",
+      "Confirm": "Claim this Hero",
+      "Back": "Back",
+      "ClaimedBy": "Claimed by {name}",
+      "InterestedOthers": "Also interested: {names}",
+      "NoHeroes": "The Game Master has not prepared any heroes yet.",
+      "NoGM": "A Game Master must be connected to confirm your claim.",
+      "ViewSheet": "View Character Sheet",
+      "SheetNoPermission": "You do not have permission to view this character sheet.",
+      "Success": "{name} is now your character!",
+      "Error": {
+        "missing": "This hero is no longer available in the roster.",
+        "taken": "Another player has already claimed this hero.",
+        "alreadyHas": "You already have a character assigned.",
+        "failed": "The claim could not be completed. Please try again."
+      }
+    }
+  }
+}

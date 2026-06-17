@@ -1,0 +1,72 @@
+<div class="stage">
+  <header class="stage-header">
+    <h1>{{localize "CYH.Selection.Title"}}</h1>
+    <p class="subtitle">{{localize "CYH.Selection.Subtitle"}}</p>
+    <button type="button" class="close-button" data-action="closeApp"
+            data-tooltip="CYH.Selection.Close" aria-label="{{localize 'CYH.Selection.Close'}}">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </header>
+
+  {{#if heroes.length}}
+  <div class="hero-grid">
+    {{#each heroes}}
+    <div class="hero-card{{#if this.taken}} taken{{/if}}{{#if this.selectedByMe}} selected{{/if}}"
+         data-action="selectHero" data-actor-id="{{this.actorId}}" role="button" tabindex="0">
+      <div class="portrait" style="background-image: url('{{this.img}}')"></div>
+      <div class="nameplate">{{this.name}}</div>
+      {{#if this.taken}}
+      <div class="claimed-banner">
+        <i class="fa-solid fa-lock"></i> {{localize "CYH.Selection.ClaimedBy" name=this.takenBy}}
+      </div>
+      {{/if}}
+      {{#if this.interested.length}}
+      <div class="interest-pips">
+        {{#each this.interested}}
+        <span class="pip{{#if this.self}} self{{/if}}" style="--claim-your-hero-user-color: {{this.color}}"
+              data-tooltip="{{this.name}}">{{this.initial}}</span>
+        {{/each}}
+      </div>
+      {{/if}}
+    </div>
+    {{/each}}
+  </div>
+  {{else}}
+  <p class="empty">{{localize "CYH.Selection.NoHeroes"}}</p>
+  {{/if}}
+
+  {{#if selected}}
+  <aside class="detail">
+    <div class="detail-actions">
+      {{#if canClaim}}{{#unless selected.taken}}
+      <button type="button" class="confirm" data-action="confirmClaim">
+        <i class="fa-solid fa-crown"></i> {{localize "CYH.Selection.Confirm"}}
+      </button>
+      {{/unless}}{{/if}}
+      {{#if canViewSheet}}{{#unless selected.taken}}
+      <button type="button" data-action="viewSheet">
+        <i class="fa-solid fa-book-open"></i> {{localize "CYH.Selection.ViewSheet"}}
+      </button>
+      {{/unless}}{{/if}}
+      <button type="button" data-action="clearSelection">
+        <i class="fa-solid fa-arrow-left"></i> {{localize "CYH.Selection.Back"}}
+      </button>
+    </div>
+    <img class="detail-portrait" src="{{selected.detailImg}}" alt="{{selected.name}}">
+    <div class="detail-body">
+      <h2>{{selected.name}}</h2>
+      {{#if selected.taken}}
+      <p class="contested">
+        <i class="fa-solid fa-lock"></i> {{localize "CYH.Selection.ClaimedBy" name=selected.takenBy}}
+      </p>
+      {{/if}}
+      <div class="description">{{{selected.enrichedDescription}}}</div>
+      {{#if selected.interestedOthers}}
+      <p class="contested">
+        <i class="fa-solid fa-users"></i> {{localize "CYH.Selection.InterestedOthers" names=selected.interestedOthers}}
+      </p>
+      {{/if}}
+    </div>
+  </aside>
+  {{/if}}
+</div>

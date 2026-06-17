@@ -1,0 +1,23 @@
+{{!-- HandlebarsApplicationMixin requires each part to render exactly one root element. --}}
+<div class="sound-config-body">
+  {{formGroup fields.hover value=sounds.hover name="hover" localize=true}}
+  {{formGroup fields.select value=sounds.select name="select" localize=true}}
+  {{formGroup fields.confirm value=sounds.confirm name="confirm" localize=true}}
+
+  <div class="form-group">
+    <label>{{localize "CYH.Sounds.FIELDS.volume.label"}}</label>
+    <div class="form-fields">
+      <range-picker name="volume" value="{{sounds.volume}}" min="0" max="1" step="0.05"></range-picker>
+    </div>
+    <p class="hint">{{localize "CYH.Sounds.FIELDS.volume.hint"}}</p>
+  </div>
+
+  <footer class="form-footer">
+    <button type="button" data-action="resetDefaults">
+      <i class="fa-solid fa-rotate-left"></i> {{localize "CYH.Sounds.Reset"}}
+    </button>
+    <button type="submit">
+      <i class="fa-solid fa-floppy-disk"></i> {{localize "CYH.Sounds.Save"}}
+    </button>
+  </footer>
+</div>

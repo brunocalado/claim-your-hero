@@ -1,0 +1,41 @@
+{
+  "id": "claim-your-hero",
+  "title": "Claim Your Hero",
+  "version": "0.0.1",
+  "description": "An immersive hero selection screen: the GM builds a roster of Actors and players claim their character in real time, contesting picks until they confirm.",
+
+  "compatibility": {
+    "minimum": "14",
+    "verified": "14"
+  },
+
+  "authors": [
+    {
+      "name": "Mestre Digital",
+      "url": "https://www.youtube.com/@mestredigital",
+      "flags": {}
+    }
+  ],
+
+  "esmodules": ["scripts/claim-your-hero.js"],
+  "styles": [
+    "styles/base.css",
+    "styles/roster-config.css",
+    "styles/hero-editor.css",
+    "styles/hero-selection.css",
+    "styles/sound-config.css"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+
+  "socket": true,
+
+  "url": "https://github.com/brunocalado/claim-your-hero",
+  "manifest": "https://raw.githubusercontent.com/brunocalado/claim-your-hero/main/module.json",
+  "download": "https://codeload.github.com/brunocalado/claim-your-hero/zip/main"
+}

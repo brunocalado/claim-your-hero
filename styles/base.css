@@ -1,0 +1,29 @@
+/* Module-wide custom properties and shared rules. Everything is scoped to the module id class. */
+.claim-your-hero {
+  --claim-your-hero-accent: #e3b341;
+  --claim-your-hero-accent-glow: rgba(227, 179, 65, 0.55);
+  --claim-your-hero-surface: rgba(12, 12, 18, 0.92);
+
+  /* Foundry's global orange focus outline clashes with the module's custom UIs.
+     Removing it here only affects buttons inside the module scope. */
+  a.button:focus,
+  button:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  .section-title {
+    margin: 0.25rem 0 0;
+    border-bottom: 1px solid var(--color-border, rgba(255, 255, 255, 0.15));
+    font-size: var(--font-size-14, 0.875rem);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-secondary, #b0b0b0);
+  }
+
+  .empty {
+    text-align: center;
+    font-style: italic;
+    color: var(--color-text-secondary, #b0b0b0);
+  }
+}

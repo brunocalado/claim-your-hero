@@ -1,0 +1,251 @@
+/* Styles for HeroSelectionApp (frameless full-screen player overlay).
+   The app renders with window.frame = false, so this file owns the entire layout. */
+.claim-your-hero.hero-selection {
+  position: fixed;
+  inset: 0;
+  /* Above the core interface layers, below tooltips/notifications (9999+). */
+  z-index: 9998;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: var(--color-text-primary, #f0f0f0);
+  background:
+    radial-gradient(ellipse at 50% -10%, rgba(94, 70, 22, 0.35), transparent 55%),
+    linear-gradient(180deg, rgba(10, 10, 16, 0.97), rgba(4, 4, 8, 0.99));
+  backdrop-filter: blur(4px);
+
+  .stage {
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .stage-header {
+    position: relative;
+    text-align: center;
+    padding: 2rem 4rem 1rem;
+
+    h1 {
+      margin: 0;
+      border: none;
+      font-size: 2.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--claim-your-hero-accent);
+      text-shadow: 0 0 18px var(--claim-your-hero-accent-glow);
+    }
+
+    .subtitle {
+      margin: 0.25rem 0 0;
+      color: var(--color-text-secondary, #b0b0b0);
+      font-style: italic;
+    }
+  }
+
+  .close-button {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: var(--color-text-primary, #f0f0f0);
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .close-button:hover {
+    border-color: var(--claim-your-hero-accent);
+    color: var(--claim-your-hero-accent);
+  }
+
+  .hero-grid {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.75rem;
+    justify-content: center;
+    align-content: flex-start;
+    padding: 1.5rem 2.5rem 3rem;
+  }
+
+  .hero-card {
+    position: relative;
+    width: 240px;
+    aspect-ratio: 1 / 1;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+    .portrait {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center top;
+    }
+
+    .nameplate {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1.5rem 0.6rem 0.5rem;
+      text-align: center;
+      font-size: 1.15rem;
+      font-weight: bold;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+      background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
+    }
+
+    .claimed-banner {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      transform: translateY(-50%) rotate(-8deg);
+      padding: 0.35rem;
+      text-align: center;
+      font-weight: bold;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: rgba(0, 0, 0, 0.75);
+      border-top: 1px solid var(--claim-your-hero-accent);
+      border-bottom: 1px solid var(--claim-your-hero-accent);
+    }
+
+    .interest-pips {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.4rem;
+      display: flex;
+      gap: 0.25rem;
+    }
+  }
+
+  .hero-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 0 22px var(--claim-your-hero-accent-glow);
+  }
+
+  .hero-card.selected {
+    box-shadow: 0 0 0 2px var(--claim-your-hero-accent), 0 0 26px var(--claim-your-hero-accent-glow);
+  }
+
+  .hero-card.taken {
+    cursor: default;
+    filter: grayscale(0.85) brightness(0.55);
+  }
+
+  .pip {
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    background: var(--claim-your-hero-user-color, var(--claim-your-hero-accent));
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.7);
+  }
+
+  .pip.self {
+    border-color: var(--claim-your-hero-accent);
+  }
+
+  .detail {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(440px, 90vw);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    background: var(--claim-your-hero-surface);
+    border-left: 1px solid var(--claim-your-hero-accent);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.7);
+    animation: claim-your-hero-slide-in 0.25s ease;
+
+    .detail-portrait {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-position: center top;
+      flex-shrink: 0;
+    }
+
+    .detail-actions {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      flex-shrink: 0;
+
+      button {
+        flex: 1;
+        padding: 0.5rem;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+
+      .confirm {
+        background: var(--claim-your-hero-accent);
+        color: #1a1408;
+        border: none;
+        font-weight: bold;
+      }
+
+      .confirm:hover {
+        box-shadow: 0 0 14px var(--claim-your-hero-accent-glow);
+      }
+    }
+
+    .detail-body {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      padding: 1rem 1.25rem 1.25rem;
+    }
+
+    h2 {
+      margin: 0;
+      border: none;
+      font-size: 1.6rem;
+      color: var(--claim-your-hero-accent);
+    }
+
+    .description {
+      flex: 1;
+    }
+
+    .contested {
+      margin: 0;
+      font-style: italic;
+      color: var(--color-text-secondary, #b0b0b0);
+    }
+  }
+
+}
+
+
+@keyframes claim-your-hero-slide-in {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}

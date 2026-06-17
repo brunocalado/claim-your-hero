@@ -1,0 +1,22 @@
+/* Styles for SoundConfigApp (UI sound settings). */
+.claim-your-hero.sound-config {
+  /* Replace the core glassmorphism with an opaque surface, per maintainer request. */
+  background: var(--color-cool-5, rgb(11 10 19));
+
+  .sound-config-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem 0.75rem;
+  }
+
+  .form-footer {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+
+    button {
+      flex: 1;
+    }
+  }
+}

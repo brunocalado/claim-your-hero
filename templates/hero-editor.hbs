@@ -1,0 +1,17 @@
+{{!-- HandlebarsApplicationMixin requires each part to render exactly one root element. --}}
+<div class="editor-body">
+  <header class="editor-header">
+    {{#if portrait}}<img class="thumb" src="{{portrait}}" alt="{{actorName}}">{{/if}}
+    <h2>{{actorName}}</h2>
+  </header>
+
+  {{formGroup fields.img value=entry.img name="img" localize=true}}
+  {{formGroup fields.detailImg value=entry.detailImg name="detailImg" localize=true}}
+  {{formGroup fields.description value=entry.description name="description" localize=true}}
+
+  <footer class="form-footer">
+    <button type="submit">
+      <i class="fa-solid fa-floppy-disk"></i> {{localize "CYH.HeroEditor.Save"}}
+    </button>
+  </footer>
+</div>
