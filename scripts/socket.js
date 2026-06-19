@@ -157,6 +157,7 @@ function enqueue(run) {
  */
 export function registerQueries() {
   CONFIG.queries[`${MODULE_ID}.claim`] = data => enqueue(() => handleClaim(data));
+  CONFIG.queries[`${MODULE_ID}.release`] = data => enqueue(() => handleRelease(data));
   CONFIG.queries[`${MODULE_ID}.grantView`] = data => enqueue(() => handleGrantView(data));
 }
 
@@ -184,6 +185,32 @@ async function handleClaim({ userId, actorId }) {
   // The claimed hero is now owned, so drop it from the player's pending-view list;
   // any other heroes they merely previewed stay flagged for later reconcile.
   await user.setFlag(MODULE_ID, FLAGS.PENDING_VIEWS, getPendingViews(user).filter(id => id !== actorId));
+  return { ok: true };
+}
+
+/**
+ * Release a player's own claimed hero from the selection screen: revoke their
+ * ownership (back to "Default") and unlink the character, returning the hero to the
+ * pool so it — or any other — can be claimed again. The GM-side mirror of the player
+ * "Release" button, since players cannot rewrite Actor ownership themselves. Only the
+ * hero the player currently has linked may be released, so a stale request is a no-op.
+ * Runs only on the active GM via the `release` query.
+ * @param {object} data
+ * @param {string} data.userId The releasing user's id.
+ * @param {string} data.actorId The Actor the player is releasing.
+ * @returns {Promise<{ok: boolean, reason?: string}>} The release outcome for the querying client.
+ */
+async function handleRelease({ userId, actorId }) {
+  const user = game.users.get(userId);
+  const actor = game.actors.get(actorId);
+  // Guard against releasing a hero the requester no longer holds (the screen may be
+  // stale): only the player's currently-linked character is eligible.
+  if (!user || !actor || user.character?.id !== actorId) return { ok: false, reason: "missing" };
+  await applyClaimChanges(
+    [buildOwnershipUpdate(actor, { [userId]: null })],
+    userId,
+    null
+  );
   return { ok: true };
 }
 

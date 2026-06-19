@@ -24,6 +24,7 @@ export class HeroSelectionApp extends HandlebarsApplicationMixin(ApplicationV2) 
       selectHero: this.prototype._onSelectHero,
       clearSelection: this.prototype._onClearSelection,
       confirmClaim: this.prototype._onConfirmClaim,
+      releaseHero: this.prototype._onReleaseHero,
       viewSheet: this.prototype._onViewSheet,
       closeApp: this.prototype._onCloseApp
     }
@@ -86,6 +87,9 @@ export class HeroSelectionApp extends HandlebarsApplicationMixin(ApplicationV2) 
         detailImg: e.detailImg || e.img || actor.img,
         taken: !!claimant,
         takenBy: claimant?.name ?? "",
+        // The hero this very player has claimed — surfaces the "Your Hero" marker and
+        // the Release action so they can free it (e.g. when the GM re-opens the screen).
+        mine: claimant?.id === game.user.id,
         interested,
         selectedByMe: this.#selectedId === e.actorId,
         description: e.description,
@@ -224,6 +228,40 @@ export class HeroSelectionApp extends HandlebarsApplicationMixin(ApplicationV2) 
     foundry.applications.instances.get(`UserConfig-User-${game.user.id}`)?.close();
     await this.close();
     actor?.sheet?.render({ force: true });
+  }
+
+  /**
+   * Release this player's currently-claimed hero: ask the active GM (via the `release`
+   * query) to revoke ownership and unlink the character, returning the hero to the pool.
+   * The screen stays open so the player can immediately claim another. Bound via
+   * `DEFAULT_OPTIONS.actions`.
+   * @returns {Promise<void>}
+   */
+  async _onReleaseHero() {
+    const actorId = game.user.character?.id;
+    if (!actorId || game.user.isGM) return;
+    const actor = game.actors.get(actorId);
+    const gm = game.users.activeGM;
+    if (!gm) {
+      ui.notifications.warn("CYH.Selection.NoGM", { localize: true });
+      return;
+    }
+    let result;
+    try {
+      result = await gm.query(`${MODULE_ID}.release`, { userId: game.user.id, actorId }, { timeout: 15000 });
+    } catch {
+      result = { ok: false };
+    }
+    if (!result?.ok) {
+      ui.notifications.warn("CYH.Selection.ReleaseFailed", { localize: true });
+      this.render();
+      return;
+    }
+    // Return to the grid; the released hero is now claimable, and the GM's character/
+    // ownership writes will re-render the stage with claiming re-enabled.
+    this.#selectedId = null;
+    broadcastClaimed(actorId);
+    ui.notifications.info(game.i18n.format("CYH.Selection.Released", { name: actor?.name ?? "" }));
   }
 
   /**

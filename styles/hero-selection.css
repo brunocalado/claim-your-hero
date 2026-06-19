@@ -169,6 +169,20 @@
     filter: grayscale(0.85) brightness(0.55);
   }
 
+  /* The viewing player's own claimed hero: highlight rather than grey out, and keep it
+     interactive so they can open it and release it to pick another. */
+  .hero-card.taken.mine {
+    cursor: pointer;
+    filter: none;
+    border-color: var(--claim-your-hero-accent);
+    box-shadow: 0 0 0 2px var(--claim-your-hero-accent), 0 6px 18px rgba(0, 0, 0, 0.6);
+  }
+
+  .claimed-banner.mine {
+    border-color: var(--claim-your-hero-accent);
+    color: var(--claim-your-hero-accent);
+  }
+
   .pip {
     width: 26px;
     height: 26px;
@@ -234,6 +248,18 @@
       .confirm:hover {
         box-shadow: 0 0 14px var(--claim-your-hero-accent-glow);
       }
+
+      .release {
+        background: transparent;
+        border: 1px solid var(--color-level-warning, #ee9b3a);
+        color: var(--color-level-warning, #ee9b3a);
+        font-weight: bold;
+      }
+
+      .release:hover {
+        background: var(--color-level-warning, #ee9b3a);
+        color: #1a1408;
+      }
     }
 
     .detail-body {
@@ -258,6 +284,11 @@
       margin: 0;
       font-style: italic;
       color: var(--color-text-secondary, #b0b0b0);
+    }
+
+    .contested.mine {
+      font-style: normal;
+      color: var(--claim-your-hero-accent);
     }
   }
 

@@ -1,3 +1,8 @@
+# 0.0.9
+
+### Added
+- **Release your hero** — when the selection screen is shown to a player who already has a hero (e.g. the GM re-opens it with "Open for" / "Open for All"), their current hero is highlighted as "Your Hero" and its detail panel gains a **Release Hero** button. Releasing returns the hero to the pool and lets the player immediately pick another. The GM can still re-send the screen to anyone, including players who already hold a character.
+
 # 0.0.8
 
 ### Changed
