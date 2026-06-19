@@ -24,9 +24,11 @@ export class RoleConfigApp extends HandlebarsApplicationMixin(ApplicationV2) {
     window: {
       title: "CYH.RoleConfig.Title",
       icon: "fa-solid fa-masks-theater",
-      resizable: true
+      resizable: false
     },
-    position: { width: 720, height: "auto" },
+    // Fixed height so both columns share the same extent (no dead space) and the lists
+    // scroll internally rather than growing the dialog.
+    position: { width: 720, height: 620 },
     form: {
       handler: RoleConfigApp.#onSubmit,
       submitOnChange: true,

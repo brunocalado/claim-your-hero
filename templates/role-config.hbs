@@ -12,7 +12,7 @@
           <span class="thumb-overlay"><i class="fa-solid fa-image"></i></span>
         </button>
         <div class="fields">
-          <input type="text" class="role-name" name="roles.{{this.id}}.name" value="{{this.name}}"
+          <input type="text" class="role-name-input" name="roles.{{this.id}}.name" value="{{this.name}}"
                  maxlength="{{@root.nameMax}}" placeholder="{{localize 'CYH.Role.FIELDS.name.label'}}">
           <textarea class="role-desc" name="roles.{{this.id}}.description" rows="2" maxlength="{{@root.descMax}}"
                     placeholder="{{localize 'CYH.Role.FIELDS.description.label'}}">{{this.description}}</textarea>
@@ -41,12 +41,13 @@
     <h3 class="section-title">{{localize "CYH.RoleConfig.Recommended"}}</h3>
     <p class="hint">{{localize "CYH.RoleConfig.RecommendedHint"}}</p>
     {{#if roles.length}}
-    <div class="role-chips">
+    <div class="role-toggles">
       {{#each roles}}
-      <button type="button" class="role-chip{{#if this.recommended}} active{{/if}}" data-action="toggleRecommended"
+      <button type="button" class="role-toggle{{#if this.recommended}} active{{/if}}" data-action="toggleRecommended"
               data-role-id="{{this.id}}"{{#if this.description}} data-tooltip="{{this.description}}"{{/if}}>
+        <i class="fa-solid {{#if this.recommended}}fa-square-check{{else}}fa-square{{/if}} check"></i>
         {{#if this.img}}<img src="{{this.img}}" alt="">{{/if}}
-        <span>{{this.name}}</span>
+        <span class="role-name">{{this.name}}</span>
       </button>
       {{/each}}
     </div>

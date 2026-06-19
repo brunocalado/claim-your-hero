@@ -1,3 +1,9 @@
+# 0.0.8
+
+### Changed
+- **Unified role picker styling** — the "Recommended Composition" picker now uses the same one-per-line, card-style toggles (with hover and selected highlight) as the hero editor's role picker. The narrower picker lets the right column shrink, and the freed width is given to the editable catalog rows on the left, keeping the panel's overall width unchanged. Long role names truncate with an ellipsis on both sides.
+- **Roles panel layout** — the panel now has a fixed height (no longer resizable) and both columns share that height, so the catalog and the recommendation list line up with no dead space; each list scrolls internally when long.
+
 # 0.0.7
 
 ### Changed

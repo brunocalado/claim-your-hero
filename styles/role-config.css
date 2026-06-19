@@ -3,21 +3,30 @@
   /* Fully opaque surface — no glassmorphism. */
   background: var(--color-cool-5, #0b0a13);
 
-  /* Catalog on the left, recommended-composition picker on the right, so the panel
-     spreads across its width instead of growing tall. */
+  /* Catalog on the left, recommended-composition picker on the right. The picker is a
+     compact one-per-line list, so the right column is kept narrow and the freed width
+     goes to the editable catalog rows on the left. `height: 100%` + `stretch` makes both
+     columns fill the fixed window height equally, so neither side leaves dead space. */
   .role-config-body {
     display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    align-items: start;
+    grid-template-columns: 2.3fr 1fr;
+    align-items: stretch;
     gap: 1rem;
     padding: 0.5rem 0.75rem 0.75rem;
+    height: 100%;
+    box-sizing: border-box;
   }
 
+  /* `min-width: 0` lets each grid column be constrained to its track so long role names
+     truncate (ellipsis) instead of forcing the column wider; `min-height: 0` lets the
+     inner lists shrink and scroll within the shared column height. */
   .roles-section,
   .recommend-section {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    min-width: 0;
+    min-height: 0;
   }
 
   .hint {
@@ -26,6 +35,8 @@
     color: var(--color-text-secondary, #b0b0b0);
   }
 
+  /* Fills the column (with the action buttons pinned below) and scrolls when the catalog
+     is long, so the left side matches the right's height. */
   .role-list {
     margin: 0;
     padding: 0;
@@ -33,7 +44,8 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    max-height: 28rem;
+    flex: 1;
+    min-height: 0;
     overflow-y: auto;
   }
 
@@ -93,7 +105,7 @@
     min-width: 0;
   }
 
-  .role-name {
+  .role-name-input {
     font-weight: bold;
   }
 
@@ -119,36 +131,12 @@
     }
   }
 
-  /* Recommended-composition picker: toggleable chips, one per catalog role. */
-  .role-chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-  }
-
-  .role-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    width: auto;
-    padding: 0.25rem 0.65rem;
-    border-radius: 14px;
-    border: 1px solid var(--color-cool-3, #4d4b66);
-    background: var(--color-cool-4, #1c1b2a);
-    color: var(--color-text-secondary, #b0b0b0);
-
-    img {
-      width: 20px;
-      height: 20px;
-      object-fit: cover;
-      border-radius: 50%;
-      border: none;
-    }
-  }
-
-  .role-chip.active {
-    border-color: var(--claim-your-hero-accent);
-    color: var(--color-text-primary, #f0f0f0);
-    box-shadow: 0 0 6px var(--claim-your-hero-accent-glow);
+  /* Recommended-composition picker reuses the shared `.role-toggle` component from
+     base.css; here the list fills the column and scrolls for a large catalog, so the
+     right side matches the left's height with no dead space. */
+  .role-toggles {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
   }
 }

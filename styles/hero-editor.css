@@ -151,66 +151,14 @@
     min-height: 0;
   }
 
-  /* One role per line so the right column stays narrow and readable. The list fills the
-     card (so no dead space sits under it) yet caps its height and scrolls, so a large
-     catalog never stretches the dialog. */
+  /* The shared `.role-toggle` look lives in base.css. Here the list fills the card (so
+     no dead space sits under it) yet caps its height and scrolls, so a large catalog
+     never stretches the dialog. */
   .role-toggles {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
     flex: 1;
     min-height: 0;
     max-height: 30rem;
     overflow-y: auto;
-  }
-
-  .role-toggle {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.3rem 0.55rem;
-    border-radius: 6px;
-    border: 1px solid var(--color-cool-3, #4d4b66);
-    background: var(--color-cool-5, #0b0a13);
-    color: var(--color-text-secondary, #b0b0b0);
-    cursor: pointer;
-    transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
-
-    input {
-      margin: 0;
-      flex: 0 0 auto;
-    }
-
-    img {
-      width: 22px;
-      height: 22px;
-      object-fit: cover;
-      border-radius: 50%;
-      border: none;
-      flex: 0 0 auto;
-    }
-
-    .role-name {
-      flex: 1;
-      min-width: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-  }
-
-  /* Hover feedback so it reads as clickable: accent border over a lighter surface. */
-  .role-toggle:hover {
-    border-color: var(--claim-your-hero-accent);
-    background: var(--color-cool-4, #1c1b2a);
-    color: var(--color-text-primary, #f0f0f0);
-  }
-
-  /* Highlight follows the checkbox live: only checked roles get the accent border. */
-  .role-toggle:has(input:checked) {
-    border-color: var(--claim-your-hero-accent);
-    color: var(--color-text-primary, #f0f0f0);
-    box-shadow: 0 0 6px var(--claim-your-hero-accent-glow);
   }
 
   .form-footer {
