@@ -1,3 +1,8 @@
+# 0.1.0
+
+### Added
+- **Ambient golden particles** — when no background image or video is configured, the selection screen now drifts golden embers upward behind the heroes, giving the dark stage some life. They appear automatically whenever the background is left empty (or cleared) and disappear once a background is set. Honors the "reduce motion" accessibility preference.
+
 # 0.0.9
 
 ### Added

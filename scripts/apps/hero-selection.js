@@ -162,6 +162,45 @@ export class HeroSelectionApp extends HandlebarsApplicationMixin(ApplicationV2) 
     for (const card of this.element.querySelectorAll(".hero-card")) {
       card.addEventListener("mouseenter", () => playUiSound("hover"));
     }
+    // Ambient embers only when no background media is configured (visualBg is null).
+    this.#syncParticles(!context.visualBg);
+  }
+
+  /**
+   * Toggle the ambient golden-particle layer behind the stage. The drifting embers
+   * give the otherwise flat gradient some life, and stand in for a background only
+   * when the GM has configured neither an image nor a video. The layer is appended
+   * to the app root — not the re-rendered `stage` part — so the socket-driven
+   * re-renders (this app opts into {@link HeroSelectionApp.AUTO_RERENDER}) don't
+   * recreate the nodes and restart the CSS animations mid-flight. Called from
+   * `_onRender`.
+   * @param {boolean} enabled Whether the particle layer should be present.
+   * @returns {void}
+   */
+  #syncParticles(enabled) {
+    const existing = this.element.querySelector(".gold-particles");
+    if (!enabled) {
+      existing?.remove();
+      return;
+    }
+    // Already running: leave it in place so re-renders don't reset the animation.
+    if (existing) return;
+    const layer = document.createElement("div");
+    layer.className = "gold-particles";
+    layer.setAttribute("aria-hidden", "true");
+    for (let i = 0; i < 48; i++) {
+      const particle = document.createElement("span");
+      const { style } = particle;
+      style.setProperty("--claim-your-hero-particle-x", `${Math.random() * 100}%`);
+      style.setProperty("--claim-your-hero-particle-size", `${2 + Math.random() * 5}px`);
+      style.setProperty("--claim-your-hero-particle-duration", `${7 + Math.random() * 9}s`);
+      // Negative delay starts each ember mid-flight so the field is full immediately.
+      style.setProperty("--claim-your-hero-particle-delay", `${-Math.random() * 16}s`);
+      style.setProperty("--claim-your-hero-particle-drift", `${(Math.random() - 0.5) * 120}px`);
+      style.setProperty("--claim-your-hero-particle-opacity", `${0.3 + Math.random() * 0.5}`);
+      layer.appendChild(particle);
+    }
+    this.element.prepend(layer);
   }
 
   /**

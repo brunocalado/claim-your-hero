@@ -46,6 +46,36 @@
     pointer-events: none;
   }
 
+  /* Ambient golden embers, injected from `_onRender` only when no background media
+     is set. z-index: -1 sits above .hero-selection's gradient but below .stage's
+     positioned content (z-index: 0), so it never blocks the cards or detail panel. */
+  .gold-particles {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+
+    span {
+      position: absolute;
+      bottom: -5%;
+      left: var(--claim-your-hero-particle-x);
+      width: var(--claim-your-hero-particle-size);
+      height: var(--claim-your-hero-particle-size);
+      border-radius: 50%;
+      /* Each ember randomizes its own start vars (see `#syncParticles`). */
+      opacity: 0;
+      will-change: transform, opacity;
+      background: radial-gradient(circle,
+        var(--claim-your-hero-accent) 0%,
+        var(--claim-your-hero-accent-glow) 45%,
+        transparent 75%);
+      animation: claim-your-hero-rise
+        var(--claim-your-hero-particle-duration) linear
+        var(--claim-your-hero-particle-delay) infinite;
+    }
+  }
+
   .stage-header {
     position: relative;
     text-align: center;
@@ -417,5 +447,35 @@
 
   to {
     transform: translateX(0);
+  }
+}
+
+/* Ember rises from just below the screen to just above it, swaying by its own
+   per-particle drift and fading in/out at the edges. The custom properties resolve
+   against each span's inline values. */
+@keyframes claim-your-hero-rise {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.5);
+    opacity: 0;
+  }
+
+  15% {
+    opacity: var(--claim-your-hero-particle-opacity, 0.6);
+  }
+
+  85% {
+    opacity: var(--claim-your-hero-particle-opacity, 0.6);
+  }
+
+  100% {
+    transform: translate3d(var(--claim-your-hero-particle-drift, 0), -105vh, 0) scale(1);
+    opacity: 0;
+  }
+}
+
+/* Respect users who opt out of motion: keep the dark stage, drop the embers. */
+@media (prefers-reduced-motion: reduce) {
+  .claim-your-hero.hero-selection .gold-particles {
+    display: none;
   }
 }
