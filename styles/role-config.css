@@ -3,9 +3,12 @@
   /* Fully opaque surface — no glassmorphism. */
   background: var(--color-cool-5, #0b0a13);
 
+  /* Catalog on the left, recommended-composition picker on the right, so the panel
+     spreads across its width instead of growing tall. */
   .role-config-body {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    align-items: start;
     gap: 1rem;
     padding: 0.5rem 0.75rem 0.75rem;
   }
@@ -107,8 +110,13 @@
     line-height: 1;
   }
 
-  .add-role {
-    align-self: stretch;
+  .role-actions {
+    display: flex;
+    gap: 0.5rem;
+
+    button {
+      flex: 1;
+    }
   }
 
   /* Recommended-composition picker: toggleable chips, one per catalog role. */

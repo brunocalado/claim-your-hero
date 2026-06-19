@@ -72,6 +72,10 @@
       "Remove": "Remove role",
       "RemoveConfirmTitle": "Remove Role",
       "RemoveConfirm": "Remove the role \"{name}\"? Heroes tagged with it and any recommendation will simply drop it.",
+      "Reset": "Reset to Defaults",
+      "ResetConfirmTitle": "Reset Roles",
+      "ResetConfirm": "Reset the catalog to the default roles? Your custom roles will be replaced and the recommended composition cleared. Heroes keep their tags, but ids of removed roles are ignored.",
+      "ResetDone": "Default roles restored.",
       "Recommended": "Recommended Composition",
       "RecommendedHint": "Select the roles your party should cover. Players see them, with gaps highlighted, on the selection screen.",
       "NoRolesRecommend": "Add roles above to recommend a composition."

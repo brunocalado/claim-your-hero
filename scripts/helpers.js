@@ -73,21 +73,41 @@ export function resolveRoles(ids) {
 }
 
 /**
- * Seed the role catalog with the shipped defaults on first use only, resolving their
- * localized names and descriptions. The `seeded` sentinel guarantees this runs once,
- * so a GM who deletes the defaults does not see them reappear on the next world load.
- * Only the active GM should call this; it performs a world settings write.
- * @returns {Promise<void>}
+ * Build a fresh set of the shipped default roles, resolving their localized names and
+ * descriptions and assigning each a new id. Shared by the one-shot seeding and the
+ * explicit "Reset to Defaults" action.
+ * @returns {object[]} Plain-object source data for the default roles.
  */
-export async function seedDefaultRoles() {
-  if (game.settings.get(MODULE_ID, SETTINGS.ROLES)?.seeded) return;
-  const roles = DEFAULT_ROLES.map(d => ({
+export function buildDefaultRoles() {
+  return DEFAULT_ROLES.map(d => ({
     id: foundry.utils.randomID(),
     name: game.i18n.localize(d.nameKey),
     img: d.img,
     description: game.i18n.localize(d.descKey)
   }));
-  await setRoles(roles);
+}
+
+/**
+ * Seed the role catalog with the shipped defaults on first use only. The `seeded`
+ * sentinel guarantees this runs once, so a GM who deletes the defaults does not see
+ * them reappear on the next world load.
+ * Only the active GM should call this; it performs a world settings write.
+ * @returns {Promise<void>}
+ */
+export async function seedDefaultRoles() {
+  if (game.settings.get(MODULE_ID, SETTINGS.ROLES)?.seeded) return;
+  await setRoles(buildDefaultRoles());
+}
+
+/**
+ * Replace the entire role catalog with a fresh copy of the shipped defaults and clear
+ * the recommended composition (its ids would otherwise reference the discarded roles).
+ * Heroes keep their tags; ids of removed roles are ignored wherever roles are resolved.
+ * @returns {Promise<void>}
+ */
+export async function resetRolesToDefaults() {
+  await setRoles(buildDefaultRoles());
+  await setRecommendedRoles([]);
 }
 
 /**

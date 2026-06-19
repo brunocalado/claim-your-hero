@@ -27,9 +27,14 @@
     {{else}}
     <p class="empty">{{localize "CYH.RoleConfig.NoRoles"}}</p>
     {{/if}}
-    <button type="button" class="add-role" data-action="addRole">
-      <i class="fa-solid fa-plus"></i> {{localize "CYH.RoleConfig.Add"}}
-    </button>
+    <div class="role-actions">
+      <button type="button" class="add-role" data-action="addRole">
+        <i class="fa-solid fa-plus"></i> {{localize "CYH.RoleConfig.Add"}}
+      </button>
+      <button type="button" class="reset-roles" data-action="resetDefaults">
+        <i class="fa-solid fa-rotate-left"></i> {{localize "CYH.RoleConfig.Reset"}}
+      </button>
+    </div>
   </section>
 
   <section class="recommend-section">

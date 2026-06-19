@@ -1,5 +1,5 @@
 import { MODULE_ID, TEMPLATES, DEFAULT_ROLE_IMG, ROLE_NAME_MAX, ROLE_DESC_MAX } from "../constants.js";
-import { getRoles, setRoles, getRecommendedRoles, setRecommendedRoles } from "../helpers.js";
+import { getRoles, setRoles, getRecommendedRoles, setRecommendedRoles, resetRolesToDefaults } from "../helpers.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin, DialogV2 } = foundry.applications.api;
 
@@ -26,7 +26,7 @@ export class RoleConfigApp extends HandlebarsApplicationMixin(ApplicationV2) {
       icon: "fa-solid fa-masks-theater",
       resizable: true
     },
-    position: { width: 560, height: "auto" },
+    position: { width: 720, height: "auto" },
     form: {
       handler: RoleConfigApp.#onSubmit,
       submitOnChange: true,
@@ -34,6 +34,7 @@ export class RoleConfigApp extends HandlebarsApplicationMixin(ApplicationV2) {
     },
     actions: {
       addRole: this.prototype._onAddRole,
+      resetDefaults: this.prototype._onResetDefaults,
       pickImage: this.prototype._onPickImage,
       removeRole: this.prototype._onRemoveRole,
       toggleRecommended: this.prototype._onToggleRecommended
@@ -108,6 +109,22 @@ export class RoleConfigApp extends HandlebarsApplicationMixin(ApplicationV2) {
       description: ""
     });
     await setRoles(roles);
+    this.render();
+  }
+
+  /**
+   * Replace the whole catalog with the shipped default roles after confirmation.
+   * Bound via `DEFAULT_OPTIONS.actions`.
+   * @returns {Promise<void>}
+   */
+  async _onResetDefaults() {
+    const confirmed = await DialogV2.confirm({
+      window: { title: "CYH.RoleConfig.ResetConfirmTitle" },
+      content: `<p>${game.i18n.localize("CYH.RoleConfig.ResetConfirm")}</p>`
+    });
+    if (!confirmed) return;
+    await resetRolesToDefaults();
+    ui.notifications.info("CYH.RoleConfig.ResetDone", { localize: true });
     this.render();
   }
 
