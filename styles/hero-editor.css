@@ -30,11 +30,13 @@
   }
 
   /* Inputs on the left, the role picker on the right, so the form spreads across its
-     width instead of growing tall. */
+     width instead of growing tall. `stretch` makes both columns share the taller one's
+     height; each column then fills its own content (the description editor grows on the
+     left, the role list on the right) so no dead space is left under the shorter side. */
   .editor-columns {
     display: grid;
     grid-template-columns: 1.6fr 1fr;
-    align-items: start;
+    align-items: stretch;
     gap: 0.75rem;
   }
 
@@ -49,6 +51,7 @@
     flex-direction: column;
     gap: 0.75rem;
     min-width: 0;
+    min-height: 0;
   }
 
   /* Each field reads as its own card: border + raised surface + heading. */
@@ -113,26 +116,51 @@
     min-width: 0;
   }
 
-  /* Description card hosts the formGroup-rendered ProseMirror editor. */
+  /* Description card hosts the formGroup-rendered ProseMirror editor and grows to fill
+     the left column, so the editor — not empty space — absorbs any extra height. */
+  .description-section {
+    flex: 1;
+    min-height: 0;
+  }
+
   .description-section .form-group {
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
     margin: 0;
+    flex: 1;
+    min-height: 0;
   }
 
-  /* The description editor renders permanently open; give it a workable canvas. */
+  .description-section .form-fields {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+  }
+
+  /* The description editor renders permanently open; let it fill, with a modest floor. */
   prose-mirror {
-    min-height: 220px;
+    flex: 1;
+    min-height: 150px;
   }
 
-  /* One role per line so the right column stays narrow and readable; the list caps its
-     height and scrolls so a large catalog never stretches the dialog. */
+  /* The roles card fills the (stretched) right column so no dead space sits beneath it. */
+  .roles-section {
+    flex: 1;
+    min-height: 0;
+  }
+
+  /* One role per line so the right column stays narrow and readable. The list fills the
+     card (so no dead space sits under it) yet caps its height and scrolls, so a large
+     catalog never stretches the dialog. */
   .role-toggles {
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
-    max-height: 24rem;
+    flex: 1;
+    min-height: 0;
+    max-height: 30rem;
     overflow-y: auto;
   }
 
