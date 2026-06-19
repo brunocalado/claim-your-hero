@@ -5,25 +5,53 @@
     <h2>{{actorName}}</h2>
   </header>
 
-  {{formGroup fields.img value=entry.img name="img" localize=true}}
-  {{formGroup fields.detailImg value=entry.detailImg name="detailImg" localize=true}}
-  {{formGroup fields.description value=entry.description name="description" localize=true}}
+  <div class="editor-columns">
+    <div class="editor-main">
+      <div class="field-section image-section">
+        <label class="field-label">{{localize "CYH.HeroEntry.FIELDS.img.label"}}</label>
+        <div class="image-row">
+          <span class="image-preview{{#unless entry.img}} empty{{/unless}}">
+            {{#if entry.img}}<img src="{{entry.img}}" alt="">{{else}}<i class="fa-solid fa-image"></i>{{/if}}
+          </span>
+          <file-picker type="image" name="img" value="{{entry.img}}" placeholder="path/to/file.ext"></file-picker>
+        </div>
+        <p class="hint">{{localize "CYH.HeroEntry.FIELDS.img.hint"}}</p>
+      </div>
 
-  {{#if roles.length}}
-  <div class="form-group role-field">
-    <label>{{localize "CYH.HeroEditor.Roles"}}</label>
-    <div class="role-toggles">
-      {{#each roles}}
-      <label class="role-toggle{{#if this.selected}} active{{/if}}">
-        <input type="checkbox" name="roleFlags.{{this.id}}" {{#if this.selected}}checked{{/if}}>
-        {{#if this.img}}<img src="{{this.img}}" alt="">{{/if}}
-        <span>{{this.name}}</span>
-      </label>
-      {{/each}}
+      <div class="field-section image-section">
+        <label class="field-label">{{localize "CYH.HeroEntry.FIELDS.detailImg.label"}}</label>
+        <div class="image-row">
+          <span class="image-preview{{#unless entry.detailImg}} empty{{/unless}}">
+            {{#if entry.detailImg}}<img src="{{entry.detailImg}}" alt="">{{else}}<i class="fa-solid fa-image"></i>{{/if}}
+          </span>
+          <file-picker type="image" name="detailImg" value="{{entry.detailImg}}" placeholder="path/to/file.ext"></file-picker>
+        </div>
+        <p class="hint">{{localize "CYH.HeroEntry.FIELDS.detailImg.hint"}}</p>
+      </div>
+
+      <div class="field-section description-section">
+        {{formGroup fields.description value=entry.description name="description" localize=true}}
+      </div>
     </div>
-    <p class="hint">{{localize "CYH.HeroEditor.RolesHint"}}</p>
+
+    {{#if roles.length}}
+    <div class="editor-side">
+      <div class="field-section roles-section">
+        <label class="field-label">{{localize "CYH.HeroEditor.Roles"}}</label>
+        <p class="hint">{{localize "CYH.HeroEditor.RolesHint"}}</p>
+        <div class="role-toggles">
+          {{#each roles}}
+          <label class="role-toggle">
+            <input type="checkbox" name="roleFlags.{{this.id}}" {{#if this.selected}}checked{{/if}}>
+            {{#if this.img}}<img src="{{this.img}}" alt="">{{/if}}
+            <span class="role-name">{{this.name}}</span>
+          </label>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+    {{/if}}
   </div>
-  {{/if}}
 
   <footer class="form-footer">
     <button type="submit">

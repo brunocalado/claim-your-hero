@@ -30,7 +30,7 @@ export class HeroEditorApp extends HandlebarsApplicationMixin(ApplicationV2) {
       icon: "fa-solid fa-pen-to-square",
       resizable: true
     },
-    position: { width: 540, height: "auto" },
+    position: { width: 760, height: "auto" },
     form: {
       handler: HeroEditorApp.#onSubmit,
       submitOnChange: false,
@@ -76,6 +76,39 @@ export class HeroEditorApp extends HandlebarsApplicationMixin(ApplicationV2) {
       portrait: (entry?.img || actor?.img) ?? "",
       roles
     });
+  }
+
+  /**
+   * Wire each image field's live preview: when the FilePicker value changes, swap the
+   * thumbnail next to it (or fall back to the empty placeholder). Attached here because
+   * the part's DOM is replaced on every render. Called from `_onRender`.
+   * @override
+   * @param {object} context The render context.
+   * @param {object} options Render options.
+   * @returns {void}
+   */
+  _onRender(context, options) {
+    super._onRender(context, options);
+    for (const section of this.element.querySelectorAll(".image-section")) {
+      const picker = section.querySelector("file-picker");
+      const preview = section.querySelector(".image-preview");
+      if (!picker || !preview) continue;
+      picker.addEventListener("change", () => {
+        const value = picker.value ?? "";
+        preview.classList.toggle("empty", !value);
+        preview.replaceChildren();
+        if (value) {
+          const img = document.createElement("img");
+          img.src = value;
+          img.alt = "";
+          preview.append(img);
+        } else {
+          const icon = document.createElement("i");
+          icon.className = "fa-solid fa-image";
+          preview.append(icon);
+        }
+      });
+    }
   }
 
   /**

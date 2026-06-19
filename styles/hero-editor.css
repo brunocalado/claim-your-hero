@@ -1,10 +1,19 @@
 /* Styles for HeroEditorApp (per-hero presentation form). */
 .claim-your-hero.hero-editor {
+  /* Fully opaque surface for high contrast against the field cards. */
+  background: var(--color-cool-5, #0b0a13);
+
+  .editor-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem 0.75rem;
+  }
+
   .editor-header {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    margin-bottom: 0.5rem;
 
     .thumb {
       width: 48px;
@@ -20,48 +29,160 @@
     }
   }
 
-  /* The description editor renders permanently open; give it a workable canvas. */
-  prose-mirror {
-    min-height: 240px;
+  /* Inputs on the left, the role picker on the right, so the form spreads across its
+     width instead of growing tall. */
+  .editor-columns {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    align-items: start;
+    gap: 0.75rem;
   }
 
-  /* Per-hero role tags: a wrap of checkbox chips, one per catalog role. */
+  /* No catalog roles: the side column is omitted, so the inputs take the full width. */
+  .editor-columns:not(:has(.editor-side)) {
+    grid-template-columns: 1fr;
+  }
+
+  .editor-main,
+  .editor-side {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-width: 0;
+  }
+
+  /* Each field reads as its own card: border + raised surface + heading. */
+  .field-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 0.6rem 0.7rem;
+    border: 1px solid var(--color-cool-3, #4d4b66);
+    border-radius: 8px;
+    background: var(--color-cool-4, #1c1b2a);
+  }
+
+  .field-label,
+  .field-section .form-group > label {
+    margin: 0;
+    font-weight: bold;
+    color: var(--color-text-primary, #f0f0f0);
+  }
+
+  .hint {
+    margin: 0;
+    font-size: var(--font-size-12, 0.75rem);
+    color: var(--color-text-secondary, #b0b0b0);
+  }
+
+  /* Image picker and its preview share one row; the preview leads, the picker fills. */
+  .image-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .image-preview {
+    flex: 0 0 auto;
+    width: 52px;
+    height: 52px;
+    display: grid;
+    place-items: center;
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--color-cool-5, #0b0a13);
+    border: 1px solid var(--color-cool-3, #4d4b66);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border: none;
+      display: block;
+    }
+  }
+
+  /* Optional images: an empty slot stays visible (dashed) so the row never collapses. */
+  .image-preview.empty {
+    border-style: dashed;
+    color: var(--color-text-secondary, #707070);
+  }
+
+  .image-row file-picker {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  /* Description card hosts the formGroup-rendered ProseMirror editor. */
+  .description-section .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin: 0;
+  }
+
+  /* The description editor renders permanently open; give it a workable canvas. */
+  prose-mirror {
+    min-height: 220px;
+  }
+
+  /* One role per line so the right column stays narrow and readable; the list caps its
+     height and scrolls so a large catalog never stretches the dialog. */
   .role-toggles {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 0.4rem;
+    max-height: 24rem;
+    overflow-y: auto;
   }
 
   .role-toggle {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: 0.35rem;
-    padding: 0.2rem 0.55rem;
-    border-radius: 14px;
+    gap: 0.5rem;
+    padding: 0.3rem 0.55rem;
+    border-radius: 6px;
     border: 1px solid var(--color-cool-3, #4d4b66);
-    background: var(--color-cool-4, #1c1b2a);
+    background: var(--color-cool-5, #0b0a13);
     color: var(--color-text-secondary, #b0b0b0);
     cursor: pointer;
 
     input {
       margin: 0;
+      flex: 0 0 auto;
     }
 
     img {
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
       object-fit: cover;
       border-radius: 50%;
       border: none;
+      flex: 0 0 auto;
+    }
+
+    .role-name {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 
-  .role-toggle.active {
+  /* Highlight follows the checkbox live: only checked roles get the accent border. */
+  .role-toggle:has(input:checked) {
     border-color: var(--claim-your-hero-accent);
     color: var(--color-text-primary, #f0f0f0);
+    box-shadow: 0 0 6px var(--claim-your-hero-accent-glow);
   }
 
   .form-footer {
-    margin-top: 0.5rem;
+    margin-top: 0.25rem;
+
+    button {
+      width: 100%;
+      justify-content: center;
+    }
   }
 }

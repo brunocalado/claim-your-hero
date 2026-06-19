@@ -1,3 +1,12 @@
+# 0.0.7
+
+### Changed
+- **Redesigned hero presentation editor** — each field is now a distinct card (border + raised surface + heading) for a clearer, higher-contrast, more readable layout.
+- **Two-column editor** — the image and description fields sit on the left while the role picker moves to the right (one role per line), so the dialog spreads across its width instead of growing tall. The role list caps its height and scrolls for large catalogs, each checked role lights up live, and the Save button now spans the full width.
+
+### Added
+- **Inline image previews** — the Card Image and Detail Image fields show a thumbnail on the same line as the picker, updating live as you choose a file; an empty (dashed) slot is shown when no image is set, since both images are optional.
+
 # 0.0.6
 
 ### Added
