@@ -312,13 +312,6 @@
     border-color: var(--color-level-warning, #ee9b3a);
   }
 
-  .composition-label {
-    font-size: var(--font-size-12, 0.75rem);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-text-secondary, #b0b0b0);
-  }
-
   .composition-roles {
     display: flex;
     flex-wrap: wrap;
@@ -352,14 +345,6 @@
     border-color: var(--color-level-warning, #ee9b3a);
     color: var(--color-level-warning, #ee9b3a);
     opacity: 0.95;
-  }
-
-  .composition-gaps {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    font-weight: bold;
-    color: var(--color-level-warning, #ee9b3a);
   }
 
   /* Role icons overlaid on a hero card (top-left, mirroring the interest pips). */

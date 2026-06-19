@@ -128,8 +128,7 @@ export class HeroSelectionApp extends HandlebarsApplicationMixin(ApplicationV2) 
       const gaps = marked.filter(r => !r.covered);
       composition = {
         recommended: marked,
-        hasGaps: gaps.length > 0,
-        gapNames: gaps.map(r => r.name).join(", ")
+        hasGaps: gaps.length > 0
       };
     }
 

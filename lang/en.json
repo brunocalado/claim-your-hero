@@ -221,8 +221,6 @@
       "Back": "Back",
       "ClaimedBy": "Claimed by {name}",
       "InterestedOthers": "Also interested: {names}",
-      "Recommended": "Recommended Composition",
-      "Gaps": "Missing: {names}",
       "NoHeroes": "The Game Master has not prepared any heroes yet.",
       "NoGM": "A Game Master must be connected to confirm your claim.",
       "ViewSheet": "View Character Sheet",

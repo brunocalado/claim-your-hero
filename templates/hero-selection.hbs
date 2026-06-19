@@ -20,7 +20,6 @@
 
   {{#if composition}}
   <div class="composition-bar{{#if composition.hasGaps}} has-gaps{{/if}}">
-    <span class="composition-label">{{localize "CYH.Selection.Recommended"}}</span>
     <div class="composition-roles">
       {{#each composition.recommended}}
       <span class="comp-role{{#if this.covered}} covered{{else}} missing{{/if}}"{{#if this.description}} data-tooltip="{{this.description}}"{{/if}}>
@@ -30,11 +29,6 @@
       </span>
       {{/each}}
     </div>
-    {{#if composition.hasGaps}}
-    <span class="composition-gaps">
-      <i class="fa-solid fa-triangle-exclamation"></i> {{localize "CYH.Selection.Gaps" names=composition.gapNames}}
-    </span>
-    {{/if}}
   </div>
   {{/if}}
 
