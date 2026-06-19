@@ -89,6 +89,8 @@
       text-transform: uppercase;
       color: var(--claim-your-hero-accent);
       text-shadow: 0 0 18px var(--claim-your-hero-accent-glow);
+      /* Slow, soft breathing glow on the title. */
+      animation: claim-your-hero-title-glow 3.6s ease-in-out infinite alternate;
     }
 
     .subtitle {
@@ -131,6 +133,11 @@
 
   .hero-card {
     position: relative;
+    /* Own stacking context so the role badges / interest pips (which carry a
+       z-index) stay confined to the card and never paint above the detail panel
+       that slides in over the grid — which also stops their hover from reaching
+       the card and triggering the hover sound through the open panel. */
+    isolation: isolate;
     width: 240px;
     aspect-ratio: 1 / 1;
     border-radius: 10px;
@@ -245,6 +252,11 @@
     border-left: 1px solid var(--claim-your-hero-accent);
     box-shadow: -10px 0 30px rgba(0, 0, 0, 0.7);
     animation: claim-your-hero-slide-in 0.25s ease;
+
+    .detail-portrait-wrap {
+      position: relative;
+      flex-shrink: 0;
+    }
 
     .detail-portrait {
       width: 100%;
@@ -406,29 +418,12 @@
     }
   }
 
-  /* Role tags listed in the detail panel under the hero name. */
-  .detail-roles {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-  }
-
-  .detail-role {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 0.15rem 0.55rem;
-    border-radius: 14px;
-    border: 1px solid var(--claim-your-hero-accent);
-    background: var(--color-cool-4, #1c1b2a);
-
-    img {
-      width: 20px;
-      height: 20px;
-      object-fit: cover;
-      border-radius: 50%;
-      border: none;
-    }
+  /* Role badges overlaid on the detail portrait, reusing the card badge styling but
+     anchored to the image's top-right corner instead of the card's top-left. */
+  .detail-badges {
+    top: 0.5rem;
+    right: 0.5rem;
+    left: auto;
   }
 
 }
@@ -473,9 +468,27 @@
   }
 }
 
-/* Respect users who opt out of motion: keep the dark stage, drop the embers. */
+/* Slow, gentle breathing glow for the selection-screen title. */
+@keyframes claim-your-hero-title-glow {
+  from {
+    text-shadow: 0 0 12px var(--claim-your-hero-accent-glow);
+  }
+
+  to {
+    text-shadow:
+      0 0 22px var(--claim-your-hero-accent-glow),
+      0 0 40px var(--claim-your-hero-accent-glow);
+  }
+}
+
+/* Respect users who opt out of motion: keep the dark stage, drop the embers and the
+   title's pulsing glow. */
 @media (prefers-reduced-motion: reduce) {
   .claim-your-hero.hero-selection .gold-particles {
     display: none;
+  }
+
+  .claim-your-hero.hero-selection .stage-header h1 {
+    animation: none;
   }
 }

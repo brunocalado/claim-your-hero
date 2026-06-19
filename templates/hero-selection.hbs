@@ -94,18 +94,20 @@
         <i class="fa-solid fa-arrow-left"></i> {{localize "CYH.Selection.Back"}}
       </button>
     </div>
-    <img class="detail-portrait" src="{{selected.detailImg}}" alt="{{selected.name}}">
-    <div class="detail-body">
-      <h2>{{selected.name}}</h2>
+    <div class="detail-portrait-wrap">
+      <img class="detail-portrait" src="{{selected.detailImg}}" alt="{{selected.name}}">
       {{#if selected.roles.length}}
-      <div class="detail-roles">
+      <div class="role-badges detail-badges">
         {{#each selected.roles}}
-        <span class="detail-role"{{#if this.description}} data-tooltip="{{this.description}}"{{/if}}>
-          {{#if this.img}}<img src="{{this.img}}" alt="">{{/if}}<span>{{this.name}}</span>
+        <span class="role-badge" data-tooltip="{{this.name}}">
+          {{#if this.img}}<img src="{{this.img}}" alt="{{this.name}}">{{else}}<i class="fa-solid fa-masks-theater"></i>{{/if}}
         </span>
         {{/each}}
       </div>
       {{/if}}
+    </div>
+    <div class="detail-body">
+      <h2>{{selected.name}}</h2>
       {{#if selected.taken}}
       <p class="contested{{#if selected.mine}} mine{{/if}}">
         {{#if selected.mine}}

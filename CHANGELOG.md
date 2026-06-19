@@ -1,3 +1,12 @@
+# 0.1.1
+
+### Changed
+- **Role badges on the detail portrait** — when inspecting a hero, its roles now appear as badges overlaid on the top-right of the displayed portrait (mirroring the cards), instead of as a separate text list under the name. Each badge keeps the role name on hover.
+- **Pulsing title glow** — the "Claim Your Hero" title now breathes with a slow, soft golden glow. Honors the "reduce motion" accessibility preference.
+
+### Fixed
+- **Detail panel no longer leaks the grid behind it** — opening a hero's detail panel could show the role badges and interest pips from the cards underneath bleeding over the panel, and hovering that area would trigger the card hover sound. The panel now fully covers the grid behind it and no longer plays the sound.
+
 # 0.1.0
 
 ### Added
