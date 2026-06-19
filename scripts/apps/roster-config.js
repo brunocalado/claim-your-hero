@@ -1,5 +1,5 @@
-import { MODULE_ID, FOLDER_NAME, TEMPLATES } from "../constants.js";
-import { getRoster, setRoster, getClaimantUser, applyClaimChanges } from "../helpers.js";
+import { MODULE_ID, FOLDER_NAME, FLAGS, TEMPLATES } from "../constants.js";
+import { getRoster, setRoster, getClaimantUser, applyClaimChanges, buildOwnershipUpdate, getPendingViews, reconcilePendingViews, countRevocableViews } from "../helpers.js";
 import { broadcastOpen, broadcastClaimed } from "../socket.js";
 import { HeroEditorApp } from "./hero-editor.js";
 import { HeroSelectionApp } from "./hero-selection.js";
@@ -33,6 +33,7 @@ export class RosterConfigApp extends HandlebarsApplicationMixin(ApplicationV2) {
       unassignHero: this.prototype._onUnassignHero,
       openFor: this.prototype._onOpenFor,
       openForAll: this.prototype._onOpenForAll,
+      cleanPermissions: this.prototype._onCleanPermissions,
       preview: this.prototype._onPreview
     }
   };
@@ -51,19 +52,32 @@ export class RosterConfigApp extends HandlebarsApplicationMixin(ApplicationV2) {
    */
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
+    const players = game.users.filter(u => !u.isGM);
     const entries = [];
     for (const e of getRoster()) {
       if (getClaimantUser(e.actorId)) continue;
       const actor = game.actors.get(e.actorId);
+      // Players currently holding a module-granted view on this available hero.
+      // A single indicator reveals the full list on hover, so any number of viewers
+      // fits without overflowing the row.
+      const viewerNames = players
+        .filter(u => getPendingViews(u).includes(e.actorId))
+        .map(u => u.name);
       entries.push({
         actorId: e.actorId,
         name: actor?.name ?? game.i18n.localize("CYH.RosterConfig.MissingActor"),
         missing: !actor,
         img: e.img || actor?.img,
-        hidden: e.hidden
+        hidden: e.hidden,
+        viewerCount: viewerNames.length,
+        viewersTip: viewerNames.length
+          ? `${game.i18n.localize("CYH.RosterConfig.ViewersTip")}: ${viewerNames.join(", ")}`
+          : ""
       });
     }
-    const players = game.users.filter(u => !u.isGM).map(u => ({
+    // Total revocable view grants across all players — drives the cleanup button.
+    const illegalCount = players.reduce((sum, u) => sum + countRevocableViews(u), 0);
+    const playerRows = players.map(u => ({
       id: u.id,
       name: u.name,
       active: u.active,
@@ -72,7 +86,7 @@ export class RosterConfigApp extends HandlebarsApplicationMixin(ApplicationV2) {
         ? { id: u.character.id, name: u.character.name, img: u.character.img }
         : null
     }));
-    return Object.assign(context, { entries, players });
+    return Object.assign(context, { entries, players: playerRows, illegalCount });
   }
 
   /**
@@ -180,13 +194,15 @@ export class RosterConfigApp extends HandlebarsApplicationMixin(ApplicationV2) {
       content
     });
     if (!confirmed) return;
-    const actorUpdates = [{ _id: actorId, [`ownership.${userId}`]: foundry.CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER }];
+    const actorUpdates = [buildOwnershipUpdate(actor, { [userId]: foundry.CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER })];
     if (previous && previous.id !== actorId) {
-      // NONE instead of a "-=" deletion key; see _onUnassignHero for the rationale.
-      actorUpdates.push({ _id: previous.id, [`ownership.${userId}`]: foundry.CONST.DOCUMENT_OWNERSHIP_LEVELS.NONE });
+      // Drop the replaced hero back to "Default" (remove the key, not NONE).
+      actorUpdates.push(buildOwnershipUpdate(previous, { [userId]: null }));
     }
     try {
       await applyClaimChanges(actorUpdates, userId, actorId);
+      // The assigned hero is now owned; clear it from the player's pending views.
+      await user.setFlag(MODULE_ID, FLAGS.PENDING_VIEWS, getPendingViews(user).filter(id => id !== actorId));
     } catch (err) {
       console.error(err);
       ui.notifications.error("CYH.RosterConfig.AssignFailed", { localize: true });
@@ -352,10 +368,9 @@ export class RosterConfigApp extends HandlebarsApplicationMixin(ApplicationV2) {
     });
     if (!confirmed) return;
     try {
-      // Setting NONE instead of using a "-=" deletion key: SchemaField#_updateDiff
-      // rejects deletion keys inside the ownership mapping on current v14 builds.
+      // Drop the released hero back to "Default" by removing the player's key.
       await applyClaimChanges(
-        [{ _id: character.id, [`ownership.${userId}`]: foundry.CONST.DOCUMENT_OWNERSHIP_LEVELS.NONE }],
+        [buildOwnershipUpdate(character, { [userId]: null })],
         userId,
         null
       );
@@ -383,6 +398,22 @@ export class RosterConfigApp extends HandlebarsApplicationMixin(ApplicationV2) {
    */
   _onOpenForAll() {
     broadcastOpen(game.users.filter(u => u.active && !u.isGM).map(u => u.id));
+  }
+
+  /**
+   * Revoke every still-pending view grant (drop the players back to "Default" on the
+   * heroes they previewed but did not claim) by reconciling the pending-view flags.
+   * Bound via `DEFAULT_OPTIONS.actions`.
+   * @returns {Promise<void>}
+   */
+  async _onCleanPermissions() {
+    const count = game.users.reduce((sum, u) => sum + countRevocableViews(u), 0);
+    if (!count) {
+      ui.notifications.info("CYH.RosterConfig.NoIllegal", { localize: true });
+      return;
+    }
+    await reconcilePendingViews();
+    ui.notifications.info(game.i18n.format("CYH.RosterConfig.CleanIllegalDone", { count }));
   }
 
   /**

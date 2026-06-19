@@ -43,6 +43,12 @@
           <div class="info">
             <span class="name">{{this.name}}</span>
           </div>
+          {{#if this.viewerCount}}
+          <span class="viewers" data-tooltip="{{this.viewersTip}}">
+            <i class="fa-solid fa-eye"></i>
+            <span class="count">{{this.viewerCount}}</span>
+          </span>
+          {{/if}}
           <div class="controls">
             <button type="button" data-action="toggleHidden" data-tooltip="{{#if this.hidden}}CYH.RosterConfig.ShowHero{{else}}CYH.RosterConfig.HideHero{{/if}}">
               <i class="fa-solid {{#if this.hidden}}fa-eye-slash{{else}}fa-eye{{/if}}"></i>
@@ -69,6 +75,9 @@
   <footer class="panel-actions">
     <button type="button" data-action="openForAll">
       <i class="fa-solid fa-bullhorn"></i> {{localize "CYH.RosterConfig.OpenForAll"}}
+    </button>
+    <button type="button" class="clean-permissions{{#if illegalCount}} has-pending{{/if}}" data-action="cleanPermissions" {{#unless illegalCount}}disabled{{/unless}}>
+      <i class="fa-solid fa-broom"></i> {{localize "CYH.RosterConfig.CleanIllegal"}}{{#if illegalCount}} ({{illegalCount}}){{/if}}
     </button>
     <button type="button" data-action="preview">
       <i class="fa-solid fa-eye"></i> {{localize "CYH.RosterConfig.Preview"}}

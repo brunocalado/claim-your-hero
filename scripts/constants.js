@@ -15,6 +15,17 @@ export const SETTINGS = {
   VISUAL: "visual"
 };
 
+/** Keys for document flags written under the {@link MODULE_ID} scope. */
+export const FLAGS = {
+  /**
+   * On a User: the ids of roster Actors this player was granted OBSERVER on by
+   * clicking "View Character Sheet". Each entry is a permission the module must
+   * later revoke (drop back to "Default") unless the player ends up claiming it.
+   * The durable record that lets the GM-side reconcile clean up after disconnects.
+   */
+  PENDING_VIEWS: "pendingViews"
+};
+
 
 /** Default audio files shipped with the module. */
 export const DEFAULT_SOUNDS = {

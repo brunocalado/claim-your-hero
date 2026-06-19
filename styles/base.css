@@ -27,3 +27,44 @@
     color: var(--color-text-secondary, #b0b0b0);
   }
 }
+
+/* Alert shortcut injected into the Actors sidebar header action row. The element
+   carries the module scope class itself, so it is styled as a top-level compound
+   selector (it is not a descendant of another module-scoped root). It wraps onto its
+   own full-width line under the Create buttons and inherits the header's padding. */
+.claim-your-hero.roster-alert {
+  position: relative;
+  flex: 1 0 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding-left: 1.5rem;
+  border: 1px solid var(--claim-your-hero-accent);
+  background: var(--claim-your-hero-surface);
+  color: var(--claim-your-hero-accent);
+
+  /* Explicit, high-contrast hover so legibility never depends on the system theme. */
+  &:hover,
+  &:focus {
+    background: var(--claim-your-hero-accent);
+    color: var(--color-cool-5, #0b0a13);
+    border-color: var(--claim-your-hero-accent);
+    text-shadow: none;
+    box-shadow: 0 0 8px var(--claim-your-hero-accent-glow);
+  }
+
+  /* Alert indicator on the left edge, vertically centred. */
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0.55rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    background: var(--color-level-error, #ce0707);
+    box-shadow: 0 0 6px var(--color-level-error, #ce0707);
+  }
+}

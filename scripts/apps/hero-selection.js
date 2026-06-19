@@ -204,18 +204,39 @@ export class HeroSelectionApp extends HandlebarsApplicationMixin(ApplicationV2) 
   }
 
   /**
-   * Open the actor sheet for the currently selected hero.
-   * The selection overlay sits at z-index 9998; the sheet window is pushed above it
-   * after render so it is not hidden behind the overlay.
+   * Open the actor sheet for the currently selected hero. View access is granted
+   * on demand: the first time this player opens a hero's sheet, the active GM is
+   * asked (via the `grantView` query) to grant OBSERVER and flag the grant for
+   * later cleanup. The selection overlay sits at z-index 9998; the sheet window is
+   * pushed above it after render so it is not hidden behind the overlay.
    * Bound via `DEFAULT_OPTIONS.actions`.
    * @returns {Promise<void>}
    */
   async _onViewSheet() {
     const actor = game.actors.get(this.#selectedId);
     if (!actor) return;
-    if (!actor.testUserPermission(game.user, foundry.CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER)) {
-      ui.notifications.warn("CYH.Selection.SheetNoPermission", { localize: true });
-      return;
+    const { OBSERVER } = foundry.CONST.DOCUMENT_OWNERSHIP_LEVELS;
+    if (!actor.testUserPermission(game.user, OBSERVER)) {
+      const gm = game.users.activeGM;
+      if (!gm) {
+        ui.notifications.warn("CYH.Selection.NoGM", { localize: true });
+        return;
+      }
+      let result;
+      try {
+        result = await gm.query(`${MODULE_ID}.grantView`, { userId: game.user.id, actorId: actor.id }, { timeout: 15000 });
+      } catch {
+        result = { ok: false };
+      }
+      // The GM's ownership update reaches this client over a separate channel, so
+      // wait for it to land before rendering rather than racing into a limited sheet.
+      for (let i = 0; result?.ok && i < 40 && !actor.testUserPermission(game.user, OBSERVER); i++) {
+        await new Promise(resolve => setTimeout(resolve, 50));
+      }
+      if (!actor.testUserPermission(game.user, OBSERVER)) {
+        ui.notifications.warn("CYH.Selection.SheetNoPermission", { localize: true });
+        return;
+      }
     }
     await actor.sheet.render({ force: true });
     // Give the sheet one tick to mount its element, then promote its z-index above the overlay.

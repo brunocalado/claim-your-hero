@@ -233,4 +233,30 @@
       flex: 1;
     }
   }
+
+  /* Single indicator (eye + count) of players currently granted a view on an
+     available hero; the full list of names is revealed on hover via its tooltip,
+     so any number of viewers fits without overflowing the row. */
+  .viewers {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    flex: 0 0 auto;
+    padding: 0.1rem 0.4rem;
+    border-radius: 10px;
+    font-size: var(--font-size-12, 0.75rem);
+    color: var(--claim-your-hero-accent);
+    background: var(--color-cool-5-50, rgba(0, 0, 0, 0.25));
+    cursor: help;
+
+    .count {
+      font-weight: bold;
+    }
+  }
+
+  /* Cleanup button gains the accent only while there is something to clean. */
+  .clean-permissions.has-pending {
+    color: var(--claim-your-hero-accent);
+    border-color: var(--claim-your-hero-accent);
+  }
 }

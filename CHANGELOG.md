@@ -1,3 +1,14 @@
+# 0.0.4
+
+### Changed
+- **On-demand character sheet access** — Observer access is no longer granted to every player on every available hero up front. Instead, a player is granted view access only when they click "View Character Sheet", and only for that hero. Several players can still view the same hero at once.
+- **Revoked access returns to "Default", not "None"** — Whenever the module takes back access (a hero is claimed, assigned, released, or pending views are cleaned), the player's entry on that Actor is now removed so they fall back to the "All Players" default ("Default" in the Ownership Configuration dialog), instead of being pinned to "None". The "All Players" entry itself is never touched.
+
+### Added
+- **Automatic permission cleanup** — Each granted view is remembered on the player. The active GM reconciles these on world load, healing any view permissions left dangling by a disconnect or crash. Turning off "Allow Viewing Character Sheets" also clears them all.
+- **Pending-view indicator & cleanup in the roster panel** — Each available hero shows a single indicator with the number of players currently able to view it; hovering reveals their names. A new "Clean View Permissions" button revokes every pending view in one click.
+- **Actors sidebar alert** — While players still hold pending view permissions, a GM-only shortcut button (with an alert dot) appears in the Actors directory header and opens the roster panel.
+
 # 0.0.3
 
 ### Added

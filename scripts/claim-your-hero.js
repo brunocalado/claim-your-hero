@@ -1,7 +1,7 @@
-import { MODULE_ID, SETTINGS } from "./constants.js";
+import { MODULE_ID, SETTINGS, FLAGS } from "./constants.js";
 import { HeroEntryData, RosterData, SoundConfigData, VisualConfigData } from "./data-models.js";
-import { getRoster, setRoster, rerenderModuleApps, syncRosterObservers, revokeObservers } from "./helpers.js";
-import { initSocket, registerClaimQuery, broadcastJoin, clearUserInterest } from "./socket.js";
+import { getRoster, setRoster, rerenderModuleApps, reconcilePendingViews, countRevocableViews } from "./helpers.js";
+import { initSocket, registerQueries, broadcastJoin, clearUserInterest } from "./socket.js";
 import { RosterConfigApp } from "./apps/roster-config.js";
 import { HeroSelectionApp } from "./apps/hero-selection.js";
 import { SoundConfigApp } from "./apps/sound-config.js";
@@ -14,13 +14,7 @@ Hooks.once("init", () => {
     type: RosterData,
     default: { entries: [] },
     // World settings broadcast to every client, so this keeps all open UIs in sync.
-    onChange: () => {
-      rerenderModuleApps();
-      if (game.user === game.users.activeGM
-        && game.settings.get(MODULE_ID, SETTINGS.SHEET_ACCESS) === true) {
-        syncRosterObservers();
-      }
-    }
+    onChange: () => rerenderModuleApps()
   });
 
   game.settings.register(MODULE_ID, SETTINGS.AUTO_OPEN, {
@@ -55,13 +49,10 @@ Hooks.once("init", () => {
     config: true,
     type: Boolean,
     default: true,
+    // Disabling sheet access ends viewing, so reconcile away every pending grant.
+    // Enabling needs no action: access is now granted on demand per "View" click.
     onChange: async value => {
-      if (game.user !== game.users.activeGM) return;
-      if (value) {
-        await syncRosterObservers();
-      } else {
-        await revokeObservers(getRoster().map(e => game.actors.get(e.actorId)).filter(Boolean));
-      }
+      if (!value && game.user === game.users.activeGM) await reconcilePendingViews();
     }
   });
 
@@ -92,7 +83,7 @@ Hooks.once("init", () => {
     restricted: true
   });
 
-  registerClaimQuery();
+  registerQueries();
 });
 
 // Runs after localization data is loaded, as required by localizeDataModel.
@@ -102,13 +93,17 @@ Hooks.once("i18nInit", () => {
   foundry.helpers.Localization.localizeDataModel(VisualConfigData);
 });
 
-Hooks.once("ready", () => {
+Hooks.once("ready", async () => {
   initSocket({ onOpenRequest: () => HeroSelectionApp.show() });
 
   game.modules.get(MODULE_ID).api = {
     open: () => HeroSelectionApp.show(),
     configure: () => new RosterConfigApp().render({ force: true })
   };
+
+  // On world load the active GM heals any view grants left dangling by players who
+  // disconnected (or whose client never cleaned up) during a previous session.
+  if (game.user === game.users.activeGM) await reconcilePendingViews();
 
   if (game.user.isGM) return;
 
@@ -129,6 +124,11 @@ Hooks.on("updateActor", (actor, changes) => {
 
 Hooks.on("updateUser", (user, changes) => {
   if ("character" in changes) rerenderModuleApps();
+  // Pending-view changes alter the roster panel badges and the directory alert.
+  if (foundry.utils.hasProperty(changes, `flags.${MODULE_ID}.${FLAGS.PENDING_VIEWS}`)) {
+    rerenderModuleApps();
+    ui.actors?.render();
+  }
 });
 
 Hooks.on("userConnected", (user, connected) => {
@@ -136,10 +136,29 @@ Hooks.on("userConnected", (user, connected) => {
   // FIXME: User#active may not yet reflect the connection change when this hook
   // fires, so an immediate render shows stale online status. Defer one tick.
   setTimeout(rerenderModuleApps, 150);
-  if (connected && game.user === game.users.activeGM
-    && game.settings.get(MODULE_ID, SETTINGS.SHEET_ACCESS) === true) {
-    syncRosterObservers();
-  }
+});
+
+// GM-only shortcut in the Actors sidebar: appears with an alert accent whenever
+// players still hold module-granted view permissions awaiting cleanup, opening the
+// roster panel where they can be inspected and cleared.
+Hooks.on("renderActorDirectory", (app, element) => {
+  if (!game.user.isGM) return;
+  const root = element instanceof HTMLElement ? element : element?.[0];
+  if (!root) return;
+  // Re-renders reuse the same element, so drop any previously injected button first.
+  root.querySelector(".claim-your-hero.roster-alert")?.remove();
+  if (!game.users.some(u => countRevocableViews(u) > 0)) return;
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "claim-your-hero roster-alert";
+  button.innerHTML = `<i class="fa-solid fa-users-viewfinder"></i> ${game.i18n.localize("CYH.RosterConfig.DirectoryAlert")}`;
+  button.addEventListener("click", () => new RosterConfigApp().render({ force: true }));
+  // Drop it into the header's action-button row (below Create Actor / Create Folder)
+  // so it inherits Foundry's directory padding and inter-button spacing; the CSS
+  // makes it wrap onto its own full-width line.
+  const actions = root.querySelector(".directory-header .header-actions");
+  if (actions) actions.appendChild(button);
+  else (root.querySelector(".directory-header") ?? root).prepend(button);
 });
 
 // Roster hygiene: drop entries whose Actor was deleted. Only the active GM writes,

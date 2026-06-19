@@ -7,7 +7,7 @@
       },
       "SheetAccess": {
         "Name": "Allow Viewing Character Sheets",
-        "Hint": "When enabled, players can open a hero's character sheet from the selection screen. Observer access is automatically granted to all players on available roster actors and revoked when a hero is claimed."
+        "Hint": "When enabled, players can open a hero's character sheet from the selection screen. Observer access is granted on demand only to the player who clicks View, and is cleared again (back to Default) once they claim another hero, when this is turned off, or on the next world load."
       },
       "Menu": {
         "Name": "Hero Roster",
@@ -71,7 +71,12 @@
       "AssignReplace": "Their current character ({current}) will be unlinked and its ownership revoked.",
       "AssignTaken": "This hero is already claimed by another player. Unassign it first.",
       "AssignFailed": "The assignment could not be completed. Check the console for details.",
-      "Assigned": "{name} assigned to {user}."
+      "Assigned": "{name} assigned to {user}.",
+      "ViewersTip": "Players who can currently view this hero's sheet",
+      "CleanIllegal": "Clean View Permissions",
+      "CleanIllegalDone": "{count} view permission(s) cleared.",
+      "NoIllegal": "No view permissions to clean.",
+      "DirectoryAlert": "Pending View Permissions"
     },
     "HeroEditor": {
       "Title": "Hero Presentation",

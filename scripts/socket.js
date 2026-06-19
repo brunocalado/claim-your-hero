@@ -1,5 +1,5 @@
-import { MODULE_ID, SETTINGS } from "./constants.js";
-import { getRoster, getClaimantUser, rerenderModuleApps, applyClaimChanges, revokeObservers } from "./helpers.js";
+import { MODULE_ID, SETTINGS, FLAGS } from "./constants.js";
+import { getRoster, getClaimantUser, rerenderModuleApps, applyClaimChanges, buildOwnershipUpdate, applyOwnershipUpdates, getPendingViews } from "./helpers.js";
 
 const SOCKET_NAME = `module.${MODULE_ID}`;
 
@@ -132,24 +132,32 @@ export function clearUserInterest(userId) {
 }
 
 /**
- * Serializes claim processing on the GM client so two simultaneous confirmations
- * for the same hero can never both pass validation.
+ * Serializes ownership writes on the GM client so two simultaneous operations
+ * (claims and view grants) can never interleave and corrupt an Actor's ownership.
  * @type {Promise<unknown>}
  */
-let claimQueue = Promise.resolve();
+let opQueue = Promise.resolve();
 
 /**
- * Register the promise-based claim query executed on the active GM's client.
- * Players cannot modify Actor ownership themselves, so confirmation is delegated here.
- * Registered during the `init` hook on every client; only the queried GM runs it.
+ * Chain an operation onto the GM-side ownership queue.
+ * @param {() => Promise<unknown>} run The operation to serialize.
+ * @returns {Promise<unknown>} The operation's settled result.
+ */
+function enqueue(run) {
+  opQueue = opQueue.then(run, run);
+  return opQueue;
+}
+
+/**
+ * Register the promise-based queries executed on the active GM's client. Players
+ * cannot modify Actor ownership themselves, so both confirming a claim and being
+ * granted view access are delegated here. Registered during the `init` hook on
+ * every client; only the queried GM runs them.
  * @returns {void}
  */
-export function registerClaimQuery() {
-  CONFIG.queries[`${MODULE_ID}.claim`] = data => {
-    const run = () => handleClaim(data);
-    claimQueue = claimQueue.then(run, run);
-    return claimQueue;
-  };
+export function registerQueries() {
+  CONFIG.queries[`${MODULE_ID}.claim`] = data => enqueue(() => handleClaim(data));
+  CONFIG.queries[`${MODULE_ID}.grantView`] = data => enqueue(() => handleGrantView(data));
 }
 
 /**
@@ -169,12 +177,42 @@ async function handleClaim({ userId, actorId }) {
   if (getClaimantUser(actorId)) return { ok: false, reason: "taken" };
   if (user.character) return { ok: false, reason: "alreadyHas" };
   await applyClaimChanges(
-    [{ _id: actorId, [`ownership.${userId}`]: foundry.CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER }],
+    [buildOwnershipUpdate(actor, { [userId]: foundry.CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER })],
     userId,
     actorId
   );
-  if (game.settings.get(MODULE_ID, SETTINGS.SHEET_ACCESS)) {
-    await revokeObservers([actor]);
+  // The claimed hero is now owned, so drop it from the player's pending-view list;
+  // any other heroes they merely previewed stay flagged for later reconcile.
+  await user.setFlag(MODULE_ID, FLAGS.PENDING_VIEWS, getPendingViews(user).filter(id => id !== actorId));
+  return { ok: true };
+}
+
+/**
+ * Grant the requesting player OBSERVER access to a roster Actor so they can open its
+ * sheet from the selection screen, recording the grant on the player's pending-view
+ * flag first so it can always be reconciled away later (even after a disconnect).
+ * Runs only on the active GM via the `grantView` query.
+ * @param {object} data
+ * @param {string} data.userId The requesting user's id.
+ * @param {string} data.actorId The roster Actor's id.
+ * @returns {Promise<{ok: boolean, reason?: string}>} The grant outcome for the querying client.
+ */
+async function handleGrantView({ userId, actorId }) {
+  const user = game.users.get(userId);
+  const actor = game.actors.get(actorId);
+  if (!user || !actor || !getRoster().some(e => e.actorId === actorId)) {
+    return { ok: false, reason: "missing" };
+  }
+  if (!game.settings.get(MODULE_ID, SETTINGS.SHEET_ACCESS)) return { ok: false, reason: "failed" };
+  // Flag the pending view before touching permissions, so the cleanup record exists
+  // even if the ownership write below never lands.
+  const pending = getPendingViews(user);
+  if (!pending.includes(actorId)) {
+    await user.setFlag(MODULE_ID, FLAGS.PENDING_VIEWS, [...pending, actorId]);
+  }
+  const { OBSERVER } = foundry.CONST.DOCUMENT_OWNERSHIP_LEVELS;
+  if (actor.getUserLevel(user) < OBSERVER) {
+    await applyOwnershipUpdates([buildOwnershipUpdate(actor, { [userId]: OBSERVER })]);
   }
   return { ok: true };
 }
