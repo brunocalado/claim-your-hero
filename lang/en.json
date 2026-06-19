@@ -68,14 +68,13 @@
       "Add": "Add Role",
       "NoRoles": "No roles yet. Add one to enable team-composition guidance.",
       "NewRole": "New Role",
-      "Edit": "Edit role",
+      "PickImage": "Change icon",
       "Remove": "Remove role",
       "RemoveConfirmTitle": "Remove Role",
-      "RemoveConfirm": "Remove the role \"{name}\"? Heroes tagged with it and any recommendation will simply drop it."
-    },
-    "RoleEditor": {
-      "Title": "Role",
-      "Save": "Save"
+      "RemoveConfirm": "Remove the role \"{name}\"? Heroes tagged with it and any recommendation will simply drop it.",
+      "Recommended": "Recommended Composition",
+      "RecommendedHint": "Select the roles your party should cover. Players see them, with gaps highlighted, on the selection screen.",
+      "NoRolesRecommend": "Add roles above to recommend a composition."
     },
     "Roles": {
       "Defaults": {
@@ -98,6 +97,18 @@
         "Support": {
           "name": "Support",
           "desc": "Buffs allies, debuffs enemies, and controls the battlefield."
+        },
+        "Controller": {
+          "name": "Controller",
+          "desc": "Locks down enemies with crowd control and area effects."
+        },
+        "Scout": {
+          "name": "Scout",
+          "desc": "Handles stealth, reconnaissance, and mobility."
+        },
+        "Face": {
+          "name": "Face",
+          "desc": "Leads social encounters through diplomacy and persuasion."
         }
       }
     },
@@ -137,8 +148,7 @@
       "CleanIllegalDone": "{count} view permission(s) cleared.",
       "NoIllegal": "No view permissions to clean.",
       "DirectoryAlert": "Pending View Permissions",
-      "Recommended": "Recommended Composition",
-      "RecommendedHint": "Select the roles your party should cover. Players see them, with gaps highlighted, on the selection screen."
+      "ConfigureRoles": "Configure Roles"
     },
     "HeroEditor": {
       "Title": "Hero Presentation",

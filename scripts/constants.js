@@ -44,6 +44,12 @@ export const FOLDER_NAME = "Claim Your Hero";
 /** Placeholder image applied to a freshly created role until the GM picks one. */
 export const DEFAULT_ROLE_IMG = "icons/svg/aura.svg";
 
+/** Maximum length of a role's name, enforced on the catalog inputs. */
+export const ROLE_NAME_MAX = 40;
+
+/** Maximum length of a role's description, enforced on the catalog inputs. */
+export const ROLE_DESC_MAX = 240;
+
 /**
  * Roles seeded into the catalog on first use (see {@link SETTINGS.ROLES}). Names and
  * descriptions are localization keys resolved at seed time, so they honour the active
@@ -55,14 +61,16 @@ export const DEFAULT_ROLES = [
   { nameKey: "CYH.Roles.Defaults.Healer.name", descKey: "CYH.Roles.Defaults.Healer.desc", img: "icons/magic/life/heart-cross-green.webp" },
   { nameKey: "CYH.Roles.Defaults.MeleeDPS.name", descKey: "CYH.Roles.Defaults.MeleeDPS.desc", img: "icons/skills/melee/blade-tip-orange.webp" },
   { nameKey: "CYH.Roles.Defaults.RangedDPS.name", descKey: "CYH.Roles.Defaults.RangedDPS.desc", img: "icons/skills/ranged/arrow-flying-broadhead-metal.webp" },
-  { nameKey: "CYH.Roles.Defaults.Support.name", descKey: "CYH.Roles.Defaults.Support.desc", img: "icons/magic/control/buff-flight-wings-blue.webp" }
+  { nameKey: "CYH.Roles.Defaults.Support.name", descKey: "CYH.Roles.Defaults.Support.desc", img: "icons/magic/control/buff-flight-wings-blue.webp" },
+  { nameKey: "CYH.Roles.Defaults.Controller.name", descKey: "CYH.Roles.Defaults.Controller.desc", img: "icons/magic/control/hypnosis-mesmerism-eye-tan.webp" },
+  { nameKey: "CYH.Roles.Defaults.Scout.name", descKey: "CYH.Roles.Defaults.Scout.desc", img: "icons/skills/movement/figure-running-gray.webp" },
+  { nameKey: "CYH.Roles.Defaults.Face.name", descKey: "CYH.Roles.Defaults.Face.desc", img: "icons/skills/social/diplomacy-handshake.webp" }
 ];
 
 /** Handlebars template paths used by the module's Applications. */
 export const TEMPLATES = {
   ROSTER_CONFIG: `modules/${MODULE_ID}/templates/roster-config.hbs`,
   ROLE_CONFIG: `modules/${MODULE_ID}/templates/role-config.hbs`,
-  ROLE_EDITOR: `modules/${MODULE_ID}/templates/role-editor.hbs`,
   HERO_EDITOR: `modules/${MODULE_ID}/templates/hero-editor.hbs`,
   HERO_SELECTION: `modules/${MODULE_ID}/templates/hero-selection.hbs`,
   SOUND_CONFIG: `modules/${MODULE_ID}/templates/sound-config.hbs`,

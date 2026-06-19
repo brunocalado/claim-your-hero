@@ -1,32 +1,52 @@
-<section class="role-body">
-  <h3 class="section-title">{{localize "CYH.RoleConfig.Roles"}}</h3>
-  {{#if roles.length}}
-  <ul class="role-list">
-    {{#each roles}}
-    <li class="role-row" data-role-id="{{this.id}}">
-      <img class="thumb" src="{{this.img}}" alt="{{this.name}}">
-      <div class="info">
-        <span class="name">{{this.name}}</span>
-        {{#if this.description}}<span class="meta">{{this.description}}</span>{{/if}}
-      </div>
-      <div class="controls">
-        <button type="button" data-action="editRole" data-tooltip="CYH.RoleConfig.Edit">
-          <i class="fa-solid fa-pen"></i>
+{{!-- HandlebarsApplicationMixin requires each part to render exactly one root element. --}}
+<div class="role-config-body">
+  <section class="roles-section">
+    <h3 class="section-title">{{localize "CYH.RoleConfig.Roles"}}</h3>
+    {{#if roles.length}}
+    <ul class="role-list">
+      {{#each roles}}
+      <li class="role-row" data-role-id="{{this.id}}">
+        <button type="button" class="thumb-button" data-action="pickImage" data-tooltip="CYH.RoleConfig.PickImage"
+                aria-label="{{localize 'CYH.RoleConfig.PickImage'}}">
+          <img class="thumb" src="{{this.img}}" alt="">
+          <span class="thumb-overlay"><i class="fa-solid fa-image"></i></span>
         </button>
-        <button type="button" data-action="removeRole" data-tooltip="CYH.RoleConfig.Remove">
+        <div class="fields">
+          <input type="text" class="role-name" name="roles.{{this.id}}.name" value="{{this.name}}"
+                 maxlength="{{@root.nameMax}}" placeholder="{{localize 'CYH.Role.FIELDS.name.label'}}">
+          <textarea class="role-desc" name="roles.{{this.id}}.description" rows="2" maxlength="{{@root.descMax}}"
+                    placeholder="{{localize 'CYH.Role.FIELDS.description.label'}}">{{this.description}}</textarea>
+        </div>
+        <button type="button" class="remove" data-action="removeRole" data-tooltip="CYH.RoleConfig.Remove"
+                aria-label="{{localize 'CYH.RoleConfig.Remove'}}">
           <i class="fa-solid fa-trash"></i>
         </button>
-      </div>
-    </li>
-    {{/each}}
-  </ul>
-  {{else}}
-  <p class="empty">{{localize "CYH.RoleConfig.NoRoles"}}</p>
-  {{/if}}
-
-  <footer class="panel-actions">
-    <button type="button" data-action="addRole">
+      </li>
+      {{/each}}
+    </ul>
+    {{else}}
+    <p class="empty">{{localize "CYH.RoleConfig.NoRoles"}}</p>
+    {{/if}}
+    <button type="button" class="add-role" data-action="addRole">
       <i class="fa-solid fa-plus"></i> {{localize "CYH.RoleConfig.Add"}}
     </button>
-  </footer>
-</section>
+  </section>
+
+  <section class="recommend-section">
+    <h3 class="section-title">{{localize "CYH.RoleConfig.Recommended"}}</h3>
+    <p class="hint">{{localize "CYH.RoleConfig.RecommendedHint"}}</p>
+    {{#if roles.length}}
+    <div class="role-chips">
+      {{#each roles}}
+      <button type="button" class="role-chip{{#if this.recommended}} active{{/if}}" data-action="toggleRecommended"
+              data-role-id="{{this.id}}"{{#if this.description}} data-tooltip="{{this.description}}"{{/if}}>
+        {{#if this.img}}<img src="{{this.img}}" alt="">{{/if}}
+        <span>{{this.name}}</span>
+      </button>
+      {{/each}}
+    </div>
+    {{else}}
+    <p class="empty">{{localize "CYH.RoleConfig.NoRolesRecommend"}}</p>
+    {{/if}}
+  </section>
+</div>

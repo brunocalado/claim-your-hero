@@ -1,8 +1,9 @@
 import { MODULE_ID, FOLDER_NAME, FLAGS, TEMPLATES } from "../constants.js";
-import { getRoster, setRoster, getClaimantUser, applyClaimChanges, buildOwnershipUpdate, getPendingViews, reconcilePendingViews, countRevocableViews, getRoles, getRecommendedRoles, setRecommendedRoles } from "../helpers.js";
+import { getRoster, setRoster, getClaimantUser, applyClaimChanges, buildOwnershipUpdate, getPendingViews, reconcilePendingViews, countRevocableViews } from "../helpers.js";
 import { broadcastOpen, broadcastClaimed } from "../socket.js";
 import { HeroEditorApp } from "./hero-editor.js";
 import { HeroSelectionApp } from "./hero-selection.js";
+import { RoleConfigApp } from "./role-config.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin, DialogV2 } = foundry.applications.api;
 
@@ -34,7 +35,7 @@ export class RosterConfigApp extends HandlebarsApplicationMixin(ApplicationV2) {
       openFor: this.prototype._onOpenFor,
       openForAll: this.prototype._onOpenForAll,
       cleanPermissions: this.prototype._onCleanPermissions,
-      toggleRecommended: this.prototype._onToggleRecommended,
+      openRoles: this.prototype._onOpenRoles,
       preview: this.prototype._onPreview
     }
   };
@@ -87,16 +88,7 @@ export class RosterConfigApp extends HandlebarsApplicationMixin(ApplicationV2) {
         ? { id: u.character.id, name: u.character.name, img: u.character.img }
         : null
     }));
-    // Catalog roles with their recommended state, for the composition chips.
-    const recommended = getRecommendedRoles();
-    const roles = getRoles().map(r => ({
-      id: r.id,
-      name: r.name,
-      img: r.img,
-      description: r.description,
-      recommended: recommended.includes(r.id)
-    }));
-    return Object.assign(context, { entries, players: playerRows, illegalCount, roles });
+    return Object.assign(context, { entries, players: playerRows, illegalCount });
   }
 
   /**
@@ -427,17 +419,12 @@ export class RosterConfigApp extends HandlebarsApplicationMixin(ApplicationV2) {
   }
 
   /**
-   * Toggle whether a role is part of the recommended team composition shown to players.
+   * Open the role catalog panel (roles plus recommended-composition picker).
    * Bound via `DEFAULT_OPTIONS.actions`.
-   * @param {PointerEvent} event The originating click event.
-   * @param {HTMLElement} target The element bearing `data-action`.
-   * @returns {Promise<void>}
+   * @returns {void}
    */
-  async _onToggleRecommended(event, target) {
-    const { roleId } = target.closest("[data-role-id]").dataset;
-    const current = getRecommendedRoles();
-    const next = current.includes(roleId) ? current.filter(id => id !== roleId) : [...current, roleId];
-    await setRecommendedRoles(next);
+  _onOpenRoles() {
+    new RoleConfigApp().render({ force: true });
   }
 
   /**

@@ -1,3 +1,16 @@
+# 0.0.6
+
+### Added
+- **Three more default roles** — the catalog now seeds eight roles, adding Controller, Scout, and Face alongside the original five.
+
+### Changed
+- **Inline role editing** — roles are now edited directly in the catalog list: the name and description are editable fields (with character limits) and clicking a role's icon opens the File Picker straight away. The separate role-editor dialog has been removed for a simpler flow.
+- **Recommended composition moved** — the "Recommended Composition" picker now lives inside the Roles panel instead of the roster panel. The roster panel gains a "Configure Roles" button (next to Open for All / Clean View Permissions / Preview) that opens it.
+- **Solid, opaque surfaces** — removed the translucency from the role catalog, role tags, role badges, and the composition bar for a cleaner, more readable look.
+
+### Fixed
+- **Live icon preview** — changing a role's icon now updates its preview immediately, instead of only after saving, closing, and reopening the panel.
+
 # 0.0.5
 
 ### Added

@@ -38,8 +38,8 @@
     gap: 0.35rem;
     padding: 0.2rem 0.55rem;
     border-radius: 14px;
-    border: 1px solid var(--color-border, rgba(255, 255, 255, 0.2));
-    background: var(--color-cool-5-50, rgba(0, 0, 0, 0.2));
+    border: 1px solid var(--color-cool-3, #4d4b66);
+    background: var(--color-cool-4, #1c1b2a);
     color: var(--color-text-secondary, #b0b0b0);
     cursor: pointer;
 
