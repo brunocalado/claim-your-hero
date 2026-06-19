@@ -24,6 +24,8 @@ No manual permission wrangling. No back-and-forth in chat. Just pick and play.
 
 ## 🖼️ The Selection Screen
 
+![The hero selection screen — a full-screen gallery of hero cards with a detail panel on the right](docs/pick-hero.webp)
+
 The gallery is **full-screen and frameless** — it fills the entire browser window so nothing distracts from the drama of choosing a hero. You can even set a custom **image or video background** behind it (see [Settings](#️-settings)).
 
 Each hero has two independent images you can configure:
@@ -56,6 +58,8 @@ If you re-open the selection screen for a player who has already claimed someone
 
 Optional, but powerful for groups that care about a balanced party.
 
+![The Team Roles editor — the role catalog on the left and the recommended composition on the right](docs/config-roles.webp)
+
 Open **Settings → Module Settings → Team Roles → Configure Roles** — or just hit the **Configure Roles** button right inside the Roster panel — to manage your role catalog and the recommended composition side by side.
 
 ### The role catalog
@@ -79,6 +83,8 @@ In each hero's presentation editor, mark which roles that hero can play. Those t
 
 Everything is managed from a single **Roster** panel you open from the module settings. It is split into two columns:
 
+![The GM Roster panel — players and their assigned characters on the left, available heroes on the right](docs/config-screen.webp)
+
 **👥 Players (left)** — every non-GM user in your world, with a green dot for connected players and a slot showing their current character.
 
 **🦸 Available Heroes (right)** — all the Actors you have queued up for selection.
@@ -90,6 +96,8 @@ Drag any Actor directly onto the **Available Heroes** drop zone — from the sid
 ### Per-hero presentation
 
 Click the ✏️ **Edit** button on any hero row to customise:
+
+![The per-hero presentation editor — card and detail images, a rich-text description, and role checkboxes](docs/config-actor.webp)
 
 - **Card image** — thumbnail shown on the selection grid, with a live preview
 - **Detail image** — larger artwork shown when a player opens the hero's detail panel, with a live preview
