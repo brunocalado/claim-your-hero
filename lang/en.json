@@ -14,6 +14,11 @@
         "Label": "Configure Roster",
         "Hint": "Drag and drop Actors to build the roster of heroes players can claim."
       },
+      "RolesMenu": {
+        "Name": "Team Roles",
+        "Label": "Configure Roles",
+        "Hint": "Define the roles (Tank, Healer, DPS, …) used for team-composition guidance."
+      },
       "SoundMenu": {
         "Name": "Selection Sounds",
         "Label": "Configure Sounds",
@@ -38,6 +43,61 @@
         "description": {
           "label": "Description",
           "hint": "Rich-text presentation shown to players when they inspect this hero."
+        }
+      }
+    },
+    "Role": {
+      "FIELDS": {
+        "name": {
+          "label": "Role Name",
+          "hint": "Short label shown on badges and chips (e.g. Tank, Healer)."
+        },
+        "img": {
+          "label": "Role Icon",
+          "hint": "Image shown as the role's badge. Click to choose any image with the File Picker."
+        },
+        "description": {
+          "label": "Description",
+          "hint": "Optional plain-text blurb shown to players as a tooltip on the role badge."
+        }
+      }
+    },
+    "RoleConfig": {
+      "Title": "Claim Your Hero — Roles",
+      "Roles": "Roles",
+      "Add": "Add Role",
+      "NoRoles": "No roles yet. Add one to enable team-composition guidance.",
+      "NewRole": "New Role",
+      "Edit": "Edit role",
+      "Remove": "Remove role",
+      "RemoveConfirmTitle": "Remove Role",
+      "RemoveConfirm": "Remove the role \"{name}\"? Heroes tagged with it and any recommendation will simply drop it."
+    },
+    "RoleEditor": {
+      "Title": "Role",
+      "Save": "Save"
+    },
+    "Roles": {
+      "Defaults": {
+        "Tank": {
+          "name": "Tank",
+          "desc": "Holds the front line and absorbs damage to protect allies."
+        },
+        "Healer": {
+          "name": "Healer",
+          "desc": "Restores health and keeps the party standing."
+        },
+        "MeleeDPS": {
+          "name": "Melee DPS",
+          "desc": "Deals heavy damage up close."
+        },
+        "RangedDPS": {
+          "name": "Ranged DPS",
+          "desc": "Deals damage from a distance."
+        },
+        "Support": {
+          "name": "Support",
+          "desc": "Buffs allies, debuffs enemies, and controls the battlefield."
         }
       }
     },
@@ -76,11 +136,15 @@
       "CleanIllegal": "Clean View Permissions",
       "CleanIllegalDone": "{count} view permission(s) cleared.",
       "NoIllegal": "No view permissions to clean.",
-      "DirectoryAlert": "Pending View Permissions"
+      "DirectoryAlert": "Pending View Permissions",
+      "Recommended": "Recommended Composition",
+      "RecommendedHint": "Select the roles your party should cover. Players see them, with gaps highlighted, on the selection screen."
     },
     "HeroEditor": {
       "Title": "Hero Presentation",
-      "Save": "Save"
+      "Save": "Save",
+      "Roles": "Roles",
+      "RolesHint": "Select the roles this hero can play. Shown to players and used for composition guidance."
     },
     "Sounds": {
       "Title": "Claim Your Hero — Sounds",
@@ -138,6 +202,8 @@
       "Back": "Back",
       "ClaimedBy": "Claimed by {name}",
       "InterestedOthers": "Also interested: {names}",
+      "Recommended": "Recommended Composition",
+      "Gaps": "Missing: {names}",
       "NoHeroes": "The Game Master has not prepared any heroes yet.",
       "NoGM": "A Game Master must be connected to confirm your claim.",
       "ViewSheet": "View Character Sheet",

@@ -1,8 +1,9 @@
 import { MODULE_ID, SETTINGS, FLAGS } from "./constants.js";
-import { HeroEntryData, RosterData, SoundConfigData, VisualConfigData } from "./data-models.js";
-import { getRoster, setRoster, rerenderModuleApps, reconcilePendingViews, countRevocableViews } from "./helpers.js";
+import { HeroEntryData, RoleData, RolesData, RosterData, SoundConfigData, VisualConfigData } from "./data-models.js";
+import { getRoster, setRoster, rerenderModuleApps, reconcilePendingViews, countRevocableViews, seedDefaultRoles } from "./helpers.js";
 import { initSocket, registerQueries, broadcastJoin, clearUserInterest } from "./socket.js";
 import { RosterConfigApp } from "./apps/roster-config.js";
+import { RoleConfigApp } from "./apps/role-config.js";
 import { HeroSelectionApp } from "./apps/hero-selection.js";
 import { SoundConfigApp } from "./apps/sound-config.js";
 import { VisualConfigApp } from "./apps/visual-config.js";
@@ -14,6 +15,15 @@ Hooks.once("init", () => {
     type: RosterData,
     default: { entries: [] },
     // World settings broadcast to every client, so this keeps all open UIs in sync.
+    onChange: () => rerenderModuleApps()
+  });
+
+  game.settings.register(MODULE_ID, SETTINGS.ROLES, {
+    scope: "world",
+    config: false,
+    type: RolesData,
+    default: { roles: [], seeded: false },
+    // World settings broadcast to every client, so role edits refresh all open UIs.
     onChange: () => rerenderModuleApps()
   });
 
@@ -65,6 +75,15 @@ Hooks.once("init", () => {
     restricted: true
   });
 
+  game.settings.registerMenu(MODULE_ID, "rolesMenu", {
+    name: "CYH.Settings.RolesMenu.Name",
+    label: "CYH.Settings.RolesMenu.Label",
+    hint: "CYH.Settings.RolesMenu.Hint",
+    icon: "fa-solid fa-masks-theater",
+    type: RoleConfigApp,
+    restricted: true
+  });
+
   game.settings.registerMenu(MODULE_ID, "soundMenu", {
     name: "CYH.Settings.SoundMenu.Name",
     label: "CYH.Settings.SoundMenu.Label",
@@ -89,6 +108,7 @@ Hooks.once("init", () => {
 // Runs after localization data is loaded, as required by localizeDataModel.
 Hooks.once("i18nInit", () => {
   foundry.helpers.Localization.localizeDataModel(HeroEntryData);
+  foundry.helpers.Localization.localizeDataModel(RoleData);
   foundry.helpers.Localization.localizeDataModel(SoundConfigData);
   foundry.helpers.Localization.localizeDataModel(VisualConfigData);
 });
@@ -102,8 +122,12 @@ Hooks.once("ready", async () => {
   };
 
   // On world load the active GM heals any view grants left dangling by players who
-  // disconnected (or whose client never cleaned up) during a previous session.
-  if (game.user === game.users.activeGM) await reconcilePendingViews();
+  // disconnected (or whose client never cleaned up) during a previous session, and
+  // seeds the default role catalog on the very first run.
+  if (game.user === game.users.activeGM) {
+    await reconcilePendingViews();
+    await seedDefaultRoles();
+  }
 
   if (game.user.isGM) return;
 

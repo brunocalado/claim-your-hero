@@ -25,6 +25,42 @@
     min-height: 240px;
   }
 
+  /* Per-hero role tags: a wrap of checkbox chips, one per catalog role. */
+  .role-toggles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .role-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: 14px;
+    border: 1px solid var(--color-border, rgba(255, 255, 255, 0.2));
+    background: var(--color-cool-5-50, rgba(0, 0, 0, 0.2));
+    color: var(--color-text-secondary, #b0b0b0);
+    cursor: pointer;
+
+    input {
+      margin: 0;
+    }
+
+    img {
+      width: 20px;
+      height: 20px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: none;
+    }
+  }
+
+  .role-toggle.active {
+    border-color: var(--claim-your-hero-accent);
+    color: var(--color-text-primary, #f0f0f0);
+  }
+
   .form-footer {
     margin-top: 0.5rem;
   }

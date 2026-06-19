@@ -1,6 +1,6 @@
 import { MODULE_ID, TEMPLATES } from "../constants.js";
 import { HeroEntryData } from "../data-models.js";
-import { getRoster, setRoster } from "../helpers.js";
+import { getRoster, setRoster, getRoles } from "../helpers.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -66,11 +66,15 @@ export class HeroEditorApp extends HandlebarsApplicationMixin(ApplicationV2) {
     const context = await super._prepareContext(options);
     const entry = getRoster().find(e => e.actorId === this.#actorId);
     const actor = game.actors.get(this.#actorId);
+    const assigned = entry?.roles ?? [];
+    // One toggle per catalog role; checked reflects the hero's current (valid) tags.
+    const roles = getRoles().map(r => ({ id: r.id, name: r.name, img: r.img, selected: assigned.includes(r.id) }));
     return Object.assign(context, {
       entry: entry?.toObject() ?? {},
       fields: HeroEntryData.schema.fields,
       actorName: actor?.name ?? "",
-      portrait: (entry?.img || actor?.img) ?? ""
+      portrait: (entry?.img || actor?.img) ?? "",
+      roles
     });
   }
 
@@ -90,6 +94,9 @@ export class HeroEditorApp extends HandlebarsApplicationMixin(ApplicationV2) {
     entry.img = data.img ?? "";
     entry.detailImg = data.detailImg ?? "";
     entry.description = data.description ?? "";
+    // The role checkboxes are named `roleFlags.<id>`; keep the checked ids. Because only
+    // current catalog roles render a checkbox, saving also prunes any deleted-role ids.
+    entry.roles = Object.entries(data.roleFlags ?? {}).filter(([, on]) => on).map(([id]) => id);
     await setRoster(entries);
   }
 }

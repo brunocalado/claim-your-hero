@@ -72,6 +72,21 @@
     </div>
   </div>
 
+  {{#if roles.length}}
+  <div class="recommend-pane">
+    <h3 class="section-title">{{localize "CYH.RosterConfig.Recommended"}}</h3>
+    <p class="recommend-hint">{{localize "CYH.RosterConfig.RecommendedHint"}}</p>
+    <div class="role-chips">
+      {{#each roles}}
+      <button type="button" class="role-chip{{#if this.recommended}} active{{/if}}" data-action="toggleRecommended" data-role-id="{{this.id}}"{{#if this.description}} data-tooltip="{{this.description}}"{{/if}}>
+        {{#if this.img}}<img src="{{this.img}}" alt="">{{/if}}
+        <span>{{this.name}}</span>
+      </button>
+      {{/each}}
+    </div>
+  </div>
+  {{/if}}
+
   <footer class="panel-actions">
     <button type="button" data-action="openForAll">
       <i class="fa-solid fa-bullhorn"></i> {{localize "CYH.RosterConfig.OpenForAll"}}

@@ -9,6 +9,7 @@ export const MODULE_ID = "claim-your-hero";
 /** Keys for settings registered under the {@link MODULE_ID} namespace. */
 export const SETTINGS = {
   ROSTER: "roster",
+  ROLES: "roles",
   AUTO_OPEN: "autoOpen",
   SOUNDS: "sounds",
   SHEET_ACCESS: "sheetAccess",
@@ -40,9 +41,28 @@ export const DEFAULT_SOUND_VOLUME = 0.85;
 /** Name of the world Folder that receives Actors imported from Compendiums. */
 export const FOLDER_NAME = "Claim Your Hero";
 
+/** Placeholder image applied to a freshly created role until the GM picks one. */
+export const DEFAULT_ROLE_IMG = "icons/svg/aura.svg";
+
+/**
+ * Roles seeded into the catalog on first use (see {@link SETTINGS.ROLES}). Names and
+ * descriptions are localization keys resolved at seed time, so they honour the active
+ * language; images are native Foundry icon paths, so the module ships no extra assets.
+ * The GM can edit or delete any of these afterwards.
+ */
+export const DEFAULT_ROLES = [
+  { nameKey: "CYH.Roles.Defaults.Tank.name", descKey: "CYH.Roles.Defaults.Tank.desc", img: "icons/equipment/shield/heater-crystal-blue.webp" },
+  { nameKey: "CYH.Roles.Defaults.Healer.name", descKey: "CYH.Roles.Defaults.Healer.desc", img: "icons/magic/life/heart-cross-green.webp" },
+  { nameKey: "CYH.Roles.Defaults.MeleeDPS.name", descKey: "CYH.Roles.Defaults.MeleeDPS.desc", img: "icons/skills/melee/blade-tip-orange.webp" },
+  { nameKey: "CYH.Roles.Defaults.RangedDPS.name", descKey: "CYH.Roles.Defaults.RangedDPS.desc", img: "icons/skills/ranged/arrow-flying-broadhead-metal.webp" },
+  { nameKey: "CYH.Roles.Defaults.Support.name", descKey: "CYH.Roles.Defaults.Support.desc", img: "icons/magic/control/buff-flight-wings-blue.webp" }
+];
+
 /** Handlebars template paths used by the module's Applications. */
 export const TEMPLATES = {
   ROSTER_CONFIG: `modules/${MODULE_ID}/templates/roster-config.hbs`,
+  ROLE_CONFIG: `modules/${MODULE_ID}/templates/role-config.hbs`,
+  ROLE_EDITOR: `modules/${MODULE_ID}/templates/role-editor.hbs`,
   HERO_EDITOR: `modules/${MODULE_ID}/templates/hero-editor.hbs`,
   HERO_SELECTION: `modules/${MODULE_ID}/templates/hero-selection.hbs`,
   SOUND_CONFIG: `modules/${MODULE_ID}/templates/sound-config.hbs`,

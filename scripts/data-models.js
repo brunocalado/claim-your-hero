@@ -20,7 +20,50 @@ export class HeroEntryData extends foundry.abstract.DataModel {
       img: new fields.FilePathField({ categories: ["IMAGE"], required: false, blank: true }),
       detailImg: new fields.FilePathField({ categories: ["IMAGE"], required: false, blank: true }),
       description: new fields.HTMLField({ required: false, blank: true }),
-      hidden: new fields.BooleanField({ initial: false })
+      hidden: new fields.BooleanField({ initial: false }),
+      // Ids of the roles (see RoleData) this hero is suited to play. References are
+      // resolved tolerantly at read time, so ids of deleted roles are simply ignored.
+      roles: new fields.ArrayField(new fields.StringField({ blank: false }), { initial: [] })
+    };
+  }
+}
+
+/**
+ * A single playable role in the team-composition catalog (e.g. Tank, Healer). The id
+ * is the stable reference stored on heroes and in the recommended set; deleting a role
+ * never rewrites those references — stale ids are filtered when roles are resolved.
+ */
+export class RoleData extends foundry.abstract.DataModel {
+  /** @override */
+  static LOCALIZATION_PREFIXES = ["CYH.Role"];
+
+  /**
+   * @override
+   * @returns {Record<string, foundry.data.fields.DataField>} The role schema.
+   */
+  static defineSchema() {
+    return {
+      id: new fields.StringField({ required: true, nullable: false, blank: false }),
+      name: new fields.StringField({ required: true, nullable: false, blank: true }),
+      img: new fields.FilePathField({ categories: ["IMAGE"], required: false, blank: true }),
+      description: new fields.StringField({ required: false, blank: true })
+    };
+  }
+}
+
+/**
+ * The world-setting payload holding the role catalog. `seeded` is a one-shot sentinel:
+ * the default roles are written exactly once, so emptying the catalog never re-adds them.
+ */
+export class RolesData extends foundry.abstract.DataModel {
+  /**
+   * @override
+   * @returns {Record<string, foundry.data.fields.DataField>} The roles setting schema.
+   */
+  static defineSchema() {
+    return {
+      roles: new fields.ArrayField(new fields.EmbeddedDataField(RoleData), { initial: [] }),
+      seeded: new fields.BooleanField({ initial: false })
     };
   }
 }
@@ -87,7 +130,10 @@ export class RosterData extends foundry.abstract.DataModel {
    */
   static defineSchema() {
     return {
-      entries: new fields.ArrayField(new fields.EmbeddedDataField(HeroEntryData), { initial: [] })
+      entries: new fields.ArrayField(new fields.EmbeddedDataField(HeroEntryData), { initial: [] }),
+      // Ids of the roles the GM recommends for this session's composition. Resolved
+      // tolerantly at read time, so ids of deleted roles are simply ignored.
+      recommended: new fields.ArrayField(new fields.StringField({ blank: false }), { initial: [] })
     };
   }
 }

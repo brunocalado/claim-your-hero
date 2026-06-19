@@ -18,12 +18,41 @@
     </button>
   </header>
 
+  {{#if composition}}
+  <div class="composition-bar{{#if composition.hasGaps}} has-gaps{{/if}}">
+    <span class="composition-label">{{localize "CYH.Selection.Recommended"}}</span>
+    <div class="composition-roles">
+      {{#each composition.recommended}}
+      <span class="comp-role{{#if this.covered}} covered{{else}} missing{{/if}}"{{#if this.description}} data-tooltip="{{this.description}}"{{/if}}>
+        {{#if this.img}}<img src="{{this.img}}" alt="">{{/if}}
+        <span class="comp-name">{{this.name}}</span>
+        <i class="fa-solid {{#if this.covered}}fa-check{{else}}fa-triangle-exclamation{{/if}}"></i>
+      </span>
+      {{/each}}
+    </div>
+    {{#if composition.hasGaps}}
+    <span class="composition-gaps">
+      <i class="fa-solid fa-triangle-exclamation"></i> {{localize "CYH.Selection.Gaps" names=composition.gapNames}}
+    </span>
+    {{/if}}
+  </div>
+  {{/if}}
+
   {{#if heroes.length}}
   <div class="hero-grid">
     {{#each heroes}}
     <div class="hero-card{{#if this.taken}} taken{{/if}}{{#if this.selectedByMe}} selected{{/if}}"
          data-action="selectHero" data-actor-id="{{this.actorId}}" role="button" tabindex="0">
       <div class="portrait" style="background-image: url('{{this.img}}')"></div>
+      {{#if this.roles.length}}
+      <div class="role-badges">
+        {{#each this.roles}}
+        <span class="role-badge" data-tooltip="{{this.name}}">
+          {{#if this.img}}<img src="{{this.img}}" alt="{{this.name}}">{{else}}<i class="fa-solid fa-masks-theater"></i>{{/if}}
+        </span>
+        {{/each}}
+      </div>
+      {{/if}}
       <div class="nameplate">{{this.name}}</div>
       {{#if this.taken}}
       <div class="claimed-banner">
@@ -65,6 +94,15 @@
     <img class="detail-portrait" src="{{selected.detailImg}}" alt="{{selected.name}}">
     <div class="detail-body">
       <h2>{{selected.name}}</h2>
+      {{#if selected.roles.length}}
+      <div class="detail-roles">
+        {{#each selected.roles}}
+        <span class="detail-role"{{#if this.description}} data-tooltip="{{this.description}}"{{/if}}>
+          {{#if this.img}}<img src="{{this.img}}" alt="">{{/if}}<span>{{this.name}}</span>
+        </span>
+        {{/each}}
+      </div>
+      {{/if}}
       {{#if selected.taken}}
       <p class="contested">
         <i class="fa-solid fa-lock"></i> {{localize "CYH.Selection.ClaimedBy" name=selected.takenBy}}

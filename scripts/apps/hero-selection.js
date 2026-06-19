@@ -1,5 +1,5 @@
 import { MODULE_ID, SETTINGS, TEMPLATES } from "../constants.js";
-import { getRoster, getClaimantUser, playUiSound } from "../helpers.js";
+import { getRoster, getClaimantUser, playUiSound, resolveRoles, getRecommendedRoles } from "../helpers.js";
 import { interest, broadcastSelection, broadcastClaimed } from "../socket.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
@@ -88,7 +88,9 @@ export class HeroSelectionApp extends HandlebarsApplicationMixin(ApplicationV2) 
         takenBy: claimant?.name ?? "",
         interested,
         selectedByMe: this.#selectedId === e.actorId,
-        description: e.description
+        description: e.description,
+        // The roles this hero can fill (deleted-role ids filtered out by resolveRoles).
+        roles: resolveRoles(e.roles)
       });
     }
 
@@ -107,6 +109,26 @@ export class HeroSelectionApp extends HandlebarsApplicationMixin(ApplicationV2) 
       }
     }
 
+    // Group-balancing indicator: only shown once the GM has recommended a composition.
+    // A recommended role is "covered" when at least one already-claimed hero can fill it.
+    // resolveRoles drops deleted-role ids, so an all-deleted recommendation shows nothing.
+    let composition = null;
+    const recommended = resolveRoles(getRecommendedRoles());
+    if (recommended.length) {
+      const covered = new Set();
+      for (const e of getRoster()) {
+        if (!getClaimantUser(e.actorId)) continue;
+        for (const id of e.roles ?? []) covered.add(id);
+      }
+      const marked = recommended.map(r => ({ ...r, covered: covered.has(r.id) }));
+      const gaps = marked.filter(r => !r.covered);
+      composition = {
+        recommended: marked,
+        hasGaps: gaps.length > 0,
+        gapNames: gaps.map(r => r.name).join(", ")
+      };
+    }
+
     const visual = game.settings.get(MODULE_ID, SETTINGS.VISUAL);
     let visualBg = null;
     if (visual.type !== "none") {
@@ -117,6 +139,7 @@ export class HeroSelectionApp extends HandlebarsApplicationMixin(ApplicationV2) 
     return Object.assign(context, {
       heroes,
       selected,
+      composition,
       canClaim: !game.user.isGM && !game.user.character,
       canViewSheet: !game.user.isGM && game.settings.get(MODULE_ID, SETTINGS.SHEET_ACCESS),
       visualBg

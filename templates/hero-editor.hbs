@@ -9,6 +9,22 @@
   {{formGroup fields.detailImg value=entry.detailImg name="detailImg" localize=true}}
   {{formGroup fields.description value=entry.description name="description" localize=true}}
 
+  {{#if roles.length}}
+  <div class="form-group role-field">
+    <label>{{localize "CYH.HeroEditor.Roles"}}</label>
+    <div class="role-toggles">
+      {{#each roles}}
+      <label class="role-toggle{{#if this.selected}} active{{/if}}">
+        <input type="checkbox" name="roleFlags.{{this.id}}" {{#if this.selected}}checked{{/if}}>
+        {{#if this.img}}<img src="{{this.img}}" alt="">{{/if}}
+        <span>{{this.name}}</span>
+      </label>
+      {{/each}}
+    </div>
+    <p class="hint">{{localize "CYH.HeroEditor.RolesHint"}}</p>
+  </div>
+  {{/if}}
+
   <footer class="form-footer">
     <button type="submit">
       <i class="fa-solid fa-floppy-disk"></i> {{localize "CYH.HeroEditor.Save"}}

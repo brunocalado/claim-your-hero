@@ -1,5 +1,5 @@
 import { MODULE_ID, FOLDER_NAME, FLAGS, TEMPLATES } from "../constants.js";
-import { getRoster, setRoster, getClaimantUser, applyClaimChanges, buildOwnershipUpdate, getPendingViews, reconcilePendingViews, countRevocableViews } from "../helpers.js";
+import { getRoster, setRoster, getClaimantUser, applyClaimChanges, buildOwnershipUpdate, getPendingViews, reconcilePendingViews, countRevocableViews, getRoles, getRecommendedRoles, setRecommendedRoles } from "../helpers.js";
 import { broadcastOpen, broadcastClaimed } from "../socket.js";
 import { HeroEditorApp } from "./hero-editor.js";
 import { HeroSelectionApp } from "./hero-selection.js";
@@ -34,6 +34,7 @@ export class RosterConfigApp extends HandlebarsApplicationMixin(ApplicationV2) {
       openFor: this.prototype._onOpenFor,
       openForAll: this.prototype._onOpenForAll,
       cleanPermissions: this.prototype._onCleanPermissions,
+      toggleRecommended: this.prototype._onToggleRecommended,
       preview: this.prototype._onPreview
     }
   };
@@ -86,7 +87,16 @@ export class RosterConfigApp extends HandlebarsApplicationMixin(ApplicationV2) {
         ? { id: u.character.id, name: u.character.name, img: u.character.img }
         : null
     }));
-    return Object.assign(context, { entries, players: playerRows, illegalCount });
+    // Catalog roles with their recommended state, for the composition chips.
+    const recommended = getRecommendedRoles();
+    const roles = getRoles().map(r => ({
+      id: r.id,
+      name: r.name,
+      img: r.img,
+      description: r.description,
+      recommended: recommended.includes(r.id)
+    }));
+    return Object.assign(context, { entries, players: playerRows, illegalCount, roles });
   }
 
   /**
@@ -414,6 +424,20 @@ export class RosterConfigApp extends HandlebarsApplicationMixin(ApplicationV2) {
     }
     await reconcilePendingViews();
     ui.notifications.info(game.i18n.format("CYH.RosterConfig.CleanIllegalDone", { count }));
+  }
+
+  /**
+   * Toggle whether a role is part of the recommended team composition shown to players.
+   * Bound via `DEFAULT_OPTIONS.actions`.
+   * @param {PointerEvent} event The originating click event.
+   * @param {HTMLElement} target The element bearing `data-action`.
+   * @returns {Promise<void>}
+   */
+  async _onToggleRecommended(event, target) {
+    const { roleId } = target.closest("[data-role-id]").dataset;
+    const current = getRecommendedRoles();
+    const next = current.includes(roleId) ? current.filter(id => id !== roleId) : [...current, roleId];
+    await setRecommendedRoles(next);
   }
 
   /**

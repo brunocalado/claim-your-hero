@@ -1,4 +1,4 @@
-import { MODULE_ID, SETTINGS, FLAGS, DEFAULT_SOUND_VOLUME } from "./constants.js";
+import { MODULE_ID, SETTINGS, FLAGS, DEFAULT_SOUND_VOLUME, DEFAULT_ROLES } from "./constants.js";
 
 /**
  * Read the configured hero roster from world settings.
@@ -9,12 +9,85 @@ export function getRoster() {
 }
 
 /**
- * Persist a new roster entry list to world settings.
+ * Persist a new roster entry list to world settings, preserving the recommended set.
+ * The roster setting is replaced wholesale on write (it is a typed DataModel), so the
+ * current {@link getRecommendedRoles} value is carried over to avoid clobbering it.
  * @param {object[]} entries Plain-object source data for every entry.
  * @returns {Promise<unknown>} The settings update promise.
  */
 export function setRoster(entries) {
-  return game.settings.set(MODULE_ID, SETTINGS.ROSTER, { entries });
+  return game.settings.set(MODULE_ID, SETTINGS.ROSTER, { entries, recommended: getRecommendedRoles() });
+}
+
+/**
+ * Read the role ids the GM recommends for the team composition.
+ * @returns {string[]} The recommended role ids (may include ids of deleted roles).
+ */
+export function getRecommendedRoles() {
+  return game.settings.get(MODULE_ID, SETTINGS.ROSTER)?.recommended ?? [];
+}
+
+/**
+ * Persist the recommended role ids, preserving the existing roster entries.
+ * @param {string[]} ids The role ids to recommend.
+ * @returns {Promise<unknown>} The settings update promise.
+ */
+export function setRecommendedRoles(ids) {
+  return game.settings.set(MODULE_ID, SETTINGS.ROSTER, { entries: getRoster().map(e => e.toObject()), recommended: ids });
+}
+
+/**
+ * Read the role catalog from world settings.
+ * @returns {import("./data-models.js").RoleData[]} The configured roles (DataModel instances).
+ */
+export function getRoles() {
+  return game.settings.get(MODULE_ID, SETTINGS.ROLES)?.roles ?? [];
+}
+
+/**
+ * Persist the role catalog. Any write marks the catalog as seeded, so the default
+ * roles are never re-added once the GM has had a chance to manage them.
+ * @param {object[]} roles Plain-object source data for every role.
+ * @returns {Promise<unknown>} The settings update promise.
+ */
+export function setRoles(roles) {
+  return game.settings.set(MODULE_ID, SETTINGS.ROLES, { roles, seeded: true });
+}
+
+/**
+ * Resolve an ordered list of role ids to display view-models, silently dropping ids
+ * that no longer match a catalog role. This is the safety net for roles the GM deleted
+ * without clearing them from heroes or the recommended set.
+ * @param {string[]} ids Role ids to resolve.
+ * @returns {Array<{id: string, name: string, img: string, description: string}>} The resolved roles.
+ */
+export function resolveRoles(ids) {
+  if (!ids?.length) return [];
+  const byId = new Map(getRoles().map(r => [r.id, r]));
+  const resolved = [];
+  for (const id of ids) {
+    const role = byId.get(id);
+    if (role) resolved.push({ id: role.id, name: role.name, img: role.img, description: role.description });
+  }
+  return resolved;
+}
+
+/**
+ * Seed the role catalog with the shipped defaults on first use only, resolving their
+ * localized names and descriptions. The `seeded` sentinel guarantees this runs once,
+ * so a GM who deletes the defaults does not see them reappear on the next world load.
+ * Only the active GM should call this; it performs a world settings write.
+ * @returns {Promise<void>}
+ */
+export async function seedDefaultRoles() {
+  if (game.settings.get(MODULE_ID, SETTINGS.ROLES)?.seeded) return;
+  const roles = DEFAULT_ROLES.map(d => ({
+    id: foundry.utils.randomID(),
+    name: game.i18n.localize(d.nameKey),
+    img: d.img,
+    description: game.i18n.localize(d.descKey)
+  }));
+  await setRoles(roles);
 }
 
 /**

@@ -1,4 +1,13 @@
-# 0.0.4
+# 0.0.5
+
+### Added
+- **Team roles & group balancing** — a new "Configure Roles" button in module Settings opens a role catalog where the GM creates roles (name, an image chosen via the File Picker, and an optional description). The catalog ships pre-seeded with five default roles (Tank, Healer, Melee DPS, Ranged DPS, Support) that the GM can freely edit or delete; deleted defaults are never re-seeded.
+- **Per-hero role tagging** — the hero presentation editor now lets the GM mark which roles each hero can play.
+- **Recommended composition** — the roster panel gains a "Recommended Composition" section where the GM selects the roles the party should cover.
+- **Player-side composition guidance** — on the selection screen, tagged heroes show their role badges, and (when the GM has set a recommendation) a composition bar lists the recommended roles, marking each as covered or missing so picking a hero becomes about filling team gaps, not just looks.
+
+### Fixed
+- **Resilient to deleted roles** — roles removed from the catalog without cleanup are silently dropped from hero badges, the recommendation, and the gap calculation, with no stale entries or errors.
 
 ### Changed
 - **On-demand character sheet access** — Observer access is no longer granted to every player on every available hero up front. Instead, a player is granted view access only when they click "View Character Sheet", and only for that hero. Several players can still view the same hero at once.

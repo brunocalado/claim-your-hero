@@ -1,0 +1,83 @@
+/* Styles for RoleConfigApp (GM role catalog panel). */
+.claim-your-hero.role-config {
+  /* Match the roster panel's opaque surface. */
+  background: var(--color-cool-5, rgb(11 10 19));
+
+  .role-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem 0.75rem;
+  }
+
+  .role-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    max-height: 26rem;
+    overflow-y: auto;
+  }
+
+  .role-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    background: var(--color-cool-5-50, rgba(0, 0, 0, 0.2));
+
+    .thumb {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      border-radius: 4px;
+      border: none;
+    }
+
+    .info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .name {
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .meta {
+      font-size: var(--font-size-12, 0.75rem);
+      color: var(--color-text-secondary, #b0b0b0);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .controls {
+      display: flex;
+      gap: 0.25rem;
+    }
+
+    button {
+      width: 2rem;
+      height: 2rem;
+      flex: 0 0 auto;
+      line-height: 1;
+    }
+  }
+
+  .panel-actions {
+    display: flex;
+    gap: 0.5rem;
+
+    button {
+      flex: 1;
+    }
+  }
+}

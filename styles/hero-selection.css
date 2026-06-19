@@ -261,6 +261,130 @@
     }
   }
 
+  /* Group-balancing strip beneath the header: recommended roles + outstanding gaps. */
+  .composition-bar {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem 1rem;
+    margin: 0 auto;
+    padding: 0.5rem 1rem;
+    max-width: min(960px, 90%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    background: var(--claim-your-hero-surface);
+  }
+
+  .composition-bar.has-gaps {
+    border-color: var(--color-level-warning, #ee9b3a);
+  }
+
+  .composition-label {
+    font-size: var(--font-size-12, 0.75rem);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-secondary, #b0b0b0);
+  }
+
+  .composition-roles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .comp-role {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.15rem 0.55rem;
+    border-radius: 14px;
+    border: 1px solid transparent;
+    background: rgba(255, 255, 255, 0.06);
+
+    img {
+      width: 20px;
+      height: 20px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: none;
+    }
+  }
+
+  .comp-role.covered {
+    border-color: var(--color-level-success, #26b231);
+    color: var(--color-text-primary, #f0f0f0);
+  }
+
+  .comp-role.missing {
+    border-color: var(--color-level-warning, #ee9b3a);
+    color: var(--color-level-warning, #ee9b3a);
+    opacity: 0.95;
+  }
+
+  .composition-gaps {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-weight: bold;
+    color: var(--color-level-warning, #ee9b3a);
+  }
+
+  /* Role icons overlaid on a hero card (top-left, mirroring the interest pips). */
+  .role-badges {
+    position: absolute;
+    top: 0.4rem;
+    left: 0.4rem;
+    display: flex;
+    gap: 0.25rem;
+    z-index: 1;
+  }
+
+  .role-badge {
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid var(--claim-your-hero-accent);
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.7);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      border: none;
+    }
+  }
+
+  /* Role tags listed in the detail panel under the hero name. */
+  .detail-roles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .detail-role {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.15rem 0.55rem;
+    border-radius: 14px;
+    border: 1px solid var(--claim-your-hero-accent);
+    background: rgba(0, 0, 0, 0.35);
+
+    img {
+      width: 20px;
+      height: 20px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: none;
+    }
+  }
+
 }
 
 
