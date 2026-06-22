@@ -1,5 +1,14 @@
 {{!-- HandlebarsApplicationMixin requires each part to render exactly one root element. --}}
 <div class="visual-config-body">
+  <div class="form-group">
+    <label>{{localize "CYH.Visual.FIELDS.title.label"}}</label>
+    <div class="form-fields">
+      <input type="text" name="title" value="{{visual.title}}" maxlength="{{titleMax}}"
+             placeholder="{{localize 'CYH.Selection.Title'}}">
+    </div>
+    <p class="hint">{{localize "CYH.Visual.FIELDS.title.hint"}}</p>
+  </div>
+
   {{formGroup fields.type value=visual.type name="type" localize=true}}
 
   <div class="visual-src-field" data-for-type="image">

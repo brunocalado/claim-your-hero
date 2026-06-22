@@ -1,3 +1,12 @@
+# 0.1.2
+
+### Added
+- **Customizable selection title** — the "Configure Background" panel now has a **Selection Title** field that overrides the heading players see at the top of the selection screen (the default "Claim Your Hero"). Leave it blank to keep the default. The field is capped at 150 characters.
+- **Brazilian Portuguese translation** — the module now ships a full `pt-BR` localization.
+
+### Changed
+- **Removed the selection subtitle** — the "Choose the hero you wish to play…" line under the title is no longer shown.
+
 # 0.1.1
 
 ### Changed

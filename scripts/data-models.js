@@ -114,7 +114,11 @@ export class VisualConfigData extends foundry.abstract.DataModel {
       }),
       imageSrc: new fields.FilePathField({ categories: ["IMAGE"], required: false, blank: true }),
       videoSrc: new fields.FilePathField({ categories: ["VIDEO"], required: false, blank: true }),
-      overlayOpacity: new fields.NumberField({ required: true, nullable: false, min: 0, max: 1, initial: 0.5 })
+      overlayOpacity: new fields.NumberField({ required: true, nullable: false, min: 0, max: 1, initial: 0.5 }),
+      // Player-facing heading on the selection screen. Blank falls back to the
+      // localized default title (see HeroSelectionApp._prepareContext); length is
+      // capped on the config input rather than the schema, matching the role fields.
+      title: new fields.StringField({ required: false, blank: true, trim: true })
     };
   }
 }

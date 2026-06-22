@@ -50,6 +50,9 @@ export const ROLE_NAME_MAX = 40;
 /** Maximum length of a role's description, enforced on the catalog inputs. */
 export const ROLE_DESC_MAX = 240;
 
+/** Maximum length of the selection screen's player-facing title, enforced on the input. */
+export const TITLE_MAX = 150;
+
 /**
  * Roles seeded into the catalog on first use (see {@link SETTINGS.ROLES}). Names and
  * descriptions are localization keys resolved at seed time, so they honour the active

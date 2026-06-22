@@ -190,6 +190,10 @@
       "Clear": "Clear Background",
       "ClearDone": "Background cleared.",
       "FIELDS": {
+        "title": {
+          "label": "Selection Title",
+          "hint": "Heading shown to players at the top of the hero selection screen. Leave blank to use the default."
+        },
         "type": {
           "label": "Background Type",
           "hint": "Choose the type of background displayed on the hero selection screen."
@@ -210,7 +214,6 @@
     },
     "Selection": {
       "Title": "Claim Your Hero",
-      "Subtitle": "Choose the hero you wish to play. Others can contest your pick until you confirm.",
       "Close": "Close",
       "Confirm": "Claim this Hero",
       "Release": "Release Hero",

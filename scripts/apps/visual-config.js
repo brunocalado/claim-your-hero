@@ -1,4 +1,4 @@
-import { MODULE_ID, SETTINGS, TEMPLATES } from "../constants.js";
+import { MODULE_ID, SETTINGS, TEMPLATES, TITLE_MAX } from "../constants.js";
 import { VisualConfigData } from "../data-models.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
@@ -44,7 +44,8 @@ export class VisualConfigApp extends HandlebarsApplicationMixin(ApplicationV2) {
     const visual = game.settings.get(MODULE_ID, SETTINGS.VISUAL);
     return Object.assign(context, {
       visual: visual.toObject(),
-      fields: VisualConfigData.schema.fields
+      fields: VisualConfigData.schema.fields,
+      titleMax: TITLE_MAX
     });
   }
 

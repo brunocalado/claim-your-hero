@@ -1,0 +1,240 @@
+{
+  "CYH": {
+    "Settings": {
+      "AutoOpen": {
+        "Name": "Abrir Seleção Automaticamente",
+        "Hint": "Exibe a tela de seleção de heróis para os jogadores que se conectarem sem um personagem atribuído."
+      },
+      "SheetAccess": {
+        "Name": "Permitir Ver Fichas de Personagem",
+        "Hint": "Quando ativado, os jogadores podem abrir a ficha de um herói pela tela de seleção. O acesso de observador é concedido sob demanda apenas ao jogador que clica em Ver, e é removido novamente (de volta para Padrão) assim que ele reivindica outro herói, quando esta opção é desligada ou no próximo carregamento do mundo."
+      },
+      "Menu": {
+        "Name": "Lista de Heróis",
+        "Label": "Configurar Lista",
+        "Hint": "Arraste e solte Atores para montar a lista de heróis que os jogadores podem reivindicar."
+      },
+      "RolesMenu": {
+        "Name": "Funções da Equipe",
+        "Label": "Configurar Funções",
+        "Hint": "Defina as funções (Tanque, Curandeiro, DPS, …) usadas na orientação de composição da equipe."
+      },
+      "SoundMenu": {
+        "Name": "Sons da Seleção",
+        "Label": "Configurar Sons",
+        "Hint": "Personalize os sons tocados na tela de seleção de heróis e seu volume."
+      },
+      "VisualMenu": {
+        "Name": "Fundo da Seleção",
+        "Label": "Configurar Fundo",
+        "Hint": "Defina uma imagem ou vídeo de fundo para a tela de seleção de heróis."
+      }
+    },
+    "HeroEntry": {
+      "FIELDS": {
+        "img": {
+          "label": "Imagem do Card",
+          "hint": "Imagem opcional exibida no card do herói na grade (sempre quadrada). Usa o retrato do Ator como alternativa."
+        },
+        "detailImg": {
+          "label": "Imagem de Detalhe",
+          "hint": "Imagem opcional exibida no painel lateral quando um jogador seleciona este herói. Usa a imagem do card como alternativa."
+        },
+        "description": {
+          "label": "Descrição",
+          "hint": "Apresentação em texto rico exibida aos jogadores quando eles inspecionam este herói."
+        }
+      }
+    },
+    "Role": {
+      "FIELDS": {
+        "name": {
+          "label": "Nome da Função",
+          "hint": "Rótulo curto exibido em distintivos e chips (ex.: Tanque, Curandeiro)."
+        },
+        "img": {
+          "label": "Ícone da Função",
+          "hint": "Imagem exibida como o distintivo da função. Clique para escolher qualquer imagem com o Seletor de Arquivos."
+        },
+        "description": {
+          "label": "Descrição",
+          "hint": "Texto simples opcional exibido aos jogadores como dica ao passar o mouse sobre o distintivo da função."
+        }
+      }
+    },
+    "RoleConfig": {
+      "Title": "Claim Your Hero — Funções",
+      "Roles": "Funções",
+      "Add": "Adicionar Função",
+      "NoRoles": "Nenhuma função ainda. Adicione uma para habilitar a orientação de composição de equipe.",
+      "NewRole": "Nova Função",
+      "PickImage": "Trocar ícone",
+      "Remove": "Remover função",
+      "RemoveConfirmTitle": "Remover Função",
+      "RemoveConfirm": "Remover a função \"{name}\"? Os heróis marcados com ela e qualquer recomendação simplesmente a descartarão.",
+      "Reset": "Restaurar Padrões",
+      "ResetConfirmTitle": "Restaurar Funções",
+      "ResetConfirm": "Restaurar o catálogo para as funções padrão? Suas funções personalizadas serão substituídas e a composição recomendada será limpa. Os heróis mantêm suas marcações, mas os ids de funções removidas são ignorados.",
+      "ResetDone": "Funções padrão restauradas.",
+      "Recommended": "Composição Recomendada",
+      "RecommendedHint": "Selecione as funções que seu grupo deve cobrir. Os jogadores as veem, com as lacunas destacadas, na tela de seleção.",
+      "NoRolesRecommend": "Adicione funções acima para recomendar uma composição."
+    },
+    "Roles": {
+      "Defaults": {
+        "Tank": {
+          "name": "Tanque",
+          "desc": "Segura a linha de frente e absorve dano para proteger os aliados."
+        },
+        "Healer": {
+          "name": "Curandeiro",
+          "desc": "Restaura a saúde e mantém o grupo de pé."
+        },
+        "MeleeDPS": {
+          "name": "DPS Corpo a Corpo",
+          "desc": "Causa dano pesado de perto."
+        },
+        "RangedDPS": {
+          "name": "DPS à Distância",
+          "desc": "Causa dano à distância."
+        },
+        "Support": {
+          "name": "Suporte",
+          "desc": "Fortalece aliados, enfraquece inimigos e controla o campo de batalha."
+        },
+        "Controller": {
+          "name": "Controlador",
+          "desc": "Imobiliza inimigos com controle de grupo e efeitos em área."
+        },
+        "Scout": {
+          "name": "Batedor",
+          "desc": "Cuida de furtividade, reconhecimento e mobilidade."
+        },
+        "Face": {
+          "name": "Diplomata",
+          "desc": "Conduz encontros sociais com diplomacia e persuasão."
+        }
+      }
+    },
+    "RosterConfig": {
+      "Title": "Claim Your Hero — Lista",
+      "DropHint": "Arraste Atores ou uma Pasta de Atores aqui (barra lateral ou Compêndio) para adicioná-los à lista",
+      "Heroes": "Heróis Disponíveis",
+      "NoHeroes": "Nenhum herói ainda. Arraste um Ator acima para começar.",
+      "Players": "Jogadores",
+      "Edit": "Editar apresentação",
+      "HideHero": "Ocultar da tela de seleção",
+      "ShowHero": "Mostrar na tela de seleção",
+      "OpenSheet": "Abrir ficha",
+      "Remove": "Remover da lista",
+      "DragHint": "Arraste sobre um jogador para atribuir este herói",
+      "DropSlot": "Arraste um herói aqui para atribuí-lo",
+      "Unassign": "Desatribuir este herói (devolve-o à lista de disponíveis)",
+      "OpenFor": "Abrir a tela de seleção para este jogador",
+      "OpenForAll": "Abrir para Todos os Jogadores",
+      "Preview": "Pré-visualizar",
+      "MissingActor": "(Ator ausente)",
+      "Duplicate": "Este Ator já está na lista.",
+      "FolderAdded": "{count} herói(s) adicionado(s) à lista.",
+      "FolderNoneAdded": "Nenhum Ator novo foi encontrado nesta pasta.",
+      "RemoveConfirmTitle": "Remover Herói",
+      "RemoveConfirm": "Remover {name} da lista? O Ator em si não é excluído.",
+      "ReleaseConfirmTitle": "Liberar Herói",
+      "ReleaseConfirm": "Liberar {name} de {user}? A propriedade e a atribuição de personagem serão removidas.",
+      "AssignConfirmTitle": "Atribuir Herói",
+      "AssignConfirm": "Atribuir {name} a {user}?",
+      "AssignReplace": "O personagem atual ({current}) será desvinculado e sua propriedade revogada.",
+      "AssignTaken": "Este herói já foi reivindicado por outro jogador. Desatribua-o primeiro.",
+      "AssignFailed": "A atribuição não pôde ser concluída. Verifique o console para mais detalhes.",
+      "Assigned": "{name} atribuído a {user}.",
+      "ViewersTip": "Jogadores que podem ver a ficha deste herói no momento",
+      "CleanIllegal": "Limpar Permissões de Visualização",
+      "CleanIllegalDone": "{count} permissão(ões) de visualização removida(s).",
+      "NoIllegal": "Nenhuma permissão de visualização para limpar.",
+      "DirectoryAlert": "Permissões de Visualização Pendentes",
+      "ConfigureRoles": "Configurar Funções"
+    },
+    "HeroEditor": {
+      "Title": "Apresentação do Herói",
+      "Save": "Salvar",
+      "Roles": "Funções",
+      "RolesHint": "Selecione as funções que este herói pode desempenhar. Exibidas aos jogadores e usadas na orientação de composição."
+    },
+    "Sounds": {
+      "Title": "Claim Your Hero — Sons",
+      "Save": "Salvar",
+      "Reset": "Restaurar Padrões",
+      "ResetDone": "Sons e volume padrão restaurados.",
+      "FIELDS": {
+        "hover": {
+          "label": "Som de Passar o Mouse",
+          "hint": "Tocado quando o cursor passa sobre um card de herói."
+        },
+        "select": {
+          "label": "Som de Seleção",
+          "hint": "Tocado quando um herói é selecionado."
+        },
+        "confirm": {
+          "label": "Som de Confirmação",
+          "hint": "Tocado quando um jogador confirma sua reivindicação."
+        },
+        "volume": {
+          "label": "Volume",
+          "hint": "Volume único aplicado a todos os sons do módulo."
+        }
+      }
+    },
+    "Visual": {
+      "Title": "Claim Your Hero — Fundo",
+      "Save": "Salvar",
+      "Clear": "Limpar Fundo",
+      "ClearDone": "Fundo removido.",
+      "FIELDS": {
+        "title": {
+          "label": "Título da Seleção",
+          "hint": "Cabeçalho exibido aos jogadores no topo da tela de seleção de heróis. Deixe em branco para usar o padrão."
+        },
+        "type": {
+          "label": "Tipo de Fundo",
+          "hint": "Escolha o tipo de fundo exibido na tela de seleção de heróis."
+        },
+        "imageSrc": {
+          "label": "Arquivo de Imagem",
+          "hint": "Imagem exibida como fundo em tela cheia."
+        },
+        "videoSrc": {
+          "label": "Arquivo de Vídeo",
+          "hint": "Vídeo reproduzido como fundo em tela cheia (sempre sem som, em loop contínuo)."
+        },
+        "overlayOpacity": {
+          "label": "Opacidade da Sobreposição de Conteúdo",
+          "hint": "Intensidade do véu sobre o fundo para manter texto e cards legíveis. 0 = totalmente transparente, 1 = totalmente opaco."
+        }
+      }
+    },
+    "Selection": {
+      "Title": "Reivindique seu Herói",
+      "Close": "Fechar",
+      "Confirm": "Reivindicar este Herói",
+      "Release": "Liberar Herói",
+      "ReleaseFailed": "O herói não pôde ser liberado. Tente novamente.",
+      "Released": "{name} liberado. Agora você pode escolher outro herói.",
+      "YourHero": "Seu Herói",
+      "YourHeroHint": "Este é o seu herói atual. Libere-o para escolher outro.",
+      "Back": "Voltar",
+      "ClaimedBy": "Reivindicado por {name}",
+      "InterestedOthers": "Também interessados: {names}",
+      "NoHeroes": "O Mestre do Jogo ainda não preparou nenhum herói.",
+      "NoGM": "Um Mestre do Jogo precisa estar conectado para confirmar sua reivindicação.",
+      "ViewSheet": "Ver Ficha de Personagem",
+      "SheetNoPermission": "Você não tem permissão para ver esta ficha de personagem.",
+      "Success": "{name} agora é o seu personagem!",
+      "Error": {
+        "missing": "Este herói não está mais disponível na lista.",
+        "taken": "Outro jogador já reivindicou este herói.",
+        "alreadyHas": "Você já tem um personagem atribuído.",
+        "failed": "A reivindicação não pôde ser concluída. Tente novamente."
+      }
+    }
+  }
+}

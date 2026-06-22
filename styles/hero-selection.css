@@ -92,12 +92,6 @@
       /* Slow, soft breathing glow on the title. */
       animation: claim-your-hero-title-glow 3.6s ease-in-out infinite alternate;
     }
-
-    .subtitle {
-      margin: 0.25rem 0 0;
-      color: var(--color-text-secondary, #b0b0b0);
-      font-style: italic;
-    }
   }
 
   .close-button {

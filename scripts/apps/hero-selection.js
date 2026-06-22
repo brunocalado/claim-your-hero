@@ -145,7 +145,9 @@ export class HeroSelectionApp extends HandlebarsApplicationMixin(ApplicationV2) 
       composition,
       canClaim: !game.user.isGM && !game.user.character,
       canViewSheet: !game.user.isGM && game.settings.get(MODULE_ID, SETTINGS.SHEET_ACCESS),
-      visualBg
+      visualBg,
+      // GM-customizable heading; blank falls back to the localized default title.
+      title: visual.title?.trim() || game.i18n.localize("CYH.Selection.Title")
     });
   }
 
