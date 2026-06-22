@@ -1,10 +1,20 @@
 # ⚔️ Claim Your Hero
 
+> 🇧🇷 **Leia este README em Português:** [versão traduzida (pt-BR)](docs/README-ptbr.md)
+
 **Turn character selection into a moment your players will remember.**
 
 Claim Your Hero replaces the usual "the GM assigns you a character" routine with a cinematic, interactive selection screen — players browse a gallery of heroes, pick the one that calls to them, and lock in their claim in real time.
 
 [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Donate-red?style=for-the-badge&logo=buy-me-a-coffee)](https://buymeacoffee.com/mestredigital)
+
+---
+
+## 🎬 Watch It in Action
+
+See the module in action in this overview video:
+
+[![Claim Your Hero — overview video](https://img.youtube.com/vi/5CCyTKubE1A/maxresdefault.jpg)](https://youtu.be/5CCyTKubE1A)
 
 ---
 
