@@ -1,6 +1,11 @@
 # 0.1.3
 
+### Added
+- **Description from the Actor sheet** — a hero's presentation description can now be pulled from its Actor sheet instead of being written by hand. Two new module settings control this: **Read Description from Actor Sheet** (off by default) and **Actor Description Field**, a configurable dot-path defaulting to `system.details.biography.value` (adjust it for other systems, e.g. pf2e → `system.details.biography.public`, Simple Worldbuilding → `system.description`). GM secrets in the Actor's description are stripped before players see it.
+- **Per-hero description source** — the presentation editor gains a **Description Source** picker with three options: *Inherit from global setting*, *From Actor sheet (custom as fallback)*, or *Custom text only*. This lets you override individual heroes regardless of the global setting — including showing custom text in place of a non-empty Actor description, or showing nothing (Custom + empty).
 
+### Changed
+- **Description resolution** — when sourced from the Actor sheet, an empty or missing field falls back to the hero's custom text, and then to nothing. Existing heroes default to *Inherit*, so with the new global setting off the previous behaviour (custom text only) is preserved.
 
 # 0.1.2
 
