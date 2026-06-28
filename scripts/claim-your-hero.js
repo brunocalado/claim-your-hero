@@ -1,4 +1,4 @@
-import { MODULE_ID, SETTINGS, FLAGS } from "./constants.js";
+import { MODULE_ID, SETTINGS, FLAGS, DEFAULT_DESCRIPTION_PATH } from "./constants.js";
 import { HeroEntryData, RoleData, RolesData, RosterData, SoundConfigData, VisualConfigData } from "./data-models.js";
 import { getRoster, setRoster, rerenderModuleApps, reconcilePendingViews, countRevocableViews, seedDefaultRoles } from "./helpers.js";
 import { initSocket, registerQueries, broadcastJoin, clearUserInterest } from "./socket.js";
@@ -49,6 +49,27 @@ Hooks.once("init", () => {
     type: VisualConfigData,
     default: {},
     // World settings broadcast to every client, so the selection screen updates live.
+    onChange: () => rerenderModuleApps()
+  });
+
+  game.settings.register(MODULE_ID, SETTINGS.USE_ACTOR_DESC, {
+    name: "CYH.Settings.UseActorDesc.Name",
+    hint: "CYH.Settings.UseActorDesc.Hint",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: false,
+    // Governs heroes left in `inherit` mode; refresh open selection screens live.
+    onChange: () => rerenderModuleApps()
+  });
+
+  game.settings.register(MODULE_ID, SETTINGS.DESCRIPTION_PATH, {
+    name: "CYH.Settings.DescriptionPath.Name",
+    hint: "CYH.Settings.DescriptionPath.Hint",
+    scope: "world",
+    config: true,
+    type: String,
+    default: DEFAULT_DESCRIPTION_PATH,
     onChange: () => rerenderModuleApps()
   });
 

@@ -1,5 +1,5 @@
 import { MODULE_ID, SETTINGS, TEMPLATES } from "../constants.js";
-import { getRoster, getClaimantUser, playUiSound, resolveRoles, getRecommendedRoles } from "../helpers.js";
+import { getRoster, getClaimantUser, playUiSound, resolveRoles, getRecommendedRoles, resolveHeroDescription } from "../helpers.js";
 import { interest, broadcastSelection, broadcastClaimed } from "../socket.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
@@ -92,7 +92,8 @@ export class HeroSelectionApp extends HandlebarsApplicationMixin(ApplicationV2) 
         mine: claimant?.id === game.user.id,
         interested,
         selectedByMe: this.#selectedId === e.actorId,
-        description: e.description,
+        // Source depends on the hero's mode and the global toggle (see resolveHeroDescription).
+        description: resolveHeroDescription(e, actor),
         // The roles this hero can fill (deleted-role ids filtered out by resolveRoles).
         roles: resolveRoles(e.roles)
       });

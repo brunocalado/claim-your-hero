@@ -127,6 +127,7 @@ export class HeroEditorApp extends HandlebarsApplicationMixin(ApplicationV2) {
     entry.img = data.img ?? "";
     entry.detailImg = data.detailImg ?? "";
     entry.description = data.description ?? "";
+    entry.descriptionMode = data.descriptionMode ?? "inherit";
     // The role checkboxes are named `roleFlags.<id>`; keep the checked ids. Because only
     // current catalog roles render a checkbox, saving also prunes any deleted-role ids.
     entry.roles = Object.entries(data.roleFlags ?? {}).filter(([, on]) => on).map(([id]) => id);

@@ -55,6 +55,34 @@ export function setRoles(roles) {
 }
 
 /**
+ * Resolve the raw description HTML to show for a hero, honouring the per-hero
+ * {@link HeroEntryData#descriptionMode} and the global {@link SETTINGS.USE_ACTOR_DESC} toggle.
+ * `inherit` defers to the global toggle; `actor` prefers the Actor's native description (read
+ * from {@link SETTINGS.DESCRIPTION_PATH}) and falls back to the custom text when absent; `custom`
+ * always uses the custom text. The result is enriched by the caller.
+ * @param {import("./data-models.js").HeroEntryData} entry The roster entry.
+ * @param {Actor|null} actor The roster Actor (may be null/missing).
+ * @returns {string} Raw description HTML, or "" when nothing should be shown.
+ */
+export function resolveHeroDescription(entry, actor) {
+  let mode = entry.descriptionMode ?? "inherit";
+  if (mode === "inherit") {
+    mode = game.settings.get(MODULE_ID, SETTINGS.USE_ACTOR_DESC) ? "actor" : "custom";
+  }
+  if (mode === "custom") return entry.description ?? "";
+  // mode === "actor": the Actor sheet description if present, else fall back to the custom text.
+  if (actor) {
+    const path = game.settings.get(MODULE_ID, SETTINGS.DESCRIPTION_PATH)?.trim();
+    if (path) {
+      const value = foundry.utils.getProperty(actor, path);
+      // Guard systems that store the field as an object (e.g. { value, public }).
+      if (typeof value === "string" && value.trim()) return value;
+    }
+  }
+  return entry.description ?? "";
+}
+
+/**
  * Resolve an ordered list of role ids to display view-models, silently dropping ids
  * that no longer match a catalog role. This is the safety net for roles the GM deleted
  * without clearing them from heroes or the recommended set.

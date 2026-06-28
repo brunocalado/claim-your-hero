@@ -20,6 +20,20 @@ export class HeroEntryData extends foundry.abstract.DataModel {
       img: new fields.FilePathField({ categories: ["IMAGE"], required: false, blank: true }),
       detailImg: new fields.FilePathField({ categories: ["IMAGE"], required: false, blank: true }),
       description: new fields.HTMLField({ required: false, blank: true }),
+      // Where the player-facing description comes from. `inherit` defers to the global
+      // USE_ACTOR_DESC setting; `actor` reads the Actor sheet (falling back to the custom
+      // text); `custom` always uses the text above. Resolved by helpers.resolveHeroDescription.
+      // Pre-existing entries assume `inherit`, so no migration is needed.
+      descriptionMode: new fields.StringField({
+        required: true,
+        blank: false,
+        initial: "inherit",
+        choices: {
+          inherit: "CYH.HeroEntry.FIELDS.descriptionMode.Choices.inherit",
+          actor: "CYH.HeroEntry.FIELDS.descriptionMode.Choices.actor",
+          custom: "CYH.HeroEntry.FIELDS.descriptionMode.Choices.custom"
+        }
+      }),
       hidden: new fields.BooleanField({ initial: false }),
       // Ids of the roles (see RoleData) this hero is suited to play. References are
       // resolved tolerantly at read time, so ids of deleted roles are simply ignored.

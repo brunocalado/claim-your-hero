@@ -13,7 +13,9 @@ export const SETTINGS = {
   AUTO_OPEN: "autoOpen",
   SOUNDS: "sounds",
   SHEET_ACCESS: "sheetAccess",
-  VISUAL: "visual"
+  VISUAL: "visual",
+  USE_ACTOR_DESC: "useActorDescription",
+  DESCRIPTION_PATH: "descriptionPath"
 };
 
 /** Keys for document flags written under the {@link MODULE_ID} scope. */
@@ -37,6 +39,15 @@ export const DEFAULT_SOUNDS = {
 
 /** Default volume applied to every module sound. */
 export const DEFAULT_SOUND_VOLUME = 0.85;
+
+/**
+ * Default dot-path, relative to an Actor, of the native description shown when a hero's
+ * description is sourced from its Actor sheet. Targets the most common system field
+ * (dnd5e, swade, wfrp4e, …); the GM can override it per world via {@link SETTINGS.DESCRIPTION_PATH}
+ * for systems that store it elsewhere (pf2e: `system.details.biography.public`,
+ * Simple Worldbuilding: `system.description`).
+ */
+export const DEFAULT_DESCRIPTION_PATH = "system.details.biography.value";
 
 /** Name of the world Folder that receives Actors imported from Compendiums. */
 export const FOLDER_NAME = "Claim Your Hero";

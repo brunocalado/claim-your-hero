@@ -28,6 +28,14 @@
         "Name": "Selection Background",
         "Label": "Configure Background",
         "Hint": "Set an image or video background for the hero selection screen."
+      },
+      "UseActorDesc": {
+        "Name": "Read Description from Actor Sheet",
+        "Hint": "Default source for heroes whose description mode is \"Inherit\". When off, only the custom text written in the presentation editor is shown. When on, the Actor sheet's description is shown, falling back to the custom text when it is empty. The field read from the sheet is set below."
+      },
+      "DescriptionPath": {
+        "Name": "Actor Description Field",
+        "Hint": "Dot-path of the description field read from the Actor sheet. Default fits dnd5e, swade, wfrp4e and similar. Examples: pf2e → system.details.biography.public; Simple Worldbuilding → system.description."
       }
     },
     "HeroEntry": {
@@ -42,7 +50,16 @@
         },
         "description": {
           "label": "Description",
-          "hint": "Rich-text presentation shown to players when they inspect this hero."
+          "hint": "Custom rich-text shown to players when they inspect this hero. Used directly in \"Custom\" mode, and as the fallback when the Actor sheet's description is empty."
+        },
+        "descriptionMode": {
+          "label": "Description Source",
+          "hint": "Where the description shown to players comes from for this hero.",
+          "Choices": {
+            "inherit": "Inherit from global setting",
+            "actor": "From Actor sheet (custom as fallback)",
+            "custom": "Custom text only"
+          }
         }
       }
     },

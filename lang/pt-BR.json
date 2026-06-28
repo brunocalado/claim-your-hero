@@ -28,6 +28,14 @@
         "Name": "Fundo da Seleção",
         "Label": "Configurar Fundo",
         "Hint": "Defina uma imagem ou vídeo de fundo para a tela de seleção de heróis."
+      },
+      "UseActorDesc": {
+        "Name": "Ler Descrição da Ficha do Ator",
+        "Hint": "Origem padrão para heróis cujo modo de descrição é \"Herdar\". Quando desligado, exibe apenas o texto personalizado escrito no editor de apresentação. Quando ligado, exibe a descrição da ficha do Ator, recorrendo ao texto personalizado quando ela estiver vazia. O campo lido da ficha é definido abaixo."
+      },
+      "DescriptionPath": {
+        "Name": "Campo de Descrição do Ator",
+        "Hint": "Caminho (dot-path) do campo de descrição lido da ficha do Ator. O padrão serve para dnd5e, swade, wfrp4e e similares. Exemplos: pf2e → system.details.biography.public; Simple Worldbuilding → system.description."
       }
     },
     "HeroEntry": {
@@ -42,7 +50,16 @@
         },
         "description": {
           "label": "Descrição",
-          "hint": "Apresentação em texto rico exibida aos jogadores quando eles inspecionam este herói."
+          "hint": "Texto rico personalizado exibido aos jogadores quando eles inspecionam este herói. Usado diretamente no modo \"Personalizado\" e como alternativa quando a descrição da ficha do Ator estiver vazia."
+        },
+        "descriptionMode": {
+          "label": "Origem da Descrição",
+          "hint": "De onde vem a descrição exibida aos jogadores para este herói.",
+          "Choices": {
+            "inherit": "Herdar da configuração global",
+            "actor": "Da ficha do Ator (personalizado como alternativa)",
+            "custom": "Apenas texto personalizado"
+          }
         }
       }
     },
