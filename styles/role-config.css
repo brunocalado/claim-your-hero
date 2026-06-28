@@ -49,23 +49,32 @@
     overflow-y: auto;
   }
 
-  /* One editable role: clickable icon, name + description inputs, remove button. */
+  /* One editable role: a head line (icon + name + remove, all the same height) above a
+     full-width description field. */
   .role-row {
     display: flex;
-    align-items: flex-start;
-    gap: 0.6rem;
+    flex-direction: column;
+    gap: 0.4rem;
     padding: 0.5rem;
     border: 1px solid var(--color-cool-3, #4d4b66);
     border-radius: 8px;
-    background: var(--color-cool-4, #1c1b2a);
+    background: var(--claim-your-hero-card-bg, #0b090c);
   }
 
-  /* Icon doubles as the FilePicker trigger; the overlay hints it on hover. */
+  /* Icon, name and remove share one row, vertically centred so their heights line up. */
+  .role-head {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* Icon doubles as the FilePicker trigger; the overlay hints it on hover. Sized to the
+     input height so it sits flush with the name field and remove button on the head line. */
   .thumb-button {
     position: relative;
     flex: 0 0 auto;
-    width: 52px;
-    height: 52px;
+    width: var(--input-height, 2rem);
+    height: var(--input-height, 2rem);
     padding: 0;
     border: none;
     border-radius: 6px;
@@ -97,18 +106,13 @@
     opacity: 0.85;
   }
 
-  .fields {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    min-width: 0;
-  }
-
   .role-name-input {
+    flex: 1;
+    min-width: 0;
     font-weight: bold;
   }
 
+  /* Sits on its own line below the head, taking the full row width for the text. */
   .role-desc {
     width: 100%;
     resize: vertical;

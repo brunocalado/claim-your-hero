@@ -6,21 +6,21 @@
     <ul class="role-list">
       {{#each roles}}
       <li class="role-row" data-role-id="{{this.id}}">
-        <button type="button" class="thumb-button" data-action="pickImage" data-tooltip="CYH.RoleConfig.PickImage"
-                aria-label="{{localize 'CYH.RoleConfig.PickImage'}}">
-          <img class="thumb" src="{{this.img}}" alt="">
-          <span class="thumb-overlay"><i class="fa-solid fa-image"></i></span>
-        </button>
-        <div class="fields">
+        <div class="role-head">
+          <button type="button" class="thumb-button" data-action="pickImage" data-tooltip="CYH.RoleConfig.PickImage"
+                  aria-label="{{localize 'CYH.RoleConfig.PickImage'}}">
+            <img class="thumb" src="{{this.img}}" alt="">
+            <span class="thumb-overlay"><i class="fa-solid fa-image"></i></span>
+          </button>
           <input type="text" class="role-name-input" name="roles.{{this.id}}.name" value="{{this.name}}"
                  maxlength="{{@root.nameMax}}" placeholder="{{localize 'CYH.Role.FIELDS.name.label'}}">
-          <textarea class="role-desc" name="roles.{{this.id}}.description" rows="2" maxlength="{{@root.descMax}}"
-                    placeholder="{{localize 'CYH.Role.FIELDS.description.label'}}">{{this.description}}</textarea>
+          <button type="button" class="remove" data-action="removeRole" data-tooltip="CYH.RoleConfig.Remove"
+                  aria-label="{{localize 'CYH.RoleConfig.Remove'}}">
+            <i class="fa-solid fa-trash"></i>
+          </button>
         </div>
-        <button type="button" class="remove" data-action="removeRole" data-tooltip="CYH.RoleConfig.Remove"
-                aria-label="{{localize 'CYH.RoleConfig.Remove'}}">
-          <i class="fa-solid fa-trash"></i>
-        </button>
+        <textarea class="role-desc" name="roles.{{this.id}}.description" rows="2" maxlength="{{@root.descMax}}"
+                  placeholder="{{localize 'CYH.Role.FIELDS.description.label'}}">{{this.description}}</textarea>
       </li>
       {{/each}}
     </ul>
