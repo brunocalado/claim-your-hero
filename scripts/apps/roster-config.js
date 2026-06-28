@@ -4,6 +4,7 @@ import { broadcastOpen, broadcastClaimed } from "../socket.js";
 import { HeroEditorApp } from "./hero-editor.js";
 import { HeroSelectionApp } from "./hero-selection.js";
 import { RoleConfigApp } from "./role-config.js";
+import { DescriptionConfigApp } from "./description-config.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin, DialogV2 } = foundry.applications.api;
 
@@ -36,6 +37,7 @@ export class RosterConfigApp extends HandlebarsApplicationMixin(ApplicationV2) {
       openForAll: this.prototype._onOpenForAll,
       cleanPermissions: this.prototype._onCleanPermissions,
       openRoles: this.prototype._onOpenRoles,
+      openDescription: this.prototype._onOpenDescription,
       preview: this.prototype._onPreview
     }
   };
@@ -425,6 +427,15 @@ export class RosterConfigApp extends HandlebarsApplicationMixin(ApplicationV2) {
    */
   _onOpenRoles() {
     new RoleConfigApp().render({ force: true });
+  }
+
+  /**
+   * Open the Actor-sourced description settings panel (global toggle plus field path).
+   * Bound via `DEFAULT_OPTIONS.actions`.
+   * @returns {void}
+   */
+  _onOpenDescription() {
+    new DescriptionConfigApp().render({ force: true });
   }
 
   /**

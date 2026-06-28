@@ -28,15 +28,23 @@
         "Name": "Fundo da Seleção",
         "Label": "Configurar Fundo",
         "Hint": "Defina uma imagem ou vídeo de fundo para a tela de seleção de heróis."
-      },
-      "UseActorDesc": {
-        "Name": "Ler Descrição da Ficha do Ator",
-        "Hint": "Origem padrão para heróis cujo modo de descrição é \"Herdar\". Quando desligado, exibe apenas o texto personalizado escrito no editor de apresentação. Quando ligado, exibe a descrição da ficha do Ator, recorrendo ao texto personalizado quando ela estiver vazia. O campo lido da ficha é definido abaixo."
-      },
-      "DescriptionPath": {
-        "Name": "Campo de Descrição do Ator",
-        "Hint": "Caminho (dot-path) do campo de descrição lido da ficha do Ator. O padrão serve para dnd5e, swade, wfrp4e e similares. Exemplos: pf2e → system.details.biography.public; Simple Worldbuilding → system.description."
       }
+    },
+    "DescriptionConfig": {
+      "Title": "Claim Your Hero — Origem da Descrição",
+      "Save": "Salvar",
+      "Reset": "Restaurar Campo Padrão",
+      "UseActorDesc": {
+        "label": "Ler Descrição da Ficha do Ator",
+        "hint": "Origem padrão para heróis cujo modo de descrição é \"Herdar\". Quando desligado, exibe apenas o texto personalizado escrito no editor de apresentação. Quando ligado, exibe a descrição da ficha do Ator, recorrendo ao texto personalizado quando ela estiver vazia. O campo lido da ficha é definido abaixo."
+      },
+      "Path": {
+        "label": "Campo de Descrição do Ator",
+        "hint": "Caminho (dot-path) do campo de descrição lido da ficha do Ator, relativo ao Ator (ex.: system.details.biography.value)."
+      },
+      "SystemKnown": "Sistema detectado: {system}. Há um campo de descrição embutido registrado para ele ({path}).",
+      "SystemUnknown": "Seu sistema de jogo ({system}) não tem um campo de descrição embutido. Defina o caminho (dot-path) manualmente abaixo. Se quiser que o suporte embutido seja adicionado, abra um pedido:",
+      "RequestLink": "Pedir suporte no GitHub"
     },
     "HeroEntry": {
       "FIELDS": {
@@ -169,7 +177,8 @@
       "CleanIllegalDone": "{count} permissão(ões) de visualização removida(s).",
       "NoIllegal": "Nenhuma permissão de visualização para limpar.",
       "DirectoryAlert": "Permissões de Visualização Pendentes",
-      "ConfigureRoles": "Configurar Funções"
+      "ConfigureRoles": "Configurar Funções",
+      "ConfigureDescription": "Configurar Descrição"
     },
     "HeroEditor": {
       "Title": "Apresentação do Herói",

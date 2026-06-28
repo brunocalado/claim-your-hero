@@ -1,6 +1,6 @@
-import { MODULE_ID, SETTINGS, FLAGS, DEFAULT_DESCRIPTION_PATH } from "./constants.js";
+import { MODULE_ID, SETTINGS, FLAGS } from "./constants.js";
 import { HeroEntryData, RoleData, RolesData, RosterData, SoundConfigData, VisualConfigData } from "./data-models.js";
-import { getRoster, setRoster, rerenderModuleApps, reconcilePendingViews, countRevocableViews, seedDefaultRoles } from "./helpers.js";
+import { getRoster, setRoster, rerenderModuleApps, reconcilePendingViews, countRevocableViews, seedDefaultRoles, getSystemDescriptionPath } from "./helpers.js";
 import { initSocket, registerQueries, broadcastJoin, clearUserInterest } from "./socket.js";
 import { RosterConfigApp } from "./apps/roster-config.js";
 import { RoleConfigApp } from "./apps/role-config.js";
@@ -52,11 +52,10 @@ Hooks.once("init", () => {
     onChange: () => rerenderModuleApps()
   });
 
+  // Both edited through DescriptionConfigApp (opened from the roster panel), so config:false.
   game.settings.register(MODULE_ID, SETTINGS.USE_ACTOR_DESC, {
-    name: "CYH.Settings.UseActorDesc.Name",
-    hint: "CYH.Settings.UseActorDesc.Hint",
     scope: "world",
-    config: true,
+    config: false,
     type: Boolean,
     default: false,
     // Governs heroes left in `inherit` mode; refresh open selection screens live.
@@ -64,12 +63,11 @@ Hooks.once("init", () => {
   });
 
   game.settings.register(MODULE_ID, SETTINGS.DESCRIPTION_PATH, {
-    name: "CYH.Settings.DescriptionPath.Name",
-    hint: "CYH.Settings.DescriptionPath.Hint",
     scope: "world",
-    config: true,
+    config: false,
     type: String,
-    default: DEFAULT_DESCRIPTION_PATH,
+    // Pre-filled with the active system's known path (game.system is ready at init).
+    default: getSystemDescriptionPath(),
     onChange: () => rerenderModuleApps()
   });
 

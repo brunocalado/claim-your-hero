@@ -25,7 +25,8 @@
     "styles/hero-editor.css",
     "styles/hero-selection.css",
     "styles/sound-config.css",
-    "styles/visual-config.css"
+    "styles/visual-config.css",
+    "styles/description-config.css"
   ],
   "languages": [
     {

@@ -42,12 +42,27 @@ export const DEFAULT_SOUND_VOLUME = 0.85;
 
 /**
  * Default dot-path, relative to an Actor, of the native description shown when a hero's
- * description is sourced from its Actor sheet. Targets the most common system field
- * (dnd5e, swade, wfrp4e, …); the GM can override it per world via {@link SETTINGS.DESCRIPTION_PATH}
- * for systems that store it elsewhere (pf2e: `system.details.biography.public`,
+ * description is sourced from its Actor sheet. Used as the fallback for game systems not
+ * listed in {@link SYSTEM_DESCRIPTION_PATHS}. The GM can override it per world via
+ * {@link SETTINGS.DESCRIPTION_PATH} (pf2e: `system.details.biography.public`,
  * Simple Worldbuilding: `system.description`).
  */
 export const DEFAULT_DESCRIPTION_PATH = "system.details.biography.value";
+
+/**
+ * Known game systems mapped to the Actor dot-path holding their native description.
+ * Keyed by `game.system.id`. Used to pre-fill {@link SETTINGS.DESCRIPTION_PATH} per system
+ * and to drive the "Reset to default" action. Systems absent here fall back to
+ * {@link DEFAULT_DESCRIPTION_PATH}; the description-source panel invites the GM to request
+ * built-in support for them via {@link ISSUES_URL}. Add new systems here.
+ */
+export const SYSTEM_DESCRIPTION_PATHS = {
+  dnd5e: "system.details.biography.value",
+  daggerheart: "system.biography.background"
+};
+
+/** Issue tracker where users can request a built-in description path for their system. */
+export const ISSUES_URL = "https://github.com/brunocalado/claim-your-hero/issues";
 
 /** Name of the world Folder that receives Actors imported from Compendiums. */
 export const FOLDER_NAME = "Claim Your Hero";
@@ -88,5 +103,6 @@ export const TEMPLATES = {
   HERO_EDITOR: `modules/${MODULE_ID}/templates/hero-editor.hbs`,
   HERO_SELECTION: `modules/${MODULE_ID}/templates/hero-selection.hbs`,
   SOUND_CONFIG: `modules/${MODULE_ID}/templates/sound-config.hbs`,
-  VISUAL_CONFIG: `modules/${MODULE_ID}/templates/visual-config.hbs`
+  VISUAL_CONFIG: `modules/${MODULE_ID}/templates/visual-config.hbs`,
+  DESCRIPTION_CONFIG: `modules/${MODULE_ID}/templates/description-config.hbs`
 };

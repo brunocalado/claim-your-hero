@@ -1,0 +1,101 @@
+/* Styles for DescriptionConfigApp (Actor-sourced description settings). */
+.claim-your-hero.description-config {
+  --claim-your-hero-toggle-off: rgb(70 70 73);
+  --claim-your-hero-toggle-on: rgb(76 175 114);
+
+  background: var(--color-cool-5, rgb(11 10 19));
+
+  .description-config-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem 0.75rem;
+  }
+
+  /* Apple-style toggle switch replacing the native boolean checkbox. */
+  .form-fields:has(> input[type="checkbox"]) {
+    justify-content: flex-end;
+  }
+
+  input[type="checkbox"] {
+    appearance: none;
+    flex: 0 0 auto;
+    position: relative;
+    width: 2.4rem;
+    height: 1.35rem;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 1rem;
+    background: var(--claim-your-hero-toggle-off);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  input[type="checkbox"]::before {
+    content: "";
+    position: absolute;
+    top: 0.15rem;
+    left: 0.15rem;
+    width: 1.05rem;
+    height: 1.05rem;
+    border-radius: 50%;
+    background: rgb(255 255 255);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 45%);
+    transition: transform 0.2s ease;
+  }
+
+  /* Foundry's core checkbox draws its check glyph on ::after; suppress it so only the
+     toggle knob (our ::before) shows, instead of a checkmark overlapping the switch. */
+  input[type="checkbox"]::after {
+    content: none;
+    display: none;
+  }
+
+  input[type="checkbox"]:checked {
+    background: var(--claim-your-hero-toggle-on);
+  }
+
+  input[type="checkbox"]:checked::before {
+    transform: translateX(1.05rem);
+  }
+
+  input[type="checkbox"]:focus-visible {
+    outline: 2px solid var(--color-border-highlight, rgb(255 130 0));
+    outline-offset: 2px;
+  }
+
+  .system-note {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+    border-left: 3px solid var(--color-border-light-tertiary, rgb(122 122 122));
+    background: rgb(255 255 255 / 4%);
+    font-size: var(--font-size-13);
+
+    p {
+      margin: 0;
+    }
+
+    &.unknown {
+      border-left-color: var(--color-warm-2, rgb(195 117 27));
+    }
+
+    a {
+      align-self: flex-start;
+      font-weight: bold;
+    }
+  }
+
+  .form-footer {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+
+    button {
+      flex: 1;
+    }
+  }
+}

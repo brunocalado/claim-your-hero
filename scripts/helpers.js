@@ -1,4 +1,23 @@
-import { MODULE_ID, SETTINGS, FLAGS, DEFAULT_SOUND_VOLUME, DEFAULT_ROLES } from "./constants.js";
+import { MODULE_ID, SETTINGS, FLAGS, DEFAULT_SOUND_VOLUME, DEFAULT_ROLES, DEFAULT_DESCRIPTION_PATH, SYSTEM_DESCRIPTION_PATHS } from "./constants.js";
+
+/**
+ * Resolve the default Actor description dot-path for the active game system, looking it up
+ * in {@link SYSTEM_DESCRIPTION_PATHS} and falling back to {@link DEFAULT_DESCRIPTION_PATH}
+ * for systems with no registered entry. Drives the setting default and the panel's reset.
+ * @returns {string} The default dot-path for the current system.
+ */
+export function getSystemDescriptionPath() {
+  return SYSTEM_DESCRIPTION_PATHS[game.system?.id] ?? DEFAULT_DESCRIPTION_PATH;
+}
+
+/**
+ * Whether the active game system has a built-in description path in {@link SYSTEM_DESCRIPTION_PATHS}.
+ * When false, the description-source panel invites the GM to request support.
+ * @returns {boolean} True when the current system is registered.
+ */
+export function isSystemDescriptionPathKnown() {
+  return game.system?.id in SYSTEM_DESCRIPTION_PATHS;
+}
 
 /**
  * Read the configured hero roster from world settings.

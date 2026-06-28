@@ -1,0 +1,44 @@
+{{!-- HandlebarsApplicationMixin requires each part to render exactly one root element. --}}
+<div class="description-config-body">
+  <div class="form-group">
+    <label>{{localize "CYH.DescriptionConfig.UseActorDesc.label"}}</label>
+    <div class="form-fields">
+      <input type="checkbox" name="useActorDescription" {{checked useActorDesc}}>
+    </div>
+    <p class="hint">{{localize "CYH.DescriptionConfig.UseActorDesc.hint"}}</p>
+  </div>
+
+  <div class="system-note {{#if systemKnown}}known{{else}}unknown{{/if}}">
+    {{#if systemKnown}}
+    <p>
+      <i class="fa-solid fa-circle-check"></i>
+      {{localize "CYH.DescriptionConfig.SystemKnown" system=systemTitle path=defaultPath}}
+    </p>
+    {{else}}
+    <p>
+      <i class="fa-solid fa-circle-question"></i>
+      {{localize "CYH.DescriptionConfig.SystemUnknown" system=systemTitle}}
+    </p>
+    <a href="{{issuesUrl}}" target="_blank" rel="noopener">
+      <i class="fa-brands fa-github"></i> {{localize "CYH.DescriptionConfig.RequestLink"}}
+    </a>
+    {{/if}}
+  </div>
+
+  <div class="form-group">
+    <label>{{localize "CYH.DescriptionConfig.Path.label"}}</label>
+    <div class="form-fields">
+      <input type="text" name="descriptionPath" value="{{descriptionPath}}" placeholder="{{defaultPath}}">
+    </div>
+    <p class="hint">{{localize "CYH.DescriptionConfig.Path.hint"}}</p>
+  </div>
+
+  <footer class="form-footer">
+    <button type="button" data-action="resetPath" data-default-path="{{defaultPath}}">
+      <i class="fa-solid fa-rotate-left"></i> {{localize "CYH.DescriptionConfig.Reset"}}
+    </button>
+    <button type="submit">
+      <i class="fa-solid fa-floppy-disk"></i> {{localize "CYH.DescriptionConfig.Save"}}
+    </button>
+  </footer>
+</div>

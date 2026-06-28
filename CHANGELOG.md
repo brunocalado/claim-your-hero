@@ -1,7 +1,8 @@
 # 0.1.3
 
 ### Added
-- **Description from the Actor sheet** — a hero's presentation description can now be pulled from its Actor sheet instead of being written by hand. Two new module settings control this: **Read Description from Actor Sheet** (off by default) and **Actor Description Field**, a configurable dot-path defaulting to `system.details.biography.value` (adjust it for other systems, e.g. pf2e → `system.details.biography.public`, Simple Worldbuilding → `system.description`). GM secrets in the Actor's description are stripped before players see it.
+- **Description from the Actor sheet** — a hero's presentation description can now be pulled from its Actor sheet instead of being written by hand. A new **Configure Description** button in the roster panel opens a dedicated panel with two settings: **Read Description from Actor Sheet** (off by default) and **Actor Description Field**, a configurable dot-path. GM secrets in the Actor's description are stripped before players see it.
+- **Game-system detection** — the description panel detects your active system and pre-fills the field path for known systems (currently dnd5e and Daggerheart). Unknown systems get a notice and a link to request built-in support on GitHub, plus a **Reset Field to Default** button that restores the system's expected path.
 - **Per-hero description source** — the presentation editor gains a **Description Source** picker with three options: *Inherit from global setting*, *From Actor sheet (custom as fallback)*, or *Custom text only*. This lets you override individual heroes regardless of the global setting — including showing custom text in place of a non-empty Actor description, or showing nothing (Custom + empty).
 
 ### Changed
