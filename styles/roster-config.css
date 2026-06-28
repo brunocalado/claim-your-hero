@@ -74,10 +74,20 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.25rem 0.5rem;
+    border: 1px solid var(--color-border, rgba(255, 255, 255, 0.12));
     border-radius: 6px;
     background: var(--color-cool-5-50, rgba(0, 0, 0, 0.2));
     /* Rows must overflow into the list's scrollbar, never compress. */
     flex: 0 0 auto;
+  }
+
+  /* Player entries sit on the bare panel with no surrounding container, so they
+     need a more pronounced card treatment to read as distinct units. */
+  .player-row {
+    padding: 0.4rem 0.6rem;
+    border-color: var(--color-border, rgba(255, 255, 255, 0.18));
+    background: var(--claim-your-hero-card-bg, #0b090c);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
   }
 
   .hero-row {
@@ -177,7 +187,9 @@
     width: 10rem;
     min-height: 2rem;
     padding: 0.15rem 0.4rem;
-    border: 2px dashed var(--color-border, rgba(255, 255, 255, 0.3));
+    /* Use the slot's own text color (not --color-border) so the dashed outline
+       stays visible against the lighter player-row card background. */
+    border: 2px dashed var(--color-text-secondary, #b0b0b0);
     border-radius: 6px;
     color: var(--color-text-secondary, #b0b0b0);
     transition: border-color 0.2s ease, color 0.2s ease;

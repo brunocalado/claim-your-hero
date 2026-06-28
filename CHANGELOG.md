@@ -1,3 +1,9 @@
+# 0.1.4
+
+### Changed
+- **Roster panel polish** — the footer buttons were shortened and reordered (Description · Roles · Clean Permissions · Show Players · Preview) so they fit on one line without wrapping, with explanatory tooltips on **Clean Permissions** and **Show Players**. Each player entry is now a bordered card so it reads as a distinct unit.
+- **Hero presentation editor cleanup** — the redundant hero-name header was removed (the name already shows in the window title), the field blocks use a darker surface, and the **Description Source** section no longer leaves dead space below the dropdown. Its guidance text was condensed into a single concise line under the picker.
+
 # 0.1.3
 
 ### Added

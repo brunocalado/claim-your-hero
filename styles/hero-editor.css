@@ -10,25 +10,6 @@
     padding: 0.5rem 0.75rem 0.75rem;
   }
 
-  .editor-header {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-
-    .thumb {
-      width: 48px;
-      height: 48px;
-      object-fit: cover;
-      border-radius: 6px;
-      border: none;
-    }
-
-    h2 {
-      margin: 0;
-      border: none;
-    }
-  }
-
   /* Inputs on the left, the role picker on the right, so the form spreads across its
      width instead of growing tall. `stretch` makes both columns share the taller one's
      height; each column then fills its own content (the description editor grows on the
@@ -62,7 +43,7 @@
     padding: 0.6rem 0.7rem;
     border: 1px solid var(--color-cool-3, #4d4b66);
     border-radius: 8px;
-    background: var(--color-cool-4, #1c1b2a);
+    background: var(--claim-your-hero-card-bg, #0b090c);
   }
 
   .field-label,
@@ -128,11 +109,17 @@
     flex-direction: column;
     gap: 0.4rem;
     margin: 0;
+    min-width: 0;
+  }
+
+  /* Only the rich-text editor's group grows to fill the column. The mode dropdown's
+     group stays at its natural height, so no dead space opens beneath the combobox. */
+  .description-section .form-group:has(prose-mirror) {
     flex: 1;
     min-height: 0;
   }
 
-  .description-section .form-fields {
+  .description-section .form-group:has(prose-mirror) .form-fields {
     display: flex;
     flex-direction: column;
     flex: 1;

@@ -65,15 +65,12 @@ export class HeroEditorApp extends HandlebarsApplicationMixin(ApplicationV2) {
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
     const entry = getRoster().find(e => e.actorId === this.#actorId);
-    const actor = game.actors.get(this.#actorId);
     const assigned = entry?.roles ?? [];
     // One toggle per catalog role; checked reflects the hero's current (valid) tags.
     const roles = getRoles().map(r => ({ id: r.id, name: r.name, img: r.img, selected: assigned.includes(r.id) }));
     return Object.assign(context, {
       entry: entry?.toObject() ?? {},
       fields: HeroEntryData.schema.fields,
-      actorName: actor?.name ?? "",
-      portrait: (entry?.img || actor?.img) ?? "",
       roles
     });
   }

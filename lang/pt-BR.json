@@ -62,7 +62,7 @@
         },
         "descriptionMode": {
           "label": "Origem da Descrição",
-          "hint": "De onde vem a descrição exibida aos jogadores para este herói.",
+          "hint": "De onde vem a descrição exibida aos jogadores. O texto abaixo é usado no modo \"Personalizado\" ou como alternativa quando a ficha do Ator não tem uma.",
           "Choices": {
             "inherit": "Herdar da configuração global",
             "actor": "Da ficha do Ator (personalizado como alternativa)",
@@ -156,7 +156,8 @@
       "DropSlot": "Arraste um herói aqui para atribuí-lo",
       "Unassign": "Desatribuir este herói (devolve-o à lista de disponíveis)",
       "OpenFor": "Abrir a tela de seleção para este jogador",
-      "OpenForAll": "Abrir para Todos os Jogadores",
+      "OpenForAll": "Mostrar aos Jogadores",
+      "OpenForAllTip": "Abre a tela de seleção de heróis no cliente de todos os jogadores conectados",
       "Preview": "Pré-visualizar",
       "MissingActor": "(Ator ausente)",
       "Duplicate": "Este Ator já está na lista.",
@@ -173,12 +174,13 @@
       "AssignFailed": "A atribuição não pôde ser concluída. Verifique o console para mais detalhes.",
       "Assigned": "{name} atribuído a {user}.",
       "ViewersTip": "Jogadores que podem ver a ficha deste herói no momento",
-      "CleanIllegal": "Limpar Permissões de Visualização",
+      "CleanIllegal": "Limpar Permissões",
+      "CleanIllegalTip": "Revoga as permissões de visualização concedidas a jogadores sobre heróis que não estão mais abertos para eles",
       "CleanIllegalDone": "{count} permissão(ões) de visualização removida(s).",
       "NoIllegal": "Nenhuma permissão de visualização para limpar.",
       "DirectoryAlert": "Permissões de Visualização Pendentes",
-      "ConfigureRoles": "Configurar Funções",
-      "ConfigureDescription": "Configurar Descrição"
+      "ConfigureRoles": "Funções",
+      "ConfigureDescription": "Descrição"
     },
     "HeroEditor": {
       "Title": "Apresentação do Herói",

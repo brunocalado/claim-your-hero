@@ -62,7 +62,7 @@
         },
         "descriptionMode": {
           "label": "Description Source",
-          "hint": "Where the description shown to players comes from for this hero.",
+          "hint": "Where the player-facing description comes from. The text below is used in \"Custom\" mode, or as a fallback when the Actor sheet has none.",
           "Choices": {
             "inherit": "Inherit from global setting",
             "actor": "From Actor sheet (custom as fallback)",
@@ -156,7 +156,8 @@
       "DropSlot": "Drag a hero here to assign it",
       "Unassign": "Unassign this hero (returns it to the available list)",
       "OpenFor": "Open selection screen for this player",
-      "OpenForAll": "Open for All Players",
+      "OpenForAll": "Show Players",
+      "OpenForAllTip": "Open the hero selection screen on every connected player's client",
       "Preview": "Preview",
       "MissingActor": "(missing Actor)",
       "Duplicate": "This Actor is already in the roster.",
@@ -173,12 +174,13 @@
       "AssignFailed": "The assignment could not be completed. Check the console for details.",
       "Assigned": "{name} assigned to {user}.",
       "ViewersTip": "Players who can currently view this hero's sheet",
-      "CleanIllegal": "Clean View Permissions",
+      "CleanIllegal": "Clean Permissions",
+      "CleanIllegalTip": "Revoke view permissions that players were granted on heroes they no longer have open",
       "CleanIllegalDone": "{count} view permission(s) cleared.",
       "NoIllegal": "No view permissions to clean.",
       "DirectoryAlert": "Pending View Permissions",
-      "ConfigureRoles": "Configure Roles",
-      "ConfigureDescription": "Configure Description"
+      "ConfigureRoles": "Roles",
+      "ConfigureDescription": "Description"
     },
     "HeroEditor": {
       "Title": "Hero Presentation",

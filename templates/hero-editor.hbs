@@ -1,10 +1,6 @@
 {{!-- HandlebarsApplicationMixin requires each part to render exactly one root element. --}}
 <div class="editor-body">
-  <header class="editor-header">
-    {{#if portrait}}<img class="thumb" src="{{portrait}}" alt="{{actorName}}">{{/if}}
-    <h2>{{actorName}}</h2>
-  </header>
-
+  {{!-- The hero name is already shown in the window title, so no in-body header. --}}
   <div class="editor-columns">
     <div class="editor-main">
       <div class="field-section image-section">
@@ -31,7 +27,8 @@
 
       <div class="field-section description-section">
         {{formGroup fields.descriptionMode value=entry.descriptionMode name="descriptionMode" localize=true}}
-        {{formGroup fields.description value=entry.description name="description" localize=true}}
+        {{!-- Hint suppressed: the merged guidance lives under the source dropdown above. --}}
+        {{formGroup fields.description value=entry.description name="description" localize=true hint=""}}
       </div>
     </div>
 

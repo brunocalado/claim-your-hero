@@ -73,17 +73,17 @@
   </div>
 
   <footer class="panel-actions">
-    <button type="button" data-action="openForAll">
-      <i class="fa-solid fa-bullhorn"></i> {{localize "CYH.RosterConfig.OpenForAll"}}
-    </button>
-    <button type="button" class="clean-permissions{{#if illegalCount}} has-pending{{/if}}" data-action="cleanPermissions" {{#unless illegalCount}}disabled{{/unless}}>
-      <i class="fa-solid fa-broom"></i> {{localize "CYH.RosterConfig.CleanIllegal"}}{{#if illegalCount}} ({{illegalCount}}){{/if}}
+    <button type="button" data-action="openDescription">
+      <i class="fa-solid fa-align-left"></i> {{localize "CYH.RosterConfig.ConfigureDescription"}}
     </button>
     <button type="button" data-action="openRoles">
       <i class="fa-solid fa-masks-theater"></i> {{localize "CYH.RosterConfig.ConfigureRoles"}}
     </button>
-    <button type="button" data-action="openDescription">
-      <i class="fa-solid fa-align-left"></i> {{localize "CYH.RosterConfig.ConfigureDescription"}}
+    <button type="button" class="clean-permissions{{#if illegalCount}} has-pending{{/if}}" data-action="cleanPermissions" data-tooltip="CYH.RosterConfig.CleanIllegalTip" {{#unless illegalCount}}disabled{{/unless}}>
+      <i class="fa-solid fa-broom"></i> {{localize "CYH.RosterConfig.CleanIllegal"}}{{#if illegalCount}} ({{illegalCount}}){{/if}}
+    </button>
+    <button type="button" data-action="openForAll" data-tooltip="CYH.RosterConfig.OpenForAllTip">
+      <i class="fa-solid fa-bullhorn"></i> {{localize "CYH.RosterConfig.OpenForAll"}}
     </button>
     <button type="button" data-action="preview">
       <i class="fa-solid fa-eye"></i> {{localize "CYH.RosterConfig.Preview"}}
