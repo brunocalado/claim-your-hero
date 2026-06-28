@@ -10,6 +10,30 @@
     padding: 0.5rem 0.75rem 0.75rem;
   }
 
+  /* Each setting (label + field + hint) reads as its own bordered card, so it's clear
+     which instruction belongs to which control. */
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin: 0;
+    padding: 0.6rem 0.7rem;
+    border: 1px solid var(--color-cool-3, #4d4b66);
+    border-radius: 8px;
+    background: var(--claim-your-hero-card-bg, #0b090c);
+
+    > label {
+      font-weight: bold;
+      color: var(--color-text-primary, #f0f0f0);
+    }
+  }
+
+  .hint {
+    margin: 0;
+    font-size: var(--font-size-12, 0.75rem);
+    color: var(--color-text-secondary, #b0b0b0);
+  }
+
   .form-footer {
     display: flex;
     gap: 0.5rem;
