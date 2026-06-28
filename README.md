@@ -60,7 +60,7 @@ Multiple players can browse at the same time. If two players are eyeing the same
 
 ### Already have a hero?
 
-If you re-open the selection screen for a player who has already claimed someone (for example with **Open for All Players**), their current hero is highlighted as **Your Hero**. Its detail panel gains a **Release Hero** button — one click returns the hero to the pool and frees the player to immediately pick another.
+If you re-open the selection screen for a player who has already claimed someone (for example with **Show Players**), their current hero is highlighted as **Your Hero**. Its detail panel gains a **Release Hero** button — one click returns the hero to the pool and frees the player to immediately pick another.
 
 ---
 
@@ -70,7 +70,7 @@ Optional, but powerful for groups that care about a balanced party.
 
 ![The Team Roles editor — the role catalog on the left and the recommended composition on the right](docs/config-roles.webp)
 
-Open **Settings → Module Settings → Team Roles → Configure Roles** — or just hit the **Configure Roles** button right inside the Roster panel — to manage your role catalog and the recommended composition side by side.
+Open **Settings → Module Settings → Team Roles → Configure Roles** — or just hit the **Roles** button right inside the Roster panel — to manage your role catalog and the recommended composition side by side.
 
 ### The role catalog
 
@@ -111,7 +111,7 @@ Click the ✏️ **Edit** button on any hero row to customise:
 
 - **Card image** — thumbnail shown on the selection grid, with a live preview
 - **Detail image** — larger artwork shown when a player opens the hero's detail panel, with a live preview
-- **Description** — rich-text field (bold, italics, links, whatever you need) shown when a player inspects the hero
+- **Description** — rich-text field (bold, italics, links, whatever you need) shown when a player inspects the hero. A **Description Source** picker lets each hero inherit the global setting, read from its Actor sheet, or use the custom text only (see [Descriptions from the Actor Sheet](#-descriptions-from-the-actor-sheet))
 - **Roles** — tick which roles this hero can fill
 
 ### 👁️ Hide heroes selectively
@@ -133,16 +133,39 @@ When **Allow Viewing Character Sheets** is on, players get a **View Character Sh
 The Roster panel keeps this tidy for you:
 
 - Each hero shows an **👁️ eye indicator** with the number of players who can currently view it; hover to see exactly who.
-- The **Clean View Permissions** button revokes every outstanding view in one click.
+- The **Clean Permissions** button revokes every outstanding view in one click.
 - Whenever players still hold pending view permissions, a GM-only shortcut button (with an alert dot) appears in the **Actors directory header** and jumps straight to this panel.
 
 Cleanup is also automatic: dangling grants are healed on world load, and turning the setting off clears them all. Revoked access falls back to the world's **Default** ownership rather than being pinned to "None".
 
 ### Pushing the screen to players
 
-- **Open for All Players** — sends the selection screen to every connected player at once.
+- **Show Players** — sends the selection screen to every connected player at once.
 - **Open for [Player]** — push it to one specific player from their row.
 - **Preview** — opens a local read-only preview on your own screen so you can check how the roster looks before going live.
+
+---
+
+## 📝 Descriptions from the Actor Sheet
+
+By default, the description players read is the rich text you write in each hero's presentation editor. But you can also pull it **straight from the Actor's character sheet**, so the text lives in just one place.
+
+Hit the **Description** button in the Roster panel to configure this:
+
+- **Read Description from Actor Sheet** — the global default for heroes left on *Inherit*. When on, a hero's description is read from its Actor sheet, falling back to the custom text when the sheet's field is empty.
+- **Actor Description Field** — the dot-path of the field to read (e.g. `system.details.biography.value`). The module **auto-detects your game system** and pre-fills the right path for supported systems (currently **dnd5e** and **Daggerheart**); unsupported systems get a notice with a link to request built-in support, plus a **Reset Field to Default** button.
+
+GM secrets in the Actor's description are stripped before players ever see it.
+
+### Per-hero override
+
+Each hero's presentation editor has a **Description Source** picker that overrides the global setting for that one hero:
+
+| Mode | What it shows |
+|---|---|
+| **Inherit from global setting** | Follows the toggle above |
+| **From Actor sheet (custom as fallback)** | Always reads the sheet, using the custom text when the sheet is empty |
+| **Custom text only** | Always uses the text you wrote, ignoring the sheet |
 
 ---
 
@@ -204,7 +227,7 @@ Claim Your Hero uses Foundry's native socket layer and query system so every pic
 4. Optionally customise each hero's images, description, and roles with the ✏️ button.
 5. (Optional) Set up **Team Roles** and a **recommended composition** so players can balance the party.
 6. Use **Preview** to see how the gallery looks before your players do.
-7. When your players connect, the selection screen opens automatically — or push it manually with **Open for All Players**.
+7. When your players connect, the selection screen opens automatically — or push it manually with **Show Players**.
 8. Watch them argue over who gets the paladin.
 
 ---
